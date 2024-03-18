@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_CXX_STANDARD 17)
 
+add_subdirectory(lib/spdlog)
+
 project(Octogine 
     VERSION 0.1
     DESCRIPTION "Light-weight game engine"
@@ -20,5 +22,9 @@ add_library(Octogine
 
 set_target_properties(Octogine PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Octogine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+
+target_link_libraries(Octogine
+    spdlog
+)
 
 add_subdirectory(example)

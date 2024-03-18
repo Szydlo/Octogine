@@ -1,8 +1,12 @@
 #pragma once
 
-#include <iostream>
+#include "spdlog/spdlog.h"
 
-class Core {
-public:
-    Core();
-};
+namespace Octo 
+{
+    class Core 
+    {
+    public:
+        Core();
+    };
+}

@@ -1,5 +1,8 @@
 #include "Core.h"
 
-Core::Core() {
-    std::cout << "Hello World" << std::endl;
+using Octo::Core;
+
+Core::Core() 
+{
+    spdlog::info("Starting Octogine");
 }

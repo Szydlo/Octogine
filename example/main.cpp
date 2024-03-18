@@ -1,10 +1,17 @@
 #include <iostream>
 
-#include "../src/core/Core.h"
+#include "../src/Octogine.h"
 
 int main() 
 {
     std::cout << "Starting Test Project\n";
 
-    Core core;
+    // create instance of engine
+    Octo::Core engine;
+
+    // create instance of app
+    Octo::App app;
+
+    // create instance of window
+    Octo::Window window;
 }
