@@ -48,12 +48,11 @@ Window::Window(int width, int height, std::string title)
 	{
 	    glViewport(0, 0, width, height);
 	});
-
-    Events::onStart();
 }
 
 void Window::start()
 {
+    Events::onStart();
     double currentFrame;
 	double lastFrame = getTickCount();
 

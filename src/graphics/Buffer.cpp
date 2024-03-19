@@ -1,0 +1,33 @@
+#include "Buffer.h"
+
+using Octo::Buffer;
+
+/*
+    Never unbind element buffer, when VAO is bound.
+*/
+
+Buffer::Buffer(BufferType type)
+    : m_Type(type)
+{
+    glGenBuffers(1, &m_Identity);
+}
+
+Buffer::~Buffer()
+{
+    glDeleteBuffers(1, &m_Identity);
+}
+
+void Buffer::setData(size_t size, void* data, DrawMode mode)
+{
+    glBufferData(static_cast<int>(m_Type), size, data, static_cast<int>(mode));
+}
+
+void Buffer::bind()
+{
+    glBindBuffer(static_cast<int>(m_Type), m_Identity);
+}
+
+void Buffer::unbind()
+{
+    glBindBuffer(static_cast<int>(m_Type), 0);
+}

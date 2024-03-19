@@ -4,17 +4,19 @@
 #include "core/Events.h"
 
 #include "graphics/Shader.h"
+#include "graphics/VertexArray.h"
+#include "graphics/Buffer.h"
 
 /* 
     API CHEATSHEET
 
     v0.1 - BASIC STUFF
-    Octogine::Core - initializes all basic systems, like opengl.
-    Octogine::Window - creates window
+    Octogine::Core - initializes all basic systems, like opengl. - DONE
+    Octogine::Window - creates window - DONE
     Octogine::Camera - creates basic view
     Octogine::Input - manages keys, and cursor, with Event::OnKeyPressed etc
-    Octogine::Shader - creates shader, with ability to set vec3, floats, etc.
-    Octogine::Mesh - takes array of vertices and indicies, and puts it into gpu.
+    Octogine::Shader - creates shader, with ability to set vec3, floats, etc. - DONE
+    Octogine::Mesh - takes array of vertices and indicies, and puts it into gpu (VAO, VBO, EBO).
     Octogine::Texture2D - puts a image to gpu
     Octogine::Renderer base for renderer
 
