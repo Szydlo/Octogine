@@ -3,6 +3,8 @@
 #include "core/Window.h"
 #include "core/Events.h"
 
+#include "graphics/Shader.h"
+
 /* 
     API CHEATSHEET
 
@@ -14,6 +16,7 @@
     Octogine::Shader - creates shader, with ability to set vec3, floats, etc.
     Octogine::Mesh - takes array of vertices and indicies, and puts it into gpu.
     Octogine::Texture2D - puts a image to gpu
+    Octogine::Renderer base for renderer
 
     To finish 0.1 draw basic cube with texture, and rotate camera arround it
 
