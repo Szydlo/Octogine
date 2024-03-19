@@ -1,17 +1,35 @@
-#include <iostream>
-
 #include "../src/Octogine.h"
 
-int main() 
+class Game 
 {
-    std::cout << "Starting Test Project\n";
+public:
+    Game()
+    {
+      //  Events::onStart.connect(Game::start, start);
+       // Events::onStart.connect(update);
+       Events::onUpdate.connect(&Game::update, this);
+    }
 
-    // create instance of engine
+    void start()
+    {
+        spdlog::info("started");
+    }
+
+    void update(double delta)
+    {
+        spdlog::info("{}", delta);
+    }
+};
+
+void update(double s)
+{
+    spdlog::info("a: {}", s);
+}
+
+int main() 
+{ 
+    Game game;
+
     Octo::Core engine;
-
-    // create instance of app
-    Octo::App app;
-
-    // create instance of window
-    Octo::Window window;
+    Octo::Window window();
 }

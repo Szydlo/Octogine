@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(lib/spdlog)
+add_subdirectory(lib/glm)
+add_subdirectory(lib/sigslot)
 
 project(Octogine 
     VERSION 0.1
@@ -25,6 +27,8 @@ set_target_properties(Octogine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
 target_link_libraries(Octogine
     spdlog
+    glm
+    sigslot
 )
 
 add_subdirectory(example)

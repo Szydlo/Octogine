@@ -2,7 +2,8 @@
 
 using Octo::Window;
 
-Window::Window()
+Window::Window(int width, int height, std::string title)
+    : m_Width(width), m_Height(height), m_Title(title)
 {
     spdlog::info("Creating window");
 }
