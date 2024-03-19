@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(lib/spdlog)
 add_subdirectory(lib/glm)
 add_subdirectory(lib/sigslot)
+add_subdirectory(lib/glfw)
+add_subdirectory(lib/glad)
+
 
 project(Octogine 
     VERSION 0.1
@@ -29,6 +32,8 @@ target_link_libraries(Octogine
     spdlog
     glm
     sigslot
+    glfw
+    glad
 )
 
 add_subdirectory(example)

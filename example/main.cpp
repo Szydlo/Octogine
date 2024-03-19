@@ -1,35 +1,30 @@
 #include "../src/Octogine.h"
 
-class Game 
+class Game
 {
 public:
     Game()
+        : window(1920, 1080, "Basic application")
     {
-      //  Events::onStart.connect(Game::start, start);
-       // Events::onStart.connect(update);
-       Events::onUpdate.connect(&Game::update, this);
+        Events::onClick.connect(&Game::click, this);
+
+        window.start();
     }
 
-    void start()
+    void click(int key, bool pressed)
     {
-        spdlog::info("started");
+        if (!pressed) return;
+
+        if (key == GLFW_KEY_ESCAPE)
+        {
+            window.closeWindow();
+        }
     }
 
-    void update(double delta)
-    {
-        spdlog::info("{}", delta);
-    }
+    Octo::Window window;
 };
-
-void update(double s)
-{
-    spdlog::info("a: {}", s);
-}
 
 int main() 
 { 
     Game game;
-
-    Octo::Core engine;
-    Octo::Window window();
 }
