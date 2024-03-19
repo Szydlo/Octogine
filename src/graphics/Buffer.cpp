@@ -3,7 +3,8 @@
 using Octo::Buffer;
 
 /*
-    Never unbind element buffer, when VAO is bound.
+    @IMPORTANT
+    First unbind EBO and VBO then unbind VAO!
 */
 
 Buffer::Buffer(BufferType type)
@@ -20,6 +21,11 @@ Buffer::~Buffer()
 void Buffer::setData(size_t size, void* data, DrawMode mode)
 {
     glBufferData(static_cast<int>(m_Type), size, data, static_cast<int>(mode));
+
+    if (m_Type == BufferType::Element)
+    {
+        m_Count = size / sizeof(unsigned int); // TODO @ A LIL HACKERY FIX IT SOMEDAY
+    }
 }
 
 void Buffer::bind()

@@ -22,7 +22,7 @@ Window::Window(int width, int height, std::string title)
     }
 
     glfwMakeContextCurrent(m_NativeWindow);
-    //glfwSetWindowUserPointer(m_NativeWindow, reinterpret_cast<void*>(this));
+    glfwSetWindowUserPointer(m_NativeWindow, reinterpret_cast<void*>(this));
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -46,8 +46,11 @@ Window::Window(int width, int height, std::string title)
 
 	glfwSetFramebufferSizeCallback(m_NativeWindow, [](GLFWwindow* window, int width, int height)
 	{
-	    glViewport(0, 0, width, height);
+        Window* data = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        data->setResolution(width, height);
 	});
+
+    Input::setWindow(m_NativeWindow);
 }
 
 void Window::start()
@@ -58,7 +61,8 @@ void Window::start()
 
     while(!glfwWindowShouldClose(m_NativeWindow))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
         currentFrame = getTickCount();
         m_DeltaTime = currentFrame - lastFrame;
@@ -86,4 +90,6 @@ void Window::setResolution(int width, int height)
 {
     m_Width = width;
     m_Height = height;
+
+    glViewport(0, 0, width, height);
 }

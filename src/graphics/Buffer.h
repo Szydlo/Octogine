@@ -26,7 +26,10 @@ namespace Octo
             void unbind();
 
             void setData(size_t size, void* data, DrawMode mode);
+
+            unsigned int getCount() { return m_Count; }
         private:
+            unsigned int m_Count; // only for element buffer
             unsigned int m_Identity;
             BufferType m_Type;
     };

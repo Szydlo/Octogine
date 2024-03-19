@@ -1,0 +1,21 @@
+#include "Renderer.h"
+
+using Octo::Renderer;
+
+
+void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, glm::mat4 model)
+{
+    if (!m_MainCamera) return;
+
+    shader.bind();
+    shader.setMat4("projection", m_MainCamera->getProjectionMatrix());
+    shader.setMat4("view", m_MainCamera->getViewMatrix());
+    shader.setMat4("model", model);
+
+    vao.bind();
+
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
+
+    vao.unbind();
+    shader.unbind();
+}
