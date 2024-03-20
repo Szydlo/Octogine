@@ -19,6 +19,9 @@ file(GLOB SRC_OCTOGINE
     "src/*.cpp"
     "src/*/*.h"
     "src/*/*.cpp"
+
+    "vendor/*/*.cpp"
+    "vendor/*/*.h"
 )
 
 add_library(Octogine

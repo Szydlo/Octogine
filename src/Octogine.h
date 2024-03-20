@@ -9,6 +9,7 @@
 #include "graphics/Buffer.h"
 #include "graphics/Renderer.h"
 #include "graphics/Camera.h"
+#include "graphics/Texture2D.h"
 
 /* 
     API CHEATSHEET
@@ -20,8 +21,8 @@
     Octogine::Input - manages keys, and cursor, with Event::OnKeyPressed etc - DONE
     Octogine::Shader - creates shader, with ability to set vec3, floats, etc. - DONE
     Octogine::Mesh - takes array of vertices and indicies, and puts it into gpu (VAO, VBO, EBO). 
-    Octogine::Texture2D - puts a image to gpu
-    Octogine::Renderer base for renderer
+    Octogine::Texture2D - puts a image to gpu - DONE
+    Octogine::Renderer base for renderer - DONE
 
     To finish 0.1 draw basic cube with texture, and rotate camera arround it
 

@@ -9,13 +9,15 @@ public:
     Game()
         : window(1920, 1080, "Basic application"), shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs"), 
         vbo(Octo::BufferType::Array), ebo(Octo::BufferType::Element),
-        camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 1))
+        camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 1)),
+        texture("../../../assets/textures/uvs.jpg")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
         Events::onUpdate.connect(&Game::update, this);
 
         shader.bind();
+        shader.setInt("txt", 0);
 
         window.start();
     }
@@ -25,10 +27,10 @@ public:
         Octo::Renderer::setMainCamera(camera);
 
         float vertices[] = {
-            0.5f,  0.5f, 0.0f,  // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left 
+            0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
+            0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left 
         };
         unsigned int indices[] = {  // note that we start from 0!
             0, 1, 3,  // first Triangle
@@ -44,7 +46,8 @@ public:
         ebo.bind();
         ebo.setData(sizeof(indices), indices, Octo::DrawMode::STATIC);
 
-        vao.setAttribute(0, 3, 3 * sizeof(float), 0);
+        vao.setAttribute(0, 3, 5 * sizeof(float), 0);
+        vao.setAttribute(1, 2, 5 * sizeof(float), 3 * sizeof(float));
 
         vao.unbind();
         vbo.unbind();
@@ -63,7 +66,7 @@ public:
 
     void update(double delta)
     {
-        Octo::Renderer::basicDraw(vao, shader, ebo.getCount());
+        Octo::Renderer::basicDraw(vao, shader, texture, ebo.getCount());
     }
 
     Octo::Window window;
@@ -72,6 +75,7 @@ public:
     Octo::Buffer vbo;
     Octo::Buffer ebo;
     Octo::Camera camera;
+    Octo::Texture2D texture;
 };
 
 int main() 

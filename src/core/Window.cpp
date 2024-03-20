@@ -51,6 +51,8 @@ Window::Window(int width, int height, std::string title)
 	});
 
     Input::setWindow(m_NativeWindow);
+
+    glEnable(GL_DEPTH_TEST);  
 }
 
 void Window::start()
