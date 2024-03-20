@@ -1,1 +1,41 @@
 #pragma once
+
+#include <vector>
+#include <string>
+
+#include "VertexArray.h"
+#include "Buffer.h"
+#include "Shader.h"
+#include "Texture2D.h"
+#include "Renderer.h"
+
+#include "glm/glm.hpp"
+
+namespace Octo
+{
+    struct Vertex {
+        glm::vec3 position;
+        glm::vec2 txtCoord = glm::vec2(0);
+        glm::vec3 normal = glm::vec3(0);
+    };
+
+    enum class Attributes : int  {
+        Pos = 0,
+        Tex = 1,
+        Normal = 2,
+    };
+
+    class Mesh
+    {
+        public:
+            Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string txtPath); 
+
+            void draw(Shader& shader, glm::mat4 model);
+        private:
+            Texture2D m_Texture;
+
+            VertexArray m_VAO;
+            Buffer m_VBO;
+            Buffer m_EBO;
+    };
+};

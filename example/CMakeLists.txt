@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.5)
-
 set(CMAKE_CXX_STANDARD 17)
 
 project(ExampleProject 
@@ -13,7 +12,7 @@ add_executable(
     main.cpp
 )
 
-target_link_libraries(ExampleProject Octogine)
+target_link_libraries(ExampleProject Octogine glm)
 target_include_directories(ExampleProject
     PUBLIC
         "src"

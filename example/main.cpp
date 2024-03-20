@@ -3,6 +3,10 @@
 #include <iostream>
 #include <filesystem>
 
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 class Game
 {
 public:
@@ -66,7 +70,11 @@ public:
 
     void update(double delta)
     {
-        Octo::Renderer::basicDraw(vao, shader, texture, ebo.getCount());
+        glm::mat4 model(1);
+
+        model = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(1.0));
+
+        Octo::Renderer::basicDraw(vao, shader, texture, ebo.getCount(), model);
     }
 
     Octo::Window window;
