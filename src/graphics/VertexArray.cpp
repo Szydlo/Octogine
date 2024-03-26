@@ -5,11 +5,13 @@ using Octo::VertexArray;
 VertexArray::VertexArray()
 {
     glCreateVertexArrays(1, &m_Identity);
+	bind();
 }
 
 VertexArray::~VertexArray()
 {
-    glDeleteVertexArrays(1, &m_Identity);
+	spdlog::info("is called?");
+   	glDeleteVertexArrays(1, &m_Identity);
 }
 
 void VertexArray::bind()

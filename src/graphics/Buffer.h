@@ -2,6 +2,8 @@
 
 #include "glad/glad.h"
 
+#include "spdlog/spdlog.h"
+
 namespace Octo
 {
     enum class BufferType

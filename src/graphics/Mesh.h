@@ -31,6 +31,10 @@ namespace Octo
             Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string txtPath); 
 
             void draw(Shader& shader, glm::mat4 model);
+
+            VertexArray& getVAO() { return m_VAO; }
+            Buffer& getVBO() { return m_VBO; }
+            Buffer& getEBO() { return m_EBO; }
         private:
             Texture2D m_Texture;
 

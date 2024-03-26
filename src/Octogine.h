@@ -11,6 +11,7 @@
 #include "graphics/Camera.h"
 #include "graphics/Texture2D.h"
 #include "graphics/Mesh.h"
+#include "graphics/Model.h"
 
 /* 
     API CHEATSHEET
@@ -33,7 +34,7 @@
     To finish v0.2 import model from blender
 
     v0.3 - BASIC LIGHTING
-    Octogine::Shadow - self-explainatory
+    Octogine::Shadow
     Octogine::DirectLight
     Octogine::SpotLight
     Octogine::PointLight
@@ -43,8 +44,8 @@
     Octogine::HDR
     Octogine::Normal
     Octogine::Parallax
-    Octogine::Bloom
     Octogine::SSAO
+    Octogine::Bloom
 
     v0.5 - MATERIALS
     Octogine::Material - ability to create a PBR material.

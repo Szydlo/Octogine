@@ -15,6 +15,7 @@ Buffer::Buffer(BufferType type)
 
 Buffer::~Buffer()
 {
+    //spdlog::info("is called");
     glDeleteBuffers(1, &m_Identity);
 }
 

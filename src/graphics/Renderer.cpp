@@ -6,7 +6,7 @@ using Octo::Renderer;
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, glm::mat4 model)
 {
     if (!m_MainCamera) return;
-
+    
     shader.bind();
     txt.bind();
     shader.setMat4("projection", m_MainCamera->getProjectionMatrix());

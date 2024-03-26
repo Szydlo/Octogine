@@ -7,10 +7,11 @@ add_subdirectory(lib/glm)
 add_subdirectory(lib/sigslot)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
+add_subdirectory(lib/assimp)
 
 
 project(Octogine 
-    VERSION 0.1
+    VERSION 0.2
     DESCRIPTION "Light-weight game engine"
 )
 
@@ -37,6 +38,7 @@ target_link_libraries(Octogine
     sigslot
     glfw
     glad
+    assimp
 )
 
 add_subdirectory(example)

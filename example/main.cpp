@@ -7,14 +7,18 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include <vector>
+
 class Game
 {
 public:
     Game()
-        : window(1920, 1080, "Basic application"), shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs"), 
-        vbo(Octo::BufferType::Array), ebo(Octo::BufferType::Element),
+        : window(1920, 1080, "Basic application"), 
+        shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs"), 
+       // vbo(Octo::BufferType::Array), ebo(Octo::BufferType::Element),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 1)),
-        texture("../../../assets/textures/uvs.jpg")
+        texture("../../../assets/textures/uvs.jpg"),
+        model("../../../assets/models/viking.obj")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -30,7 +34,7 @@ public:
     {
         Octo::Renderer::setMainCamera(camera);
 
-        float vertices[] = {
+   /*     float vertices[] = {
             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
             0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
@@ -55,7 +59,7 @@ public:
 
         vao.unbind();
         vbo.unbind();
-        ebo.unbind();
+        ebo.unbind();*/
     }
 
     void click(int key, bool pressed)
@@ -70,20 +74,23 @@ public:
 
     void update(double delta)
     {
-        glm::mat4 model(1);
+       // glm::mat4 model(1);
 
-        model = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(1.0));
+       // model = glm::rotate(glm::mat4(1.0f), 3.14f, glm::vec3(1.0));
 
-        Octo::Renderer::basicDraw(vao, shader, texture, ebo.getCount(), model);
+        //Octo::Renderer::basicDraw(vao, shader, texture, ebo.getCount(), model);
+
+        model.draw();
     }
 
     Octo::Window window;
     Octo::Shader shader;
-    Octo::VertexArray vao;
-    Octo::Buffer vbo;
-    Octo::Buffer ebo;
+   // Octo::VertexArray vao;
+    //Octo::Buffer vbo;
+   // Octo::Buffer ebo;
     Octo::Camera camera;
     Octo::Texture2D texture;
+    Octo::Model model;
 };
 
 int main() 
