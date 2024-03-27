@@ -13,6 +13,8 @@
 #include "graphics/Mesh.h"
 #include "graphics/Model.h"
 
+#include "lighting/DirectionalLight.h"
+
 /* 
     API CHEATSHEET
 
@@ -29,7 +31,7 @@
     To finish 0.1 draw basic cube with texture, and rotate camera arround it
 
     v0.2 - MODEL IMPORTING
-    Octogine::Model - uses Octogine::Mesh, Shader, Texture2D to load model from file (pref gltf), and creates full ready model
+    Octogine::Model - uses Octogine::Mesh, Shader, Texture2D to load model from file (pref gltf), and creates full ready model - DONE
 
     To finish v0.2 import model from blender
 

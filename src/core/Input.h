@@ -21,6 +21,8 @@ namespace Octo
             
             inline static CursorMode getCursorMode() { return (CursorMode)glfwGetInputMode(Input::m_Window, GLFW_CURSOR); }
             inline static void setCursorMode(CursorMode mode) { glfwSetInputMode(Input::m_Window, GLFW_CURSOR, (int)mode); }
+           
+            static float getDirection(int key, int secondKey);
         private:
             inline static GLFWwindow* m_Window;
     };

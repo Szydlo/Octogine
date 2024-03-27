@@ -2,8 +2,9 @@
 
 using Octo::Model;
 
-Model::Model(std::string path)
- :  m_Shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs")
+Model::Model(std::string path, bool useColor, glm::vec3 color)
+ :  m_Shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs"),
+	m_UseColor(useColor), m_Color(color)
 {
     Assimp::Importer importer;
 
@@ -37,14 +38,6 @@ Model::Model(std::string path)
 	}
 
     initMesh(scene->mRootNode, scene);
-}
-
-void Model::draw()
-{
-    for (auto& mesh : m_Meshes)
-    {
-    	mesh.draw(m_Shader, glm::mat4(1));
-    }  
 }
 
 void Model::initMesh(aiNode* node, const aiScene* scene)
@@ -96,4 +89,24 @@ void Model::initMesh(aiNode* node, const aiScene* scene)
     {
         initMesh(node->mChildren[c], scene);
     }
+}
+
+void Model::draw()
+{
+    for (auto& mesh : m_Meshes)
+    {
+    	mesh.draw(m_Shader, m_Transform);
+
+		m_Shader.bind();
+
+		if (m_UseColor)
+		{
+			m_Shader.setBool("useColor", true);
+			m_Shader.setVec3("color", m_Color);
+		}
+		else 
+		{
+			m_Shader.setBool("useColor", false);
+		}
+    }  
 }
