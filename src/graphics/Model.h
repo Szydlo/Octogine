@@ -9,6 +9,8 @@
 #include "Mesh.h"
 #include "Shader.h"
 
+#include "../lighting/Material.h"
+
 #include <vector>
 
 namespace Octo
@@ -24,6 +26,11 @@ namespace Octo
 
             glm::vec3 getColor() { return m_Color; }
             void setColor(glm::vec3 color) { m_Color = color; }
+
+            Material getMaterial() { return m_Material; }
+            void setMaterial(Material material) { m_Material = material; }
+
+            Shader& getShader() { return m_Shader; }
         private:
             void initMesh(aiNode* node, const aiScene* scene);
 
@@ -34,5 +41,7 @@ namespace Octo
 
             bool m_UseColor = false;
             glm::vec3 m_Color = glm::vec3(1.0);
+
+            Material m_Material;
     };
 };

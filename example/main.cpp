@@ -42,6 +42,16 @@ public:
         cube = glm::scale(cube, glm::vec3(5.0, 0.3, 5.0));
         cube = glm::translate(cube, glm::vec3(0, -3, 0));
         modelCube.setTransform(cube);
+
+        modelCube.setMaterial({ {1.0f, 0.5f, 0.31f}, {1.0f, 0.5f, 0.31f}, {0.5f, 0.5f, 0.5f}, {64.0f} });
+
+        pLight.position = glm::vec3(0, 2, 0);
+        pLight.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
+        pLight.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+        pLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        pLight.constant = 1.0f;
+        pLight.linear = 0.09f;
+        pLight.quadratic = 0.032f;
     }
 
     void click(int key, bool pressed)
@@ -76,6 +86,9 @@ public:
         modelCube.setTransform(cube);
 
         modelCube.setColor({1.0, 1.0, 1.0});
+
+        modelCube.getShader().bind();
+        pLight.setShader(modelCube.getShader());
 
         modelCube.draw();
 
@@ -113,6 +126,7 @@ public:
     Octo::Camera camera;
     Octo::Model model;
     Octo::Model modelCube;
+    Octo::PointLight pLight;
 
     Octo::DirectionalLight dirLight;
 
@@ -123,7 +137,6 @@ public:
 
     float yaw = -90.0f;
     float pitch = 0.0f;
-
 };
 
 int main() 

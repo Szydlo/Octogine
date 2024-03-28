@@ -95,8 +95,6 @@ void Model::draw()
 {
     for (auto& mesh : m_Meshes)
     {
-    	mesh.draw(m_Shader, m_Transform);
-
 		m_Shader.bind();
 
 		if (m_UseColor)
@@ -108,5 +106,9 @@ void Model::draw()
 		{
 			m_Shader.setBool("useColor", false);
 		}
+
+		m_Material.setShader(m_Shader);
+
+		mesh.draw(m_Shader, m_Transform);
     }  
 }

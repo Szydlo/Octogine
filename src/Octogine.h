@@ -14,6 +14,8 @@
 #include "graphics/Model.h"
 
 #include "lighting/DirectionalLight.h"
+#include "lighting/PointLight.h"
+#include "lighting/Material.h"
 
 /* 
     API CHEATSHEET
