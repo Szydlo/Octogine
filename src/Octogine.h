@@ -15,6 +15,7 @@
 
 #include "lighting/DirectionalLight.h"
 #include "lighting/PointLight.h"
+#include "lighting/SpotLight.h"
 #include "lighting/Material.h"
 
 /* 

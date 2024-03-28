@@ -45,13 +45,14 @@ public:
 
         modelCube.setMaterial({ {1.0f, 0.5f, 0.31f}, {1.0f, 0.5f, 0.31f}, {0.5f, 0.5f, 0.5f}, {64.0f} });
 
-        pLight.position = glm::vec3(0, 2, 0);
-        pLight.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-        pLight.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
-        pLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-        pLight.constant = 1.0f;
-        pLight.linear = 0.09f;
-        pLight.quadratic = 0.032f;
+        sLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+        sLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+        sLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        sLight.constant = 1.0f;
+        sLight.linear = 0.09f;
+        sLight.quadratic = 0.032f;
+        sLight.cutOff = glm::cos(glm::radians(35.5f));
+        sLight.outerCutOff = glm::cos(glm::radians(180.0f));
     }
 
     void click(int key, bool pressed)
@@ -88,7 +89,11 @@ public:
         modelCube.setColor({1.0, 1.0, 1.0});
 
         modelCube.getShader().bind();
-        pLight.setShader(modelCube.getShader());
+
+        sLight.position = camera.getPosition();
+        sLight.direction = camera.getFront();
+
+        sLight.setShader(modelCube.getShader());
 
         modelCube.draw();
 
@@ -126,7 +131,7 @@ public:
     Octo::Camera camera;
     Octo::Model model;
     Octo::Model modelCube;
-    Octo::PointLight pLight;
+    Octo::SpotLight sLight;
 
     Octo::DirectionalLight dirLight;
 
