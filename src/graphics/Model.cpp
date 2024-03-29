@@ -2,7 +2,7 @@
 
 using Octo::Model;
 
-Model::Model(std::string path, bool useColor, glm::vec3 color)
+Model::Model(std::string path, bool useColor, glm::vec3 color) // THIS CODE HAS MEMORY LEAK @TODO FIX IT SOMEDAY
  :  m_Shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs"),
 	m_UseColor(useColor), m_Color(color)
 {

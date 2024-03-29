@@ -9,6 +9,8 @@
 #include "Events.h"
 #include "Input.h"
 
+#include "../graphics/Renderer.h"
+
 namespace Octo
 {
     class Window

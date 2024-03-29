@@ -27,3 +27,45 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsig
     vao.unbind();
     shader.unbind();
 }
+
+void Renderer::drawSkyBox(SkyBox* skybox)
+{   
+    glDepthFunc(GL_LEQUAL);
+
+    Shader& shader = skybox->getShader();
+
+    skybox->getShader().bind();
+
+    glm::mat4 view = glm::mat4(glm::mat3(m_MainCamera->getViewMatrix())); // remove translation from the view matrix
+    skybox->getShader().setMat4("view", view);
+
+    skybox->getShader().setMat4("projection", m_MainCamera->getProjectionMatrix());
+
+    skybox->getVAO().bind();
+    skybox->getCubemap().bind();
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    skybox->getVAO().unbind();
+
+    glDepthFunc(GL_LESS);
+}
+
+void Renderer::startPass()
+{
+
+}
+
+void Renderer::endPass()
+{
+    if (!m_SkyBox) return;
+
+    drawSkyBox(m_SkyBox);
+}
+
+void Renderer::destroy()
+{
+    if (m_MainCamera) delete m_MainCamera;
+    if (m_DirLight) delete m_DirLight;
+    if (m_SkyBox) delete m_SkyBox;
+}

@@ -70,7 +70,11 @@ void Window::start()
         m_DeltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        Renderer::startPass();
+
         Events::onUpdate(m_DeltaTime);
+
+        Renderer::endPass();
 
         glfwSwapBuffers(m_NativeWindow);
         glfwPollEvents();
@@ -84,6 +88,8 @@ void Window::closeWindow()
 
 Window::~Window()
 {
+    // Renderer::destroy(); @ TODO doesn't work, crashes.
+
     glfwDestroyWindow(m_NativeWindow);
     glfwTerminate();
 }

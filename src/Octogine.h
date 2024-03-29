@@ -17,6 +17,7 @@
 #include "lighting/PointLight.h"
 #include "lighting/SpotLight.h"
 #include "lighting/Material.h"
+#include "lighting/SkyBox.h"
 
 /* 
     API CHEATSHEET
@@ -40,9 +41,9 @@
 
     v0.3 - BASIC LIGHTING
     Octogine::Shadow
-    Octogine::DirectLight
-    Octogine::SpotLight
-    Octogine::PointLight
+    Octogine::DirectLight - DONE
+    Octogine::SpotLight - DONE
+    Octogine::PointLight - DONE
     Octogine::SkyBox
 
     v0.4 - ADVANCED LIGHTING

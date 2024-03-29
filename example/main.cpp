@@ -14,10 +14,18 @@ class Game
 {
 public:
     Game()
-        : window(1920, 1080, "Basic application"), 
+        : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
         model("../../../assets/models/viking.obj", true, glm::vec3(0.2, 0.5, 0.3)),
-        modelCube("../../../assets/models/cube.glb", true, glm::vec3(0.8))
+        modelCube("../../../assets/models/cube.glb", true, glm::vec3(0.8)),
+        skybox({
+            "../../../assets/textures/skybox/right.jpg",
+            "../../../assets/textures/skybox/left.jpg",
+            "../../../assets/textures/skybox/top.jpg",
+            "../../../assets/textures/skybox/bottom.jpg",
+            "../../../assets/textures/skybox/front.jpg",
+            "../../../assets/textures/skybox/back.jpg"
+        })
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -31,6 +39,7 @@ public:
     {
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setDirectionalLight(dirLight);
+        Octo::Renderer::setSkyBox(skybox);
 
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
@@ -44,15 +53,6 @@ public:
         modelCube.setTransform(cube);
 
         modelCube.setMaterial({ {1.0f, 0.5f, 0.31f}, {1.0f, 0.5f, 0.31f}, {0.5f, 0.5f, 0.5f}, {64.0f} });
-
-        sLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-        sLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-        sLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-        sLight.constant = 1.0f;
-        sLight.linear = 0.09f;
-        sLight.quadratic = 0.032f;
-        sLight.cutOff = glm::cos(glm::radians(35.5f));
-        sLight.outerCutOff = glm::cos(glm::radians(180.0f));
     }
 
     void click(int key, bool pressed)
@@ -87,15 +87,7 @@ public:
         modelCube.setTransform(cube);
 
         modelCube.setColor({1.0, 1.0, 1.0});
-
-        modelCube.getShader().bind();
-
-        sLight.position = camera.getPosition();
-        sLight.direction = camera.getFront();
-
-        sLight.setShader(modelCube.getShader());
-
-        modelCube.draw();
+       modelCube.draw();
 
         cube = glm::mat4(1);
         modelCube.setTransform(cube);
@@ -131,9 +123,10 @@ public:
     Octo::Camera camera;
     Octo::Model model;
     Octo::Model modelCube;
-    Octo::SpotLight sLight;
 
     Octo::DirectionalLight dirLight;
+
+    Octo::SkyBox skybox;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

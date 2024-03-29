@@ -132,15 +132,15 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-	//vec3 result = calculateDirLight(dirLight, norm, viewDir);
+	vec3 result = calculateDirLight(dirLight, norm, viewDir);
 
 	//result += calculateSpotLight(spotLight, norm, FragPos, viewDir);
-
-	vec3 result = calculateSpotLight(spotLight, norm, FragPos, viewDir);
+	//vec3 result = calculateSpotLight(spotLight, norm, FragPos, viewDir);
 
 	if (useColor)
 		FragColor = vec4(result, 1.0);
 	else
 		FragColor = texture(txt, TexCoords);
 
+    //FragColor = vec4(1.0);
 }
