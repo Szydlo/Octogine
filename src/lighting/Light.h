@@ -8,9 +8,9 @@ namespace Octo
 {
     struct Light
     {
-        glm::vec3 diffuse = glm::vec4(1.0);    
-        glm::vec3 ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-        glm::vec3 specular = glm::vec3(0.5f, 0.5f, 0.5f);
+        glm::vec3 diffuse = glm::vec3(0.3);    
+        glm::vec3 ambient = glm::vec3(0.3);
+        glm::vec3 specular = glm::vec3(0.3);
 
         virtual void setShader(Shader& shader) 
         {}
