@@ -9,7 +9,6 @@ add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/assimp)
 
-
 project(Octogine 
     VERSION 0.2
     DESCRIPTION "Light-weight game engine"
@@ -23,6 +22,13 @@ file(GLOB SRC_OCTOGINE
 
     "vendor/*/*.cpp"
     "vendor/*/*.h"
+
+    "lib/imgui/*.cpp"
+	"lib/imgui/*.h"
+	"lib/imgui/backends/imgui_impl_glfw.h"
+    "lib/imgui/backends/imgui_impl_glfw.cpp"
+    "lib/imgui/backends/imgui_impl_opengl3.h"
+    "lib/imgui/backends/imgui_impl_opengl3.cpp"
 )
 
 add_library(Octogine
@@ -41,4 +47,10 @@ target_link_libraries(Octogine
     assimp
 )
 
+target_include_directories(Octogine
+    PUBLIC
+        "lib/imgui"
+)
+
 add_subdirectory(example)
+

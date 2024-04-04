@@ -12,12 +12,14 @@
 #include "graphics/Texture2D.h"
 #include "graphics/Mesh.h"
 #include "graphics/Model.h"
+#include "graphics/FrameBuffer.h"
 
 #include "lighting/DirectionalLight.h"
 #include "lighting/PointLight.h"
 #include "lighting/SpotLight.h"
 #include "lighting/Material.h"
 #include "lighting/SkyBox.h"
+#include "lighting/Shadow.h"
 
 /* 
     API CHEATSHEET
@@ -44,7 +46,7 @@
     Octogine::DirectLight - DONE
     Octogine::SpotLight - DONE
     Octogine::PointLight - DONE
-    Octogine::SkyBox
+    Octogine::SkyBox - DONE
 
     v0.4 - ADVANCED LIGHTING
     Octogine::HDR

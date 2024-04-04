@@ -7,6 +7,7 @@
 
 #include "spdlog/spdlog.h"
 #include "../../vendor/stb/stb_image.h"
+#include "../../vendor/stb/stb_image_write.h"
 
 namespace Octo
 {

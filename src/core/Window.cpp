@@ -53,6 +53,22 @@ Window::Window(int width, int height, std::string title)
     Input::setWindow(m_NativeWindow);
 
     glEnable(GL_DEPTH_TEST);  
+
+    { // INIT OPENGL
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; 
+
+        ImGui::StyleColorsDark();
+        //ImGui::SetCurrentContext(m_Context);
+        // Setup Platform/Renderer backends
+        ImGui_ImplGlfw_InitForOpenGL(m_NativeWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+        ImGui_ImplOpenGL3_Init();
+    }   
 }
 
 void Window::start()
@@ -66,6 +82,12 @@ void Window::start()
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
+        {
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+        }
+
         currentFrame = getTickCount();
         m_DeltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -75,6 +97,22 @@ void Window::start()
         Events::onUpdate(m_DeltaTime);
 
         Renderer::endPass();
+
+        {
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            ImGuiIO& io = ImGui::GetIO();
+            io.DisplaySize = ImVec2((float)m_Width, (float)m_Height);
+
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                GLFWwindow* backup_current_context = glfwGetCurrentContext();
+                ImGui::UpdatePlatformWindows();
+                ImGui::RenderPlatformWindowsDefault();
+                glfwMakeContextCurrent(backup_current_context);
+            }
+        }
 
         glfwSwapBuffers(m_NativeWindow);
         glfwPollEvents();
@@ -89,6 +127,12 @@ void Window::closeWindow()
 Window::~Window()
 {
     // Renderer::destroy(); @ TODO doesn't work, crashes.
+
+    { // DESTORY OPENGL
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
 
     glfwDestroyWindow(m_NativeWindow);
     glfwTerminate();

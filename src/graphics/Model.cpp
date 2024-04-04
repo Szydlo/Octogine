@@ -112,3 +112,11 @@ void Model::draw()
 		mesh.draw(m_Shader, m_Transform);
     }  
 }
+
+void Model::draw(Shader& shader)
+{
+    for (auto& mesh : m_Meshes)
+    {
+		mesh.draw(shader, m_Transform);
+    }  
+}

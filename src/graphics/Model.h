@@ -19,7 +19,9 @@ namespace Octo
     {
         public:
             Model(std::string path, bool useColor = false, glm::vec3 color = glm::vec3(1.0));
+
             void draw();
+            void draw(Shader& shader);
 
             glm::mat4 getTransform() { return m_Transform; }
             void setTransform(glm::mat4 transform) { m_Transform = transform; }
@@ -31,6 +33,7 @@ namespace Octo
             void setMaterial(Material material) { m_Material = material; }
 
             Shader& getShader() { return m_Shader; }
+            std::vector<Mesh>& getMeshes() { return m_Meshes; }
         private:
             void initMesh(aiNode* node, const aiScene* scene);
 

@@ -25,7 +25,9 @@ public:
             "../../../assets/textures/skybox/bottom.jpg",
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
-        })
+        }),
+        shadow(glm::vec2(1024)),
+        depthShader("../../../assets/shaders/depth.vs", "../../../assets/shaders/depth.fs")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -72,7 +74,7 @@ public:
         }
     }
 
-    void update(double delta)
+    void renderScene(double delta, bool useDepth)
     {
         glm::vec2 inputDirection( Octo::Input::getDirection(GLFW_KEY_W, GLFW_KEY_S), Octo::Input::getDirection(GLFW_KEY_D, GLFW_KEY_A));  
         inputDirection *= cameraSpeed * delta;
@@ -87,18 +89,61 @@ public:
         modelCube.setTransform(cube);
 
         modelCube.setColor({1.0, 1.0, 1.0});
-       modelCube.draw();
+        
+        //shadow.getDepthTexture().bind();
+
+        if (useDepth) modelCube.draw(depthShader);
+        else modelCube.draw();
 
         cube = glm::mat4(1);
         modelCube.setTransform(cube);
 
         modelCube.setColor({0.0, 1.0, 0.0});
 
-        modelCube.draw();
+
+        if (useDepth) modelCube.draw(depthShader);
+        else modelCube.draw();
+    }
+
+    void update(double delta)
+    {
+        glm::mat4 lightProjection, lightView;
+        glm::mat4 lightSpaceMatrix;
+        float near_plane = 1.0f, far_plane = 7.5f;
+     //   lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)1920 / (GLfloat)1080, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        lightView = glm::lookAt(dirLight.direction, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+        lightSpaceMatrix = lightProjection * lightView;
+
+        depthShader.bind();
+        depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+        //depthShader.setMat4("model", lightSpaceMatrix);
+
+        shadow.startPass();
+
+        renderScene(delta, false);
+
+        shadow.endPass();
+
+        modelCube.getShader().bind();
+        modelCube.getShader().setMat4("lightSpaceMatrix", lightSpaceMatrix);
+        modelCube.getShader().setInt("shadowMap", 0);
+
+    
+        shadow.getDepthTexture().bind();
+        renderScene(delta, false);
+
+        float gowno[4];
+
+        ImGui::Begin("Yass");
+        ImGui::InputFloat4("ass", gowno);
+        ImGui::End();
     }
 
     void mouseMove(double x, double y)
     {
+        if (Octo::Input::getCursorMode() == Octo::CursorMode::normal) return;
+
         if (!lastMouseX.has_value()) {
             lastMouseX = x;
             lastMouseY = y;
@@ -112,6 +157,7 @@ public:
 
         pitch = std::clamp(pitch, -89.0f, 89.0f);
 
+
         camera.setYaw(yaw);
         camera.setPitch(pitch);
 
@@ -123,6 +169,8 @@ public:
     Octo::Camera camera;
     Octo::Model model;
     Octo::Model modelCube;
+    Octo::Shadow shadow;
+    Octo::Shader depthShader;
 
     Octo::DirectionalLight dirLight;
 
