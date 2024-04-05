@@ -16,8 +16,6 @@ public:
     Game()
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
-        model("../../../assets/models/viking.obj", true, glm::vec3(0.2, 0.5, 0.3)),
-        modelCube("../../../assets/models/cube.glb", true, glm::vec3(0.8)),
         skybox({
             "../../../assets/textures/skybox/right.jpg",
             "../../../assets/textures/skybox/left.jpg",
@@ -25,8 +23,7 @@ public:
             "../../../assets/textures/skybox/bottom.jpg",
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
-        }),
-        shadow(glm::vec2(1024))
+        })
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -39,12 +36,8 @@ public:
     void start()
     {
         Octo::Renderer::setMainCamera(camera);
-        Octo::Renderer::setDirectionalLight(dirLight);
         Octo::Renderer::setSkyBox(skybox);
-
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
-
-        modelCube.setMaterial({ {1.0f, 0.5f, 0.31f}, {1.0f, 0.5f, 0.31f}, {0.5f, 0.5f, 0.5f}, {64.0f} });
     }
 
     void click(int key, bool pressed)
@@ -64,67 +57,14 @@ public:
         }
     }
 
-    glm::mat4 model1 = glm::mat4(1);
-
-    void rndScene(bool depth)
-    {
-        modelCube.setColor({1.0, 0.0, 0.0});
-
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, -0.7f, 0.0));
-        model = glm::scale(model, glm::vec3(10.0, 0.2, 10.0));
-
-        modelCube.getShader().bind();
-        modelCube.getShader().setInt("shadowMap", 0);
-        modelCube.getShader().setMat4("lightSpaceMatrix", shadow.getLightSpaceMatrix());
-
-        modelCube.setTransform(model);
-        if (!depth) modelCube.draw();
-        else modelCube.draw(shadow.getDepthShader());
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
-        model = glm::scale(model, glm::vec3(0.5f));
-
-        modelCube.setTransform(model);
-        if (!depth) modelCube.draw();
-        else modelCube.draw(shadow.getDepthShader());
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-        model = glm::scale(model, glm::vec3(0.5f));
-
-        modelCube.setTransform(model);
-        if (!depth) modelCube.draw();
-        else modelCube.draw(shadow.getDepthShader());
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-        model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-        model = glm::scale(model, glm::vec3(0.25));
-
-        modelCube.setTransform(model);
-        if (!depth) modelCube.draw();
-        else modelCube.draw(shadow.getDepthShader());
-    }
 
     void update(double delta)
     {
+        // CAMERA INPUT
         glm::vec2 inputDirection( Octo::Input::getDirection(GLFW_KEY_W, GLFW_KEY_S), Octo::Input::getDirection(GLFW_KEY_D, GLFW_KEY_A));  
         inputDirection *= cameraSpeed * delta;
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
-
-        shadow.startPass();
-        rndScene(true);
-        shadow.endPass();
-
-        rndScene(false);
-
-        ImGui::Begin("Framebuffer preview");
-        shadow.getDepthTexture().bind();
-        ImGui::Image((ImTextureID)(shadow.getDepthTexture().getIdentity()), ImVec2(1024, 1024), ImVec2(0, 1), ImVec2(1, 0));
-        ImGui::End();
     }
 
     void mouseMove(double x, double y)
@@ -153,13 +93,6 @@ public:
 
     Octo::Window window;
     Octo::Camera camera;
-    Octo::Model model;
-    Octo::Model modelCube;
-
-    Octo::Shadow shadow;
-
-    Octo::DirectionalLight dirLight;
-
     Octo::SkyBox skybox;
 
     float cameraSpeed = 5.0f;

@@ -10,7 +10,6 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
-	spdlog::info("is called?");
    	glDeleteVertexArrays(1, &m_Identity);
 }
 

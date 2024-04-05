@@ -33,7 +33,7 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsig
     if (!m_MainCamera) return;
     
     shader.bind();
-    //txt.bind();
+    txt.bind();
 
     shader.setMat4("projection", m_MainCamera->getProjectionMatrix());
     shader.setMat4("view", m_MainCamera->getViewMatrix());
