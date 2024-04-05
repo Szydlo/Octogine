@@ -10,7 +10,7 @@ add_subdirectory(lib/glad)
 add_subdirectory(lib/assimp)
 
 project(Octogine 
-    VERSION 0.2
+    VERSION 0.3
     DESCRIPTION "Light-weight game engine"
 )
 

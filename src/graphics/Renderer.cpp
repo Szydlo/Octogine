@@ -84,7 +84,7 @@ void Renderer::endPass()
 {
     if (!m_SkyBox) return;
 
-    //drawSkyBox(m_SkyBox);
+    drawSkyBox(m_SkyBox);
 }
 
 void Renderer::destroy()

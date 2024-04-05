@@ -23,6 +23,10 @@ namespace Octo
             inline static void setDirectionalLight(DirectionalLight& light) { m_DirLight = &light; }
             inline static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }
         
+            inline static Camera* getMainCamera() { return m_MainCamera; }
+            inline static DirectionalLight* getDirectionalLight() { return m_DirLight; }
+            inline static SkyBox* getSkyBox() { return m_SkyBox; }
+
             static void endPass();
 
             static void destroy();

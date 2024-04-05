@@ -26,8 +26,7 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        frameTxt(nullptr, glm::vec2(1024), Octo::TextureColor::Depth),
-        depthShader("../../../assets/shaders/depth.vs", "../../../assets/shaders/depth.fs")
+        shadow(glm::vec2(1024))
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -45,25 +44,7 @@ public:
 
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
-        glm::mat4 viking = glm::mat4(1);
-        viking = glm::rotate(viking, glm::radians(-90.0f), glm::vec3(1, 0, 0));
-        model.setTransform(viking);
-
-        glm::mat4 cube = glm::mat4(1);
-        cube = glm::scale(cube, glm::vec3(5.0, 0.3, 5.0));
-        cube = glm::translate(cube, glm::vec3(0, -3, 0));
-        modelCube.setTransform(cube);
-
         modelCube.setMaterial({ {1.0f, 0.5f, 0.31f}, {1.0f, 0.5f, 0.31f}, {0.5f, 0.5f, 0.5f}, {64.0f} });
-
-        model1 = glm::scale(model1, glm::vec3(5.0, 0.3, 5.0));
-        model1 = glm::translate(model1, glm::vec3(0, -4, 0));
-
-        frameBuff.bind();
-        frameBuff.readBuffer(NULL);
-        frameBuff.drawBuffer(NULL);
-        frameBuff.setTexture2D(frameTxt);
-        frameBuff.unbind();
     }
 
     void click(int key, bool pressed)
@@ -85,27 +66,21 @@ public:
 
     glm::mat4 model1 = glm::mat4(1);
 
-    glm::mat4 lightProjection, lightView;
-    glm::mat4 lightSpaceMatrix;
-
     void rndScene(bool depth)
     {
-        depthShader.bind();
-        depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
-        modelCube.getShader().bind();
-        modelCube.getShader().setInt("shadowMap", 0);
-        modelCube.getShader().setMat4("lightSpaceMatrix", lightSpaceMatrix);
-        frameTxt.bind();
-
         modelCube.setColor({1.0, 0.0, 0.0});
 
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, -0.7f, 0.0));
         model = glm::scale(model, glm::vec3(10.0, 0.2, 10.0));
 
+        modelCube.getShader().bind();
+        modelCube.getShader().setInt("shadowMap", 0);
+        modelCube.getShader().setMat4("lightSpaceMatrix", shadow.getLightSpaceMatrix());
+
         modelCube.setTransform(model);
         if (!depth) modelCube.draw();
-        else modelCube.draw(depthShader);
+        else modelCube.draw(shadow.getDepthShader());
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
@@ -113,7 +88,7 @@ public:
 
         modelCube.setTransform(model);
         if (!depth) modelCube.draw();
-        else modelCube.draw(depthShader);
+        else modelCube.draw(shadow.getDepthShader());
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
@@ -121,7 +96,7 @@ public:
 
         modelCube.setTransform(model);
         if (!depth) modelCube.draw();
-        else modelCube.draw(depthShader);
+        else modelCube.draw(shadow.getDepthShader());
 
         model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
@@ -130,34 +105,25 @@ public:
 
         modelCube.setTransform(model);
         if (!depth) modelCube.draw();
-        else modelCube.draw(depthShader);
+        else modelCube.draw(shadow.getDepthShader());
     }
 
     void update(double delta)
     {
-     //   frameBuff.bind();
         glm::vec2 inputDirection( Octo::Input::getDirection(GLFW_KEY_W, GLFW_KEY_S), Octo::Input::getDirection(GLFW_KEY_D, GLFW_KEY_A));  
         inputDirection *= cameraSpeed * delta;
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
 
-        float near_plane = 1.0f, far_plane = 7.5f;
-        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-        lightView = glm::lookAt(dirLight.direction, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-        lightSpaceMatrix = lightProjection * lightView;
-
-        frameBuff.bind();
-        glViewport(0, 0, 1024, 1024);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        shadow.startPass();
         rndScene(true);
-        frameBuff.unbind();
+        shadow.endPass();
 
-        glViewport(0, 0, 1920, 1080);
         rndScene(false);
 
         ImGui::Begin("Framebuffer preview");
-        frameTxt.bind();
-        ImGui::Image((ImTextureID)(frameTxt.getIdentity()), ImVec2(1024, 1024), ImVec2(0, 1), ImVec2(1, 0));
+        shadow.getDepthTexture().bind();
+        ImGui::Image((ImTextureID)(shadow.getDepthTexture().getIdentity()), ImVec2(1024, 1024), ImVec2(0, 1), ImVec2(1, 0));
         ImGui::End();
     }
 
@@ -189,10 +155,8 @@ public:
     Octo::Camera camera;
     Octo::Model model;
     Octo::Model modelCube;
-    Octo::Shader depthShader;
 
-    Octo::FrameBuffer frameBuff;
-    Octo::Texture2D frameTxt;
+    Octo::Shadow shadow;
 
     Octo::DirectionalLight dirLight;
 

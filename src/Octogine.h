@@ -42,7 +42,7 @@
     To finish v0.2 import model from blender
 
     v0.3 - BASIC LIGHTING
-    Octogine::Shadow
+    Octogine::Shadow - DONE
     Octogine::DirectLight - DONE
     Octogine::SpotLight - DONE
     Octogine::PointLight - DONE
@@ -54,6 +54,7 @@
     Octogine::Parallax
     Octogine::SSAO
     Octogine::Bloom
+    Octogine::Gamma correction
 
     v0.5 - MATERIALS
     Octogine::Material - ability to create a PBR material.
