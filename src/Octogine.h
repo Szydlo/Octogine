@@ -48,28 +48,34 @@
     Octogine::PointLight - DONE
     Octogine::SkyBox - DONE
 
-    v0.4 - ADVANCED LIGHTING
+    v0.4 - PHYSICS
+    Implement jolt physics engine
+    Octogine::RigidBody
+    Octogine::StaticBody
+    Octogine::KinematicBody 
+    Octogine::RayCast
+    Octogine::Collider
+    Octogine::Shape
+
+    v0.5 - ANIMATIONS
+
+    v0.6 - AUDIO SYSTEM - STEAM AUDIO?
+
+    v0.7 - ADVANCED LIGHTING
     Octogine::HDR
     Octogine::Normal
     Octogine::Parallax
     Octogine::SSAO
     Octogine::Bloom
-    Octogine::Gamma correction
 
-    v0.5 - MATERIALS
+    v0.8 - MATERIALS
     Octogine::Material - ability to create a PBR material.
 
-    v0.6 - PHYSICS
-    Implement jolt physics engine
-    Octogine::RigidBody
-    Octogine::StaticBody
-    Octogine::KinematicBody
-    Octogine::RayCast
-    Octogine::Collider
+    To finish v0.8 create scene with multiple point lights, materials, shiny and plastic,
+    with reflection, like mirror, and different objects and shadows.
 
-    v0.7 - ANIMATIONS
-    v0.8 - AUDIO SYSTEM - STEAM AUDIO?
     v0.9 - ASSET MANAGER
+
     v1.0 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM?
 
     v1.1 - FIXING BUGS, BASIC GAME
