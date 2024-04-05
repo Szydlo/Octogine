@@ -57,9 +57,9 @@
     Octogine::Collider
     Octogine::Shape
 
-    v0.5 - ANIMATIONS
+    v0.5 - AUDIO SYSTEM - STEAM AUDIO?
 
-    v0.6 - AUDIO SYSTEM - STEAM AUDIO?
+    v0.6 - ANIMATIONS
 
     v0.7 - ADVANCED LIGHTING
     Octogine::HDR

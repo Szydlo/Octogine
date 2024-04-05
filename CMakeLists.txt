@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_CXX_STANDARD 17)
+
+include(FetchContent)
 
 add_subdirectory(lib/spdlog)
 add_subdirectory(lib/glm)
@@ -8,6 +11,16 @@ add_subdirectory(lib/sigslot)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/assimp)
+
+FetchContent_Declare(
+        JoltPhysics
+        GIT_REPOSITORY "https://github.com/jrouwe/JoltPhysics"
+        GIT_TAG "v5.0.0"
+		SOURCE_SUBDIR "Build"
+)
+FetchContent_MakeAvailable(JoltPhysics)
+
+set_target_properties(Jolt PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 project(Octogine 
     VERSION 0.3
@@ -38,19 +51,21 @@ add_library(Octogine
 set_target_properties(Octogine PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(Octogine PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
+
 target_link_libraries(Octogine
     spdlog
     glm
     sigslot
     glfw
-    glad
     assimp
+    glad
+    Jolt 
 )
 
 target_include_directories(Octogine
     PUBLIC
         "lib/imgui"
+        ${JoltPhysics_SOURCE_DIR}/..
 )
 
 add_subdirectory(example)
-
