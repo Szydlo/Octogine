@@ -68,7 +68,9 @@ Window::Window(int width, int height, std::string title)
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(m_NativeWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
         ImGui_ImplOpenGL3_Init();
-    }   
+    }  
+    
+    Physics::init(); 
 }
 
 void Window::start()
@@ -76,6 +78,8 @@ void Window::start()
     Events::onStart();
     double currentFrame;
 	double lastFrame = getTickCount();
+
+    Physics::optimizeBroadPhase();
 
     while(!glfwWindowShouldClose(m_NativeWindow))
     {
@@ -91,6 +95,8 @@ void Window::start()
         currentFrame = getTickCount();
         m_DeltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        Physics::update(m_DeltaTime);
 
         Renderer::startPass();
 
@@ -127,6 +133,7 @@ void Window::closeWindow()
 Window::~Window()
 {
     // Renderer::destroy(); @ TODO doesn't work, crashes.
+    Physics::destroy();
 
     { // DESTORY OPENGL
         ImGui_ImplOpenGL3_Shutdown();

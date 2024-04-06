@@ -23,7 +23,13 @@ public:
             "../../../assets/textures/skybox/bottom.jpg",
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
-        })
+        }),
+        cube("../../../assets/models/cube.obj", true),
+        shape(glm::vec3(1.0)),
+        collider(shape),
+        rb(collider, Octo::BodyMode::Dynamic, PhysicsLayers::MOVING, true),
+        scollider(shape),
+        srb(collider, Octo::BodyMode::Static, PhysicsLayers::NON_MOVING, true)
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -38,6 +44,14 @@ public:
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
+
+        floor = glm::scale(floor, glm::vec3(10.0, 0.2, 10.0));
+        floor = glm::translate(floor, glm::vec3(0, -6.2, 0));
+    
+        rbCube = glm::translate(rbCube, glm::vec3(0, 10, 0));
+
+        rb.setPosition({0, 10, 0});
+        srb.setPosition({0, 0, 0});
     }
 
     void click(int key, bool pressed)
@@ -55,6 +69,10 @@ public:
             else
                 Octo::Input::setCursorMode(Octo::CursorMode::disabled);
         }
+        else if (key == GLFW_KEY_R)
+        {
+            rb.setPosition({0, 10, 0});
+        }
     }
 
 
@@ -65,6 +83,24 @@ public:
         inputDirection *= cameraSpeed * delta;
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
+
+        auto pos = rb.getPosition();
+        spdlog::info("{}, {}, {}", pos.x, pos.y, pos.z);
+
+        cube.setColor(green);
+        cube.setTransform(floor);
+        cube.draw();
+
+        cube.setColor(red);
+        cube.setTransform(cubeTransform);
+        cube.draw();
+
+        cube.setColor(blue);
+
+        rbCube = glm::translate(glm::mat4(1), rb.getPosition());
+
+        cube.setTransform(rbCube);
+        cube.draw();
     }
 
     void mouseMove(double x, double y)
@@ -95,6 +131,15 @@ public:
     Octo::Camera camera;
     Octo::SkyBox skybox;
 
+    Octo::Model cube;
+
+    Octo::BoxShape shape;
+    Octo::Collider collider;
+    Octo::RigidBody rb;
+
+    Octo::Collider scollider;
+    Octo::RigidBody srb;
+
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
 
@@ -102,6 +147,14 @@ public:
 
     float yaw = -90.0f;
     float pitch = 0.0f;
+
+    glm::vec3 red = glm::vec3(1, 0, 0);
+    glm::vec3 blue = glm::vec3(0, 0, 1);
+    glm::vec3 green = glm::vec3(0, 1, 0);
+
+    glm::mat4 cubeTransform = glm::mat4(1.0f);
+    glm::mat4 floor = glm::mat4(1.0f);
+    glm::mat4 rbCube = glm::mat4(1.0f);
 };
 
 int main() 

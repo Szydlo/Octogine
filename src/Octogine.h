@@ -21,6 +21,11 @@
 #include "lighting/SkyBox.h"
 #include "lighting/Shadow.h"
 
+#include "physics/RigidBody.h"
+#include "physics/Shape.h"
+#include "physics/Collider.h"
+#include "physics/Layers.h"
+
 /* 
     API CHEATSHEET
 
