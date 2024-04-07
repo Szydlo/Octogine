@@ -25,11 +25,13 @@
 #include "physics/Shape.h"
 #include "physics/Collider.h"
 #include "physics/Layers.h"
+#include "physics/RayCast.h"
+#include "physics/Physics.h"
 
 /* 
     API CHEATSHEET
 
-    v0.1 - BASIC STUFF
+    v0.1 - BASIC STUFF - DONE
     Octogine::Core - initializes all basic systems, like opengl. - DONE
     Octogine::Window - creates window - DONE
     Octogine::Camera - creates basic view - DONE
@@ -41,26 +43,26 @@
 
     To finish 0.1 draw basic cube with texture, and rotate camera arround it
 
-    v0.2 - MODEL IMPORTING
+    v0.2 - MODEL IMPORTING - DONE
     Octogine::Model - uses Octogine::Mesh, Shader, Texture2D to load model from file (pref gltf), and creates full ready model - DONE
 
     To finish v0.2 import model from blender
 
-    v0.3 - BASIC LIGHTING
+    v0.3 - BASIC LIGHTING - DONE
     Octogine::Shadow - DONE
     Octogine::DirectLight - DONE
     Octogine::SpotLight - DONE
     Octogine::PointLight - DONE
     Octogine::SkyBox - DONE
 
-    v0.4 - PHYSICS
-    Implement jolt physics engine
-    Octogine::RigidBody
-    Octogine::StaticBody
-    Octogine::KinematicBody 
-    Octogine::RayCast
-    Octogine::Collider
-    Octogine::Shape
+    v0.4 - PHYSICS - DONE
+    Implement jolt physics engine - DONE
+    Octogine::RigidBody - DONE
+    Octogine::StaticBody - DONE
+    Octogine::KinematicBody - DONE
+    Octogine::RayCast  - DONE
+    Octogine::Collider - DONE
+    Octogine::Shape - DONE
 
     v0.5 - AUDIO SYSTEM - STEAM AUDIO?
 

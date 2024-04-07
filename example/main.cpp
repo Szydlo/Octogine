@@ -84,8 +84,8 @@ public:
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
 
-        auto pos = rb.getPosition();
-        spdlog::info("{}, {}, {}", pos.x, pos.y, pos.z);
+        //auto pos = rb.getPosition();
+       // spdlog::info("{}, {}, {}", pos.x, pos.y, pos.z);
 
         cube.setColor(green);
         cube.setTransform(floor);

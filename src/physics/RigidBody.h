@@ -30,6 +30,9 @@ namespace Octo
             void addForce(glm::vec3 force);
             void addForce(glm::vec3 force, glm::vec3 direction);
             void addImpulse(glm::vec3 impulse);
+
+            JPH::Body* getJoltBody() { return m_JoltBody; }
+            JPH::BodyInterface* getJoltBodyInterface() { return m_bodyInterface; }
         private:
             JPH::EMotionType convertBodyMode(BodyMode mode);
 
