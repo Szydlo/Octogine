@@ -71,6 +71,7 @@ Window::Window(int width, int height, std::string title)
     }  
     
     Physics::init(); 
+    Audio::init();
 }
 
 void Window::start()
@@ -134,6 +135,8 @@ Window::~Window()
 {
     // Renderer::destroy(); @ TODO doesn't work, crashes.
     Physics::destroy();
+    Audio::destroy();
+
 
     { // DESTORY OPENGL
         ImGui_ImplOpenGL3_Shutdown();

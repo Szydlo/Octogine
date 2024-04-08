@@ -64,7 +64,11 @@
     Octogine::Collider - DONE
     Octogine::Shape - DONE
 
-    v0.5 - AUDIO SYSTEM - STEAM AUDIO?
+    v0.5 - AUDIO SYSTEM 
+    Loading audio files
+    Octogine::Audio - initializing audio system
+    Octogine::AudioListener - lister of audio
+    Octogine::Music playing sound/music
 
     v0.6 - ANIMATIONS
 

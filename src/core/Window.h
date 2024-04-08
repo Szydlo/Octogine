@@ -11,6 +11,7 @@
 
 #include "../graphics/Renderer.h"
 #include "../physics/Physics.h"
+#include "../audio/Audio.h"
 
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
