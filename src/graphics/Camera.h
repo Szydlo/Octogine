@@ -18,6 +18,8 @@ namespace Octo
             glm::vec3 getPosition() { return m_Position; }
             glm::vec3 getFront()    { return m_Front; }
             glm::vec3 getRight()    { return m_Right; }
+            glm::vec3 getUp() { return m_Up; }
+            glm::vec3 getWorldUp() { return m_WorldUp; }
 
             void setPosition(glm::vec3 pos) {m_Position = pos; calculateCameraVectors();}
             void setYaw(float yaw) {m_Yaw = yaw; calculateCameraVectors();}

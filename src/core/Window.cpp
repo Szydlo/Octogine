@@ -98,6 +98,7 @@ void Window::start()
         lastFrame = currentFrame;
 
         Physics::update(m_DeltaTime);
+        Audio::update();
 
         Renderer::startPass();
 

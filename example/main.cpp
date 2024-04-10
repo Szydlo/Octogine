@@ -29,7 +29,8 @@ public:
         collider(shape),
         rb(collider, Octo::BodyMode::Dynamic, PhysicsLayers::MOVING, true),
         scollider(shape),
-        srb(collider, Octo::BodyMode::Static, PhysicsLayers::NON_MOVING, true)
+        srb(collider, Octo::BodyMode::Static, PhysicsLayers::NON_MOVING, true),
+        sound("../../../assets/music/30s.wav", false)
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -52,6 +53,15 @@ public:
 
         rb.setPosition({0, 10, 0});
         srb.setPosition({0, 0, 0});
+
+        sound.play();
+        Octo::Audio::setVolume(0.05);
+
+        listener.position = camera.getPosition();
+        listener.direction = camera.getFront();
+        listener.worldUp = camera.getWorldUp();
+
+        Octo::Audio::setListener(&listener);
     }
 
     void click(int key, bool pressed)
@@ -101,6 +111,10 @@ public:
 
         cube.setTransform(rbCube);
         cube.draw();
+
+        listener.position = camera.getPosition();
+        listener.direction = camera.getFront();
+        listener.worldUp = camera.getWorldUp();
     }
 
     void mouseMove(double x, double y)
@@ -140,8 +154,13 @@ public:
     Octo::Collider scollider;
     Octo::RigidBody srb;
 
+    Octo::Sound sound;
+    Octo::AudioListener listener;
+
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
+
+
 
     std::optional<float> lastMouseX, lastMouseY;
 

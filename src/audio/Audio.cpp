@@ -4,7 +4,7 @@ using Octo::Audio;
 
 void Audio::init()
 {
-    m_MaResult = ma_decoder_init_file("../../../assets/music/30s.wav", NULL, &m_MaDecoder);
+   /* m_MaResult = ma_decoder_init_file("../../../assets/music/30s.wav", NULL, &m_MaDecoder);
 
     if (m_MaResult != MA_SUCCESS)
     {
@@ -30,26 +30,41 @@ void Audio::init()
     {
         spdlog::error("[AUDIO] CAN'T START AUDIO DEVICE");
         return;
-    }
-}
+    }*/
 
 
-void Audio::destroy()
-{
-    ma_device_uninit(&m_MaDevice);
-    ma_decoder_uninit(&m_MaDecoder);
-}
+    m_EngineConfig = ma_engine_config_init();
 
-void Audio::dataCallback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
-{
-    ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
-    
-    if (pDecoder == NULL) 
+    m_EngineConfig.listenerCount = 2;
+
+    ma_result result = ma_engine_init(&m_EngineConfig, &m_Engine);
+
+    if (result != MA_SUCCESS)
     {
+        spdlog::error("[AUDIO] CAN'T INIT AUDIO ENGINE!");
         return;
     }
 
-    ma_decoder_read_pcm_frames(pDecoder, pOutput, frameCount, NULL);
+    /*if (ma_sound_init_from_file(&m_Engine, "../../../assets/music/30s.wav", 0, NULL, NULL, &sound) != MA_SUCCESS)
+    {
+        spdlog::error("[AUDIO] CAN'T INIT AUDIO FILE!");
+        return;
+    }*/
+}
 
-    (void)pInput;
+void Audio::update()
+{
+    if (m_Listener) m_Listener->setData();
+}
+
+void Audio::destroy()
+{
+    ma_engine_uninit(&m_Engine);
+}
+
+void Audio::setListener(AudioListener* listener)
+{
+    m_Listener = listener;
+
+    m_Listener->setListener(&m_Engine, (unsigned int)Listeners::Spatial);
 }

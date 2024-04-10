@@ -28,6 +28,10 @@
 #include "physics/RayCast.h"
 #include "physics/Physics.h"
 
+#include "audio/Audio.h"
+#include "audio/Sound.h"
+#include "audio/AudioListener.h"
+
 /* 
     API CHEATSHEET
 
@@ -64,11 +68,11 @@
     Octogine::Collider - DONE
     Octogine::Shape - DONE
 
-    v0.5 - AUDIO SYSTEM 
-    Loading audio files
-    Octogine::Audio - initializing audio system
-    Octogine::AudioListener - lister of audio
-    Octogine::Music playing sound/music
+    v0.5 - AUDIO SYSTEM - DONE
+    Loading audio files - DONE
+    Octogine::Audio - initializing audio system - DONE
+    Octogine::AudioListener - lister of audio - DONE
+    Octogine::Sound playing sound/music - DONE
 
     v0.6 - ANIMATIONS
 
