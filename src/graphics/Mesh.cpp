@@ -17,6 +17,12 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     m_VAO.setAttribute((int)Attributes::Tex, 2, sizeof(Vertex), offsetof(Vertex, Vertex::txtCoord));
     m_VAO.setAttribute((int)Attributes::Normal, 3, sizeof(Vertex), offsetof(Vertex, Vertex::normal));
 
+    m_VAO.setAttribute((int)Attributes::Tangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::tangent));
+    m_VAO.setAttribute((int)Attributes::Bitangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::bitangent));
+
+    m_VAO.setAttribute((int)Attributes::BoneIDs, 4, sizeof(Vertex), offsetof(Vertex, Vertex::boneIDs));
+    m_VAO.setAttribute((int)Attributes::Weights, 4, sizeof(Vertex), offsetof(Vertex, Vertex::weights));
+
     m_VBO.unbind();
     m_VAO.unbind();
     m_EBO.unbind();

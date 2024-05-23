@@ -39,6 +39,8 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsig
     shader.setMat4("view", m_MainCamera->getViewMatrix());
     shader.setMat4("model", model);
 
+    shader.setInt("txt", 0);
+
     shader.setVec3("viewPos", m_MainCamera->getPosition());
 
     if (m_DirLight)

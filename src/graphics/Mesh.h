@@ -9,7 +9,11 @@
 #include "Texture2D.h"
 #include "Renderer.h"
 
+#include "../animations/Skeleton.h"
+
 #include "glm/glm.hpp"
+
+constexpr unsigned int cMaxBoneInfluence = 4;
 
 namespace Octo
 {
@@ -17,12 +21,22 @@ namespace Octo
         glm::vec3 position;
         glm::vec2 txtCoord = glm::vec2(0);
         glm::vec3 normal = glm::vec3(0);
+
+        glm::vec3 tangent = glm::vec3(0);
+        glm::vec3 bitangent = glm::vec3(0);
+
+        int boneIDs[cMaxBoneInfluence];
+        float weights[cMaxBoneInfluence];
     };
 
     enum class Attributes : int  {
         Pos = 0,
         Tex = 1,
         Normal = 2,
+        Tangent = 3,
+        Bitangent = 4,
+        BoneIDs = 5,
+        Weights = 6
     };
 
     class Mesh
@@ -38,6 +52,7 @@ namespace Octo
         private:
             Texture2D m_Texture;
 
+            Skeleton m_Skeleton;
             VertexArray m_VAO;
             Buffer m_VBO;
             Buffer m_EBO;

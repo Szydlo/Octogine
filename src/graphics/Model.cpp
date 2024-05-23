@@ -53,6 +53,8 @@ void Model::initMesh(aiNode* node, const aiScene* scene)
         {
             Vertex vertex;
 
+			setVertexBoneDataToDefault(vertex);
+
             if (mesh->HasPositions())
             {
                 vertex.position[0] = mesh->mVertices[v].x;
@@ -72,6 +74,17 @@ void Model::initMesh(aiNode* node, const aiScene* scene)
 				vertex.normal[2] = mesh->mNormals[v].z;
 			}
 
+			if (mesh->HasTangentsAndBitangents())
+			{
+				vertex.tangent[0] = mesh->mTangents[v].x;
+				vertex.tangent[1] = mesh->mTangents[v].y;
+				vertex.tangent[2] = mesh->mTangents[v].z;
+
+				vertex.bitangent[0] = mesh->mBitangents[v].x;
+				vertex.bitangent[1] = mesh->mBitangents[v].y;
+				vertex.bitangent[2] = mesh->mBitangents[v].z;
+			}
+
             vertices.emplace_back(vertex);
         }
 
@@ -82,7 +95,9 @@ void Model::initMesh(aiNode* node, const aiScene* scene)
 			}
         }
 		
-		m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/uvs.jpg");
+		extractBoneWeightForVertices(vertices, mesh, scene);
+
+		m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/character.png");
     }
 
     for (unsigned int c = 0; c < node->mNumChildren; c++) 
@@ -119,4 +134,66 @@ void Model::draw(Shader& shader)
     {
 		mesh.draw(shader, m_Transform);
     }  
+}
+
+void Model::setVertexBoneData(Vertex& vertex, int boneID, float weight)
+{
+	for (int i = 0; i < cMaxBoneInfluence; i++)
+	{
+		if (vertex.boneIDs[i] < 0)
+		{
+			vertex.weights[i] = weight;
+			vertex.boneIDs[i] = boneID;
+			break;
+		}
+	}
+}
+
+void Model::setVertexBoneDataToDefault(Vertex& vertex)
+{
+	for (int i = 0; i < cMaxBoneInfluence; i++)
+	{
+		vertex.weights[i] = -1;
+		vertex.boneIDs[i] = 0.0f;
+	}
+}
+
+void Model::extractBoneWeightForVertices(std::vector<Vertex>& vertices, aiMesh* mesh, const aiScene* scene)
+{
+	auto& boneInfoMap = mBoneInfoMap;
+	int& boneCount = mBoneCounter;
+
+	for (int boneIndex = 0; boneIndex < mesh->mNumBones; boneIndex++)
+	{
+		int boneID = -1;
+		std::string boneName = mesh->mBones[boneIndex]->mName.C_Str();
+
+		if (boneInfoMap.find(boneName) == boneInfoMap.end())
+		{
+			BoneInfo newBoneInfo;
+			newBoneInfo.id = boneCount;
+			newBoneInfo.offset = ConvertMatrixToGLMFormat(mesh->mBones[boneIndex]->mOffsetMatrix);
+			boneInfoMap[boneName] = newBoneInfo;
+			boneID = boneCount;
+			boneCount++;
+		}
+		else
+		{
+			boneID = boneInfoMap[boneName].id;
+		}
+
+		assert(boneID != -1);
+
+		auto weights = mesh->mBones[boneIndex]->mWeights;
+		int numWeights = mesh->mBones[boneIndex]->mNumWeights;
+
+		for (int weightIndex = 0; weightIndex < numWeights; weightIndex++)
+		{
+				int vertexId = weights[weightIndex].mVertexId;
+				float weight = weights[weightIndex].mWeight;
+				assert(vertexId <= vertices.size());
+
+				setVertexBoneData(vertices[vertexId], boneID, weight);
+		}
+	}
 }

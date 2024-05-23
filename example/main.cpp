@@ -24,7 +24,8 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/cube.obj", true)
+        cube("../../../assets/models/cube.obj", true),
+        character("../../../assets/models/character.glb")
 
     {
         Events::onStart.connect(&Game::start, this);
@@ -74,7 +75,8 @@ public:
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
 
-        cube.draw();
+        //cube.draw();
+        character.draw();
     }
 
     void mouseMove(double x, double y)
@@ -105,6 +107,7 @@ public:
     Octo::Camera camera;
     Octo::SkyBox skybox;
     Octo::Model cube;
+    Octo::Model character;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
