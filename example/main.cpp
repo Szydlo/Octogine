@@ -25,14 +25,16 @@ public:
             "../../../assets/textures/skybox/back.jpg"
         }),
         cube("../../../assets/models/cube.obj", true),
-        character("../../../assets/models/character.glb")
+        character("../../../assets/models/character.glb", false),
+        anim("../../../assets/models/character.glb", &character),
+        animator(&anim)
 
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
         Events::onUpdate.connect(&Game::update, this);
         Events::onMouseMove.connect(&Game::mouseMove, this);
-
+        
         window.start();
     }
 
@@ -47,6 +49,11 @@ public:
 
         cube.setColor(glm::vec3(0, 1, 0));
         cube.setTransform(floor);
+
+        glm::mat4 matrix = glm::mat4(1);
+
+        character.setColor(glm::vec3(0, 1, 0));
+        character.setTransform(matrix);
     }
 
     void click(int key, bool pressed)
@@ -75,7 +82,18 @@ public:
         glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
         camera.setPosition(moveDirection);
 
-        //cube.draw();
+        animator.updateAnimation(delta);
+
+        auto transforms = animator.getFinalBoneMatrices();
+
+        for (int i = 0; i < transforms.size(); i++)
+        {
+            character.getShader().bind();
+            character.getShader().setMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
+            character.getShader().unbind();
+        }
+
+        cube.draw();
         character.draw();
     }
 
@@ -107,7 +125,9 @@ public:
     Octo::Camera camera;
     Octo::SkyBox skybox;
     Octo::Model cube;
-    Octo::Model character;
+    Octo::SkeletalModel character;
+    Octo::Animation anim;
+    Octo::Animator animator;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

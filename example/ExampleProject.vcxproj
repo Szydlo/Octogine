@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{14E355B4-87C9-33D5-A339-EAF0E9C3A1B8}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ExampleProject</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Bart\Desktop\Octogine\example\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ExampleProject.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ExampleProject</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Bart\Desktop\Octogine\example\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ExampleProject.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ExampleProject</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Bart\Desktop\Octogine\example\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ExampleProject.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">ExampleProject</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Bart\Desktop\Octogine\example\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ExampleProject.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">ExampleProject</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;_DEBUG;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\Debug\Octogined.lib;..\lib\glm\glm\Debug\glm.lib;..\lib\spdlog\Debug\spdlogd.lib;..\lib\glfw\src\Debug\glfw3.lib;..\lib\assimp\lib\Debug\assimp-vc143-mtd.lib;..\lib\assimp\contrib\zlib\Debug\zlibstaticd.lib;..\lib\glad\Debug\glad.lib;..\_deps\joltphysics-build\Debug\Joltd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Bart/Desktop/Octogine/example/Debug/ExampleProject.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Bart/Desktop/Octogine/example/Debug/ExampleProject.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\Release\Octogine.lib;..\lib\glm\glm\Release\glm.lib;..\lib\spdlog\Release\spdlog.lib;..\lib\glfw\src\Release\glfw3.lib;..\lib\assimp\lib\Release\assimp-vc143-mt.lib;..\lib\assimp\contrib\zlib\Release\zlibstatic.lib;..\lib\glad\Release\glad.lib;..\_deps\joltphysics-build\Release\Jolt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Bart/Desktop/Octogine/example/Release/ExampleProject.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Bart/Desktop/Octogine/example/Release/ExampleProject.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\MinSizeRel\Octogine.lib;..\lib\glm\glm\MinSizeRel\glm.lib;..\lib\spdlog\MinSizeRel\spdlog.lib;..\lib\glfw\src\MinSizeRel\glfw3.lib;..\lib\assimp\lib\MinSizeRel\assimp-vc143-mt.lib;..\lib\assimp\contrib\zlib\MinSizeRel\zlibstatic.lib;..\lib\glad\MinSizeRel\glad.lib;..\_deps\joltphysics-build\MinSizeRel\Jolt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Bart/Desktop/Octogine/example/MinSizeRel/ExampleProject.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Bart/Desktop/Octogine/example/MinSizeRel/ExampleProject.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SPDLOG_COMPILED_LIB;_HAS_EXCEPTIONS=0;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Bart\Desktop\Octogine\example\src;C:\Users\Bart\Desktop\Octogine\lib\imgui;C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-src\Build\..;C:\Users\Bart\Desktop\Octogine\lib\spdlog\include;C:\Users\Bart\Desktop\Octogine\lib\glm;C:\Users\Bart\Desktop\Octogine\lib\sigslot\include;C:\Users\Bart\Desktop\Octogine\lib\glfw\include;C:\Users\Bart\Desktop\Octogine\lib\assimp\code\..\include;C:\Users\Bart\Desktop\Octogine\lib\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>..\RelWithDebInfo\Octogine.lib;..\lib\glm\glm\RelWithDebInfo\glm.lib;..\lib\spdlog\RelWithDebInfo\spdlog.lib;..\lib\glfw\src\RelWithDebInfo\glfw3.lib;..\lib\assimp\lib\RelWithDebInfo\assimp-vc143-mt.lib;..\lib\assimp\contrib\zlib\RelWithDebInfo\zlibstatic.lib;..\lib\glad\RelWithDebInfo\glad.lib;..\_deps\joltphysics-build\RelWithDebInfo\Jolt.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/Bart/Desktop/Octogine/example/RelWithDebInfo/ExampleProject.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/Bart/Desktop/Octogine/example/RelWithDebInfo/ExampleProject.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Bart\Desktop\Octogine\example\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Bart/Desktop/Octogine/example/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Bart/Desktop/Octogine -BC:/Users/Bart/Desktop/Octogine --check-stamp-file C:/Users/Bart/Desktop/Octogine/example/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Bart\Desktop\Octogine\example\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Bart/Desktop/Octogine/example/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Bart/Desktop/Octogine -BC:/Users/Bart/Desktop/Octogine --check-stamp-file C:/Users/Bart/Desktop/Octogine/example/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Bart\Desktop\Octogine\example\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Bart/Desktop/Octogine/example/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Bart/Desktop/Octogine -BC:/Users/Bart/Desktop/Octogine --check-stamp-file C:/Users/Bart/Desktop/Octogine/example/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Bart\Desktop\Octogine\example\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Bart/Desktop/Octogine/example/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Bart/Desktop/Octogine -BC:/Users/Bart/Desktop/Octogine --check-stamp-file C:/Users/Bart/Desktop/Octogine/example/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Bart\Desktop\Octogine\example\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Bart\Desktop\Octogine\example\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\ZERO_CHECK.vcxproj">
+      <Project>{CD8AB1E5-6A7B-32DA-8D4D-949A6D233020}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\_deps\joltphysics-build\Jolt.vcxproj">
+      <Project>{3F6AB8DE-ECD2-3DEC-8BF0-63BE06A16B37}</Project>
+      <Name>Jolt</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\Octogine.vcxproj">
+      <Project>{A5AE6DF4-B212-3A44-99F5-11C7FEEA164F}</Project>
+      <Name>Octogine</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\assimp\code\assimp.vcxproj">
+      <Project>{9949DD92-A5C3-3206-BC1F-D9131D69EC88}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\glad\glad.vcxproj">
+      <Project>{99B37C71-0760-3980-865F-EDC063160D5C}</Project>
+      <Name>glad</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\glfw\src\glfw.vcxproj">
+      <Project>{FC6D17B1-30F9-3401-A0F0-0B64FB88E155}</Project>
+      <Name>glfw</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\glm\glm\glm.vcxproj">
+      <Project>{FF1D2E85-0C9D-36A3-B125-14D6E9133B46}</Project>
+      <Name>glm</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\spdlog\spdlog.vcxproj">
+      <Project>{07DA4131-A573-3769-8D8E-806F5DDD68F8}</Project>
+      <Name>spdlog</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Bart\Desktop\Octogine\lib\assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{5A102769-B98B-3A1B-9A57-3D6EACB0223E}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

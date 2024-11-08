@@ -32,6 +32,10 @@
 #include "audio/Sound.h"
 #include "audio/AudioListener.h"
 
+#include "animations/SkeletalModel.h"
+#include "animations/Animation.h"
+#include "animations/Animator.h"
+
 /* 
     API CHEATSHEET
 

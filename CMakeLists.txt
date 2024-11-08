@@ -15,7 +15,7 @@ add_subdirectory(lib/assimp)
 FetchContent_Declare(
         JoltPhysics
         GIT_REPOSITORY "https://github.com/jrouwe/JoltPhysics"
-        GIT_TAG "v5.0.0"
+        GIT_TAG "v5.2.0"
 		SOURCE_SUBDIR "Build"
 )
 FetchContent_MakeAvailable(JoltPhysics)
