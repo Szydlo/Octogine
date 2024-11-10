@@ -97,7 +97,7 @@ void SkeletalModel::initMesh(aiNode* node, const aiScene* scene)
 		
 		extractBoneWeightForVertices(vertices, mesh, scene);
 
-		m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/character.png");
+		m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/humanMaleA.png");
     }
 
     for (unsigned int c = 0; c < node->mNumChildren; c++) 
@@ -160,6 +160,8 @@ void SkeletalModel::setVertexBoneDataToDefault(SVertex& vertex)
 
 void SkeletalModel::extractBoneWeightForVertices(std::vector<SVertex>& vertices, aiMesh* mesh, const aiScene* scene)
 {
+
+	// this code is wrong
 	auto& boneInfoMap = mBoneInfoMap;
 	int& boneCount = mBoneCounter;
 

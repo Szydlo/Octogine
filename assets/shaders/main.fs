@@ -201,10 +201,12 @@ void main()
 	//vec3 result = calculateSpotLight(spotLight, norm, FragPos, viewDir);
 
 	if (useColor)
-		//FragColor = vec4(result, 1.0);
+		//FragColor = vec4(result, 1.0); 
         FragColor = vec4(color, 1.0);
 	else
 		FragColor = texture(txt, TexCoords);
 
+
+    //FragColor = vec4(1.0 * TexCoords[0], 1.0 * TexCoords[1], 1.0, 1.0)
     //FragColor = vec4(1.0);
 }

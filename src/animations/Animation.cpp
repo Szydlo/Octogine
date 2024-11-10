@@ -9,12 +9,10 @@ Animation::Animation(std::string animPath, SkeletalModel* model)
     const aiScene* scene = importer.ReadFile(animPath, aiProcess_Triangulate);
     assert(scene && scene->mRootNode);
     
-    auto animation = scene->mAnimations[0];
+    auto animation = scene->mAnimations[1];
 
     mDuration = animation->mDuration;
     mTicksPerSecond = animation->mTicksPerSecond;
-
-    
 
     readHeirarcyData(mRootNode, scene->mRootNode);
     readMissingBones(animation, *model);

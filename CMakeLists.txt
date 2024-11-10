@@ -11,6 +11,7 @@ add_subdirectory(lib/sigslot)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/assimp)
+add_subdirectory(lib/fastgltf)
 
 FetchContent_Declare(
         JoltPhysics
@@ -42,6 +43,7 @@ file(GLOB SRC_OCTOGINE
     "lib/imgui/backends/imgui_impl_glfw.cpp"
     "lib/imgui/backends/imgui_impl_opengl3.h"
     "lib/imgui/backends/imgui_impl_opengl3.cpp"
+    "lib/cgltf/cgltf.h"
 )
 
 add_library(Octogine
@@ -60,11 +62,13 @@ target_link_libraries(Octogine
     assimp
     glad
     Jolt 
+    fastgltf
 )
 
 target_include_directories(Octogine
     PUBLIC
         "lib/imgui"
+        "lib/cgltf"
         ${JoltPhysics_SOURCE_DIR}/..
 )
 

@@ -9,6 +9,8 @@
 
 #include "../lighting/DirectionalLight.h"
 
+#include <iostream>
+
 namespace Octo
 {
     class Renderer

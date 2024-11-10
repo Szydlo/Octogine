@@ -79,9 +79,9 @@
     Octogine::Sound playing sound/music - DONE
 
     v0.6 - ANIMATIONS
-    Octogine::Animation - contains keys data of animation
-    Ocotogine::SkeletalMesh + Model - contains regular mesh + bones and positions
-    Octogine::Animator - (blends between animations and plays them with skeletal mesh)
+    Octogine::Animation - contains keys data of animation - done
+    Ocotogine::SkeletalMesh + Model - contains regular mesh + bones and positions - done
+    Octogine::Animator - (blends between animations and plays them with skeletal mesh) - half way done
 
     v0.7 - ADVANCED LIGHTING
     Octogine::HDR

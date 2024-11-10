@@ -20,21 +20,21 @@ namespace Octo
         glm::vec2 txtCoord = glm::vec2(0);
         glm::vec3 normal = glm::vec3(0);
 
-        glm::vec3 tangent = glm::vec3(0);
+       /* glm::vec3 tangent = glm::vec3(0);
         glm::vec3 bitangent = glm::vec3(0);
 
         int boneIDs[cMaxBoneInfluence];
-        float weights[cMaxBoneInfluence];
+        float weights[cMaxBoneInfluence];*/
     };
 
     enum class Attributes : int  {
         Pos = 0,
         Tex = 1,
-        Normal = 2,
-        Tangent = 3,
+        Normal = 2
+        /*Tangent = 3,
         Bitangent = 4,
         BoneIDs = 5,
-        Weights = 6
+        Weights = 6*/
     };
 
     class Mesh

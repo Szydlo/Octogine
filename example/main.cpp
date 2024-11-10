@@ -24,10 +24,7 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/cube.obj", true),
-        character("../../../assets/models/character.glb", false),
-        anim("../../../assets/models/character.glb", &character),
-        animator(&anim)
+        cube("../../../assets/models/guy.glb")
 
     {
         Events::onStart.connect(&Game::start, this);
@@ -47,13 +44,8 @@ public:
         floor = glm::scale(floor, glm::vec3(10.0, 0.2, 10.0));
         floor = glm::translate(floor, glm::vec3(0, -6.2, 0));
 
-        cube.setColor(glm::vec3(0, 1, 0));
-        cube.setTransform(floor);
-
-        glm::mat4 matrix = glm::mat4(1);
-
-        character.setColor(glm::vec3(0, 1, 0));
-        character.setTransform(matrix);
+        //cube.setColor(glm::vec3(0, 1, 0));
+        //cube.setTransform(floor);
     }
 
     void click(int key, bool pressed)
@@ -77,24 +69,15 @@ public:
     void update(double delta)
     {
         // CAMERA INPUT
-        glm::vec2 inputDirection( Octo::Input::getDirection(GLFW_KEY_W, GLFW_KEY_S), Octo::Input::getDirection(GLFW_KEY_D, GLFW_KEY_A));  
-        inputDirection *= cameraSpeed * delta;
-        glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
-        camera.setPosition(moveDirection);
-
-        animator.updateAnimation(delta);
-
-        auto transforms = animator.getFinalBoneMatrices();
-
-        for (int i = 0; i < transforms.size(); i++)
+        if (Octo::Input::getCursorMode() == Octo::CursorMode::disabled)
         {
-            character.getShader().bind();
-            character.getShader().setMat4("finalBonesMatrices[" + std::to_string(i) + "]", transforms[i]);
-            character.getShader().unbind();
+            glm::vec2 inputDirection( Octo::Input::getDirection(GLFW_KEY_W, GLFW_KEY_S), Octo::Input::getDirection(GLFW_KEY_D, GLFW_KEY_A));  
+            inputDirection *= cameraSpeed * delta;
+            glm::vec3 moveDirection = camera.getPosition() + (camera.getFront() * inputDirection.x) + (camera.getRight() * inputDirection.y);
+            camera.setPosition(moveDirection);
         }
 
         cube.draw();
-        character.draw();
     }
 
     void mouseMove(double x, double y)
@@ -125,9 +108,6 @@ public:
     Octo::Camera camera;
     Octo::SkyBox skybox;
     Octo::Model cube;
-    Octo::SkeletalModel character;
-    Octo::Animation anim;
-    Octo::Animator animator;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

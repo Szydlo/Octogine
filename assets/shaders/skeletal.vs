@@ -10,6 +10,8 @@ layout (location = 6) in vec4 aWeights;
 out vec3 FragPos;
 out vec3 Normal;
 out vec2 TexCoords;
+flat out ivec4 BoneIds;
+out vec4 Weights;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -22,6 +24,8 @@ uniform mat4 finalBonesMatrices[MAX_BONES];
 void main()
 {
     TexCoords = aTexCoords;
+    BoneIds = aBoneIds;
+    Weights = aWeights;
     
     vec4 totalPosition = vec4(0.0f);
 
@@ -35,7 +39,7 @@ void main()
         }
 
         vec4 localPosition = finalBonesMatrices[aBoneIds[i]] * vec4(aPos, 1.0f);
-        totalPosition += localPosition * 1;
+        totalPosition += localPosition * aWeights[i];
     }
     
     gl_Position = projection * (view * model) * totalPosition;
