@@ -10,16 +10,10 @@
 [submodule "lib/glfw"]
 	path = lib/glfw
 	url = https://github.com/glfw/glfw.git
-[submodule "lib/assimp"]
-	path = lib/assimp
-	url = https://github.com/assimp/assimp.git
 [submodule "lib/imgui"]
 	path = lib/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
-[submodule "lib/cgltf"]
-	path = lib/cgltf
-	url = https://github.com/jkuhlmann/cgltf.git
 [submodule "lib/fastgltf"]
 	path = lib/fastgltf
 	url = https://github.com/spnda/fastgltf.git
