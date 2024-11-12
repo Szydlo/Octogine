@@ -24,8 +24,9 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/guy.glb")
-
+        cube("../../../assets/models/guy.glb"),
+        anim("../../../assets/models/guy.glb"),
+        animator(&cube, &anim)
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -77,6 +78,9 @@ public:
             camera.setPosition(moveDirection);
         }
 
+        animator.prepareModel();
+        animator.update(delta);
+
         cube.draw();
     }
 
@@ -108,6 +112,8 @@ public:
     Octo::Camera camera;
     Octo::SkyBox skybox;
     Octo::Model cube;
+    Octo::Animation anim;
+    Octo::Animator animator;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../models/Model.h"
+
 #include "Animation.h"
 
 namespace Octo
@@ -7,16 +9,16 @@ namespace Octo
     class Animator
     {
         public:
-            Animator(Animation* anim);
-            
-            void updateAnimation(float deltaTime);
-            void playAnimation(Animation* pAnim);
-            void calculateBoneTransform(const AssimpNodeData* node, glm::mat4 parentTransform);
+            Animator(Model* model, Animation* animation);
 
-            std::vector<glm::mat4> getFinalBoneMatrices() { return mFinalBoneMatrices; }
+            void prepareModel();
+            void update(double deltaTime);
         private:
-            std::vector<glm::mat4> mFinalBoneMatrices;
-            Animation* mCurrentAnimation;
-            float mCurrentTime, mDeltaTime;
+            void calculateBonesTransform(Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index);
+            std::vector<glm::mat4> m_finalBoneMatrices;
+            
+            float m_CurrentTime = 0;
+            Animation* m_CurrentAnimation;
+            Model* m_CurrentModel;
     };
-}
+};

@@ -10,8 +10,6 @@
 #include "graphics/Renderer.h"
 #include "graphics/Camera.h"
 #include "graphics/Texture2D.h"
-#include "graphics/Mesh.h"
-#include "graphics/Model.h"
 #include "graphics/FrameBuffer.h"
 
 #include "lighting/DirectionalLight.h"
@@ -32,7 +30,9 @@
 #include "audio/Sound.h"
 #include "audio/AudioListener.h"
 
-#include "animations/SkeletalModel.h"
+#include "models/Mesh.h"
+#include "models/Model.h"
+
 #include "animations/Animation.h"
 #include "animations/Animator.h"
 

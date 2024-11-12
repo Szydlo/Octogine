@@ -2,63 +2,50 @@
 
 using Octo::Animator;
 
-Animator::Animator(Animation* anim)
+Animator::Animator(Model* model, Animation* animation)
+    : m_CurrentModel(model), m_CurrentAnimation(animation)
 {
-    mCurrentTime = 0.0f;
-    mCurrentAnimation = anim;
+    m_finalBoneMatrices.resize(100);
 
-    mFinalBoneMatrices.reserve(100);
-
-    for (int i = 0; i < 100; i++)
-        mFinalBoneMatrices.push_back(glm::mat4(1.0f));
-}
-            
-void Animator::updateAnimation(float deltaTime)
-{
-    mDeltaTime = deltaTime;
-
-
-    if (mCurrentAnimation)
+    for (auto& matrix : m_finalBoneMatrices)
     {
-        mCurrentTime += mCurrentAnimation->getTicksPerSecond() * deltaTime;
-        mCurrentTime = fmod(mCurrentTime, mCurrentAnimation->getDuration());
-        
-        calculateBoneTransform(&mCurrentAnimation->getRootNode(), glm::mat4(1.0f));
+        matrix = glm::mat4(1.0);
     }
 }
 
-void Animator::playAnimation(Animation* pAnim)
+void Animator::prepareModel()
 {
-    mCurrentAnimation = pAnim;
-    mCurrentTime = 0.0f;
+    for (int i = 0; i < m_finalBoneMatrices.size(); i++)
+    {
+        m_CurrentModel->getShader().bind();
+        m_CurrentModel->getShader().setMat4("finalBonesMatrices[" + std::to_string(i) + "]", m_finalBoneMatrices[i]);
+    }
 }
 
-void Animator::calculateBoneTransform(const AssimpNodeData* node, glm::mat4 parentTransform)
+void Animator::update(double deltaTime)
 {
-    std::string nodeName = node->name;
-    glm::mat4 nodeTransform = node->transformation;
+    m_CurrentTime += deltaTime;
+    if (m_CurrentTime > m_CurrentAnimation->getDuration()) { m_CurrentTime = 0; }
 
-    Bone* bone = mCurrentAnimation->findBone(nodeName);
+    //spdlog::info(m_CurrentTime);
 
-    if (bone)
+    auto& rootBone = m_CurrentModel->getSkeleton().bones[0];
+    int index = 0;
+    calculateBonesTransform(m_CurrentModel->getSkeleton(), rootBone, glm::mat4(1.0), index);
+}
+
+void Animator::calculateBonesTransform(Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
+{
+    auto& boneTransform = m_CurrentAnimation->calculateBoneInterpolation(bone.name, m_CurrentTime);
+    glm::mat4 globalTransform = parentTransform * boneTransform;
+    glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
+
+    m_finalBoneMatrices[index] = localTransform;
+    index++;
+
+    for (auto& child : bone.children)
     {
-        bone->update(mCurrentTime);
-        nodeTransform = bone->getLocalTransform();
-    }
-
-    glm::mat4 globalTransformation = parentTransform * nodeTransform;
-
-    auto boneInfoMap = mCurrentAnimation->getBoneIDMap();
-
-    if (boneInfoMap.find(nodeName) != boneInfoMap.end())
-    {
-        int index = boneInfoMap[nodeName].id;
-        glm::mat4 offset = boneInfoMap[nodeName].offset;
-        mFinalBoneMatrices[index] = globalTransformation * offset;
-    }
-
-    for (int i = 0; i < node->childrenCount; i++)
-    {
-        calculateBoneTransform(&node->children[i], globalTransformation);
+        auto& childBone = skeleton.bones[skeleton.getBoneID(child)];
+        calculateBonesTransform(skeleton, childBone, globalTransform, index);
     }
 }
