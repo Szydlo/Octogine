@@ -24,10 +24,10 @@ void Animator::prepareModel()
 
 void Animator::update(double deltaTime)
 {
-    m_CurrentTime += deltaTime;
-    if (m_CurrentTime > m_CurrentAnimation->getDuration()) { m_CurrentTime = 0; }
+    if (!m_CurrentAnimation || !m_CurrentModel) { return; }
 
-    //spdlog::info(m_CurrentTime);
+    m_CurrentTime += m_CurrentAnimation->getFramesPerSecond() * deltaTime;
+    if (m_CurrentTime > m_CurrentAnimation->getDuration()) { m_CurrentTime = 0; }
 
     auto& rootBone = m_CurrentModel->getSkeleton().bones[0];
     int index = 0;

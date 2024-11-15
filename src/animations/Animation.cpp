@@ -47,9 +47,13 @@ Animation::Animation(std::string path)
 
 void Animation::fillTimeStamps(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& inputAccessor, std::string boneName)
 {
+    int framesCount = 0;
+
     fastgltf::iterateAccessor<float>(asset, inputAccessor, 
         [&](float timeStamp)
         {
+            framesCount = std::max((int)(inputAccessor.count), framesCount);
+
             switch (channel.path)
             {
             case fastgltf::AnimationPath::Translation:
@@ -79,6 +83,8 @@ void Animation::fillTimeStamps(fastgltf::Asset& asset, fastgltf::AnimationChanne
             }
         }
     );
+
+    m_framesPerSecond = framesCount;
 }
 
 void Animation::fillKeyFrames(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& outputAccessor, std::string boneName)

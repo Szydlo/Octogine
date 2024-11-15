@@ -92,6 +92,7 @@
 
     v0.8 - MATERIALS
     Octogine::Material - ability to create a PBR material.
+    (optional) Octogine::Patricles (cpu or gpu idk)
 
     To finish v0.8 create scene with multiple point lights, materials, shiny and plastic,
     with reflection, like mirror, and different objects and shadows.

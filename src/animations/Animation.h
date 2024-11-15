@@ -43,7 +43,9 @@ namespace Octo
             Animation(std::string path);
 
             glm::mat4 getBoneTransform(std::string boneName, int keyFrame);
+
             float getDuration() { return m_Duration; }
+            int getFramesPerSecond() { return m_framesPerSecond; }
 
             glm::mat4 calculateBoneInterpolation(std::string boneName, float timeStamp);
         private:
@@ -65,5 +67,6 @@ namespace Octo
             std::map<std::string, std::vector<ScaleKey>> m_ScaleKeyFrames; 
 
             float m_Duration = 0.0f;
+            int m_framesPerSecond = -1;
     };
 };
