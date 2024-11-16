@@ -40,7 +40,7 @@ namespace Octo
     class Animation
     {
         public:
-            Animation(std::string path);
+            Animation(std::string path, int animation = 0);
 
             glm::mat4 getBoneTransform(std::string boneName, int keyFrame);
 

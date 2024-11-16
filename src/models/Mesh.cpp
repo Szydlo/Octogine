@@ -24,9 +24,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     m_VAO.setAttribute((int)Attributes::Bitangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::bitangent));
 */
 
-    m_VBO.unbind();
     m_VAO.unbind();
     m_EBO.unbind();
+    m_VBO.unbind();
 }
 
 void Mesh::draw(Shader& shader, glm::mat4 model)

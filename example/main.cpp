@@ -24,9 +24,10 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/guy.glb"),
-        anim("../../../assets/models/guy.glb"),
-        animator(&cube, &anim)
+        cube("../../../assets/models/archer.glb"),
+        anim("../../../assets/models/walkarch.glb"),
+        anim2("../../../assets/models/run.glb"),
+        animator(&cube)
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -44,6 +45,9 @@ public:
 
         floor = glm::scale(floor, glm::vec3(10.0, 0.2, 10.0));
         floor = glm::translate(floor, glm::vec3(0, -6.2, 0));
+
+        animator.testAnim = &anim2;
+        animator.playAnimation(&anim);
 
         //cube.setColor(glm::vec3(0, 1, 0));
         //cube.setTransform(floor);
@@ -78,8 +82,19 @@ public:
             camera.setPosition(moveDirection);
         }
 
+        ImGui::Begin("blend");
+        ImGui::SliderFloat("factor", &animator.testFactor, 0.0, 1.0);
+        ImGui::End();
+
+        glm::mat4 transform = glm::mat4(1.0);
+
+        transform = glm::scale(transform, glm::vec3(0.01));
+        transform = glm::rotate(transform, glm::radians(90.0f), glm::vec3(1, 0, 0));
+
+
         animator.prepareModel();
-        animator.update(delta);
+        animator.updateBlended(delta, transform);
+       // animator.update(delta, transform);
 
         cube.draw();
     }
@@ -113,6 +128,7 @@ public:
     Octo::SkyBox skybox;
     Octo::Model cube;
     Octo::Animation anim;
+    Octo::Animation anim2;
     Octo::Animator animator;
 
     float cameraSpeed = 5.0f;

@@ -5,6 +5,7 @@ using Octo::Buffer;
 /*
     @IMPORTANT
     First unbind EBO and VBO then unbind VAO!
+    (maybe not xd)
 */
 
 Buffer::Buffer(BufferType type)
@@ -15,7 +16,8 @@ Buffer::Buffer(BufferType type)
 
 Buffer::~Buffer()
 {
-    glDeleteBuffers(1, &m_Identity);
+    // TODO @ FIX IT SOMEDAY IT'S RAHTER MODEL.CPP ISSUE THAN THIS DECONSTRUCTOR
+    //glDeleteBuffers(1, &m_Identity);
 }
 
 void Buffer::setData(size_t size, void* data, DrawMode mode)

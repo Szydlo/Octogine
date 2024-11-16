@@ -2,6 +2,8 @@
 
 using Octo::Model;
 
+// @ TODO make it more flexible, mainly abillity to easily add new format other than gltf
+
 Model::Model(std::string path)
     : m_Shader("../../../assets/shaders/skeletal.vs", "../../../assets/shaders/skeletal.fs")
 {
@@ -33,10 +35,10 @@ Model::Model(std::string path)
 
         auto* vert = mesh.primitives[0].findAttribute("POSITION");
         vertices.resize(assets.accessors[vert->accessorIndex].count); // @ TODO lil hack change it someday to something better
-
-        for (auto it = mesh.primitives.begin(); it != mesh.primitives.end(); it++)
+    
+        for (auto& p : mesh.primitives)
         {
-            auto* positionIt = it->findAttribute("POSITION");
+            auto* positionIt = p.findAttribute("POSITION");
             auto& positionAccesor = assets.accessors[positionIt->accessorIndex];
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, positionAccesor,
@@ -46,7 +48,7 @@ Model::Model(std::string path)
                 }
             );
 
-            auto* normalIt = it->findAttribute("NORMAL");
+            auto* normalIt = p.findAttribute("NORMAL");
             auto& normalAccessor = assets.accessors[normalIt->accessorIndex];
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, normalAccessor,
@@ -56,7 +58,7 @@ Model::Model(std::string path)
                 }
             );
 
-            auto* texCoordIt = it->findAttribute("TEXCOORD_0");
+            auto* texCoordIt = p.findAttribute("TEXCOORD_0");
             auto& texCoordAccesor = assets.accessors[texCoordIt->accessorIndex];
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec2>(assets, texCoordAccesor,
@@ -66,14 +68,14 @@ Model::Model(std::string path)
                 }
             );
 
-            auto& indexAccessor = assets.accessors[it->indicesAccessor.value()];
+            auto& indexAccessor = assets.accessors[p.indicesAccessor.value()];
             
             for (auto element : fastgltf::iterateAccessor<std::uint32_t>(assets, indexAccessor))
             {
                 indices.push_back(element);
             }
 
-            auto* weightIt = it->findAttribute("WEIGHTS_0");
+            auto* weightIt = p.findAttribute("WEIGHTS_0");
             auto& weightAccessor = assets.accessors[weightIt->accessorIndex];
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, weightAccessor,
@@ -86,7 +88,7 @@ Model::Model(std::string path)
             }
             );
 
-            auto* jointIt = it->findAttribute("JOINTS_0");
+            auto* jointIt = p.findAttribute("JOINTS_0");
             auto& jointAccessor = assets.accessors[jointIt->accessorIndex];
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, jointAccessor,
@@ -103,6 +105,7 @@ Model::Model(std::string path)
         m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/character.png");
     }
 
+    
     for (auto& skin : assets.skins)
     {
         fastgltf::Skin;
@@ -147,7 +150,6 @@ Model::Model(std::string path)
         );
 
     }
-    
 }
 
 void Model::draw()

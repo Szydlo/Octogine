@@ -10,7 +10,8 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
-   	glDeleteVertexArrays(1, &m_Identity);
+	// TODO @ FIX IT SOMEDAY IT'S RAHTER MODEL.CPP ISSUE THAN THIS DECONSTRUCTOR
+   //glDeleteVertexArrays(1, &m_Identity);
 }
 
 void VertexArray::bind()

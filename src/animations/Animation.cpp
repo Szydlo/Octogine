@@ -2,7 +2,7 @@
 
 using Octo::Animation;
 
-Animation::Animation(std::string path)
+Animation::Animation(std::string path, int animation)
 {
     fastgltf::Parser parser;
     std::filesystem::path fpath(path);
@@ -29,7 +29,7 @@ Animation::Animation(std::string path)
         return;
     }
 
-    auto& anim = assets.animations[1];
+    auto& anim = assets.animations[animation];
 
     for (auto& channel : anim.channels)
     {
