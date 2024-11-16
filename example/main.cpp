@@ -46,9 +46,6 @@ public:
         floor = glm::scale(floor, glm::vec3(10.0, 0.2, 10.0));
         floor = glm::translate(floor, glm::vec3(0, -6.2, 0));
 
-        animator.testAnim = &anim2;
-        animator.playAnimation(&anim);
-
         //cube.setColor(glm::vec3(0, 1, 0));
         //cube.setTransform(floor);
     }
@@ -83,7 +80,7 @@ public:
         }
 
         ImGui::Begin("blend");
-        ImGui::SliderFloat("factor", &animator.testFactor, 0.0, 1.0);
+        ImGui::SliderFloat("factor", &blendF, 0.0, 1.0);
         ImGui::End();
 
         glm::mat4 transform = glm::mat4(1.0);
@@ -93,8 +90,8 @@ public:
 
 
         animator.prepareModel();
-        animator.updateBlended(delta, transform);
-       // animator.update(delta, transform);
+        //animator.updateAnimation(&anim, delta, transform);
+        animator.updateBlended(&anim, &anim2, blendF, delta, transform);
 
         cube.draw();
     }
@@ -133,6 +130,8 @@ public:
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
+
+    float blendF = 0.0f;
 
     std::optional<float> lastMouseX, lastMouseY;
 

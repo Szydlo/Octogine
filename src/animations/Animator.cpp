@@ -13,12 +13,6 @@ Animator::Animator(Model* model)
     }
 }
 
-void Animator::playAnimation(Animation* animation)
-{
-    m_CurrentAnimation = animation;
-    m_CurrentTime = 0;
-}
-
 void Animator::prepareModel()
 {
     for (int i = 0; i < m_finalBoneMatrices.size(); i++)
@@ -28,50 +22,51 @@ void Animator::prepareModel()
     }
 }
 
-void Animator::update(double deltaTime, glm::mat4 parentTransform)
+void Animator::updateAnimation(Animation* anim, double deltaTime, glm::mat4 parentTransform)
 {
-    if (!m_CurrentAnimation || !m_CurrentModel) { return; }
+    if (!anim || !m_CurrentModel) { return; }
 
     //m_CurrentTime += m_CurrentAnimation->getFramesPerSecond() * deltaTime;
     // TODO @ I THINK GETFRAMESPERSECOND IS FUCKED
-    m_CurrentTime += deltaTime;
-    if (m_CurrentTime > m_CurrentAnimation->getDuration()) { m_CurrentTime = 0; }
+    anim->currentTime += deltaTime;
+    if (anim->currentTime > anim->getDuration()) { anim->currentTime = 0; }
 
     auto& rootBone = m_CurrentModel->getSkeleton().bones[0];
     int index = 0;
 
-    calculateBonesTransform(m_CurrentAnimation, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
+    calculateBonesTransform(anim, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
 }
 
-void Animator::updateBlended(double deltaTime, glm::mat4 parentTransform)
+void Animator::updateBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, double deltaTime, glm::mat4 parentTransform)
 {
-    if (!m_CurrentAnimation || !m_CurrentModel) { return; }
+    if (!baseAnim || !m_CurrentModel) { return; }
+
+    // @ TODO THIS TIME CALC MIGHT BE A LITTLE BIT BUGGED
 
     float a = 1.0f;
-    float b = m_CurrentAnimation->getDuration() / testAnim->getDuration();
-    const float animSpeedMultiplierUp = (1.0f - testFactor) * a + b * testFactor; // Lerp
+    float b = baseAnim->getDuration() / secondAnim->getDuration();
+    const float animSpeedMultiplierUp = (1.0f - blendFactor) * a + b * blendFactor; // Lerp
 
-    a = testAnim->getDuration() / m_CurrentAnimation->getDuration();
+    a = secondAnim->getDuration() / baseAnim->getDuration();
     b = 1.0f;
-    const float animSpeedMultiplierDown = (1.0f - testFactor) * a + b * testFactor; // Lerp
+    const float animSpeedMultiplierDown = (1.0f - blendFactor) * a + b * blendFactor; // Lerp
 
     // Current time of each animation, "scaled" by the above speed multiplier variables
-    m_CurrentTime += deltaTime * animSpeedMultiplierUp;
-    m_CurrentTime = fmod(m_CurrentTime, m_CurrentAnimation->getDuration());
+    baseAnim->currentTime += deltaTime * animSpeedMultiplierUp;
+    baseAnim->currentTime = fmod(baseAnim->currentTime, baseAnim->getDuration());
 
-    m_HelpTime += deltaTime * animSpeedMultiplierDown;
-    m_HelpTime = fmod(m_HelpTime, testAnim->getDuration());
+    secondAnim->currentTime += deltaTime * animSpeedMultiplierDown;
+    secondAnim->currentTime = fmod(secondAnim->currentTime, secondAnim->getDuration());
 
     auto& rootBone = m_CurrentModel->getSkeleton().bones[0];
     int index = 0;
 
-    calculateBonesTransform(m_CurrentAnimation, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
+    calculateBonesTransformsBlended(baseAnim, secondAnim, blendFactor, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
 }
 
-/*
 void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
 {
-    auto& boneTransform = anim->calculateBoneInterpolation(bone.name, m_CurrentTime);
+    auto& boneTransform = anim->calculateBoneInterpolation(bone.name, anim->currentTime);
     glm::mat4 globalTransform = parentTransform * boneTransform;
     glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
 
@@ -83,20 +78,18 @@ void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBon
         auto& childBone = skeleton.bones[skeleton.getBoneID(child)];
         calculateBonesTransform(anim, skeleton, childBone, globalTransform, index);
     }
-}*/
+}
 
-void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
+void Animator::calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
 {
-    float factor = testFactor;
-
-    auto& boneTransform = anim->calculateBoneInterpolation(bone.name, m_CurrentTime);
-    auto& boneTransform2 = testAnim->calculateBoneInterpolation(bone.name, m_HelpTime);
+    auto& boneTransform = baseAnim->calculateBoneInterpolation(bone.name, baseAnim->currentTime);
+    auto& boneTransform2 = secondAnim->calculateBoneInterpolation(bone.name, secondAnim->currentTime);
 
     const glm::quat rot0 = glm::quat_cast(boneTransform);
     const glm::quat rot1 = glm::quat_cast(boneTransform2);
-    const glm::quat finalRot = glm::slerp(rot0, rot1, factor);
+    const glm::quat finalRot = glm::slerp(rot0, rot1, blendFactor);
     glm::mat4 blendedMat = glm::mat4_cast(finalRot);
-    blendedMat[3] = (1.0f - factor) * boneTransform[3] + boneTransform2[3] * factor;
+    blendedMat[3] = (1.0f - blendFactor) * boneTransform[3] + boneTransform2[3] * blendFactor;
 
     glm::mat4 globalTransform = parentTransform * blendedMat;
     glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
@@ -107,6 +100,6 @@ void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBon
     for (auto& child : bone.children)
     {
         auto& childBone = skeleton.bones[skeleton.getBoneID(child)];
-        calculateBonesTransform(anim, skeleton, childBone, globalTransform, index);
+        calculateBonesTransformsBlended(baseAnim, secondAnim, blendFactor, skeleton, childBone, globalTransform, index);
     }
 }

@@ -48,6 +48,8 @@ namespace Octo
             int getFramesPerSecond() { return m_framesPerSecond; }
 
             glm::mat4 calculateBoneInterpolation(std::string boneName, float timeStamp);
+        
+            float currentTime = 0.0f;
         private:
             void fillTimeStamps(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& inputAccessor, std::string boneName);
             void fillKeyFrames(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& outputAccessor, std::string boneName);

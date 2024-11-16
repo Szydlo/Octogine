@@ -26,6 +26,8 @@ Model::Model(std::string path)
 
     auto& assets = asset.get();
 
+
+    // @ TODO ADD MATERIAL SUPPORT
     for (auto& mesh : assets.meshes)
     {
         spdlog::info("Loading mesh: {}", mesh.name);
@@ -148,7 +150,6 @@ Model::Model(std::string path)
                 m_Skeleton.bones[idx].inverseBindMatrix = converted;
             }
         );
-
     }
 }
 
