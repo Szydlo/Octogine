@@ -34,6 +34,7 @@ namespace Octo
             int getHeight() { return m_Height; }
 
             double getTickCount() { return glfwGetTime(); }
+            double getDeltaTime() { return m_DeltaTime; }
         private:
             int m_Width, m_Height;
             double m_DeltaTime;
