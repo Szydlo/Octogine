@@ -110,7 +110,6 @@ Model::Model(std::string path)
     
     for (auto& skin : assets.skins)
     {
-        fastgltf::Skin;
         spdlog::info("Loading skeleton: {}", skin.name);
 
         m_Skeleton.name = skin.name;

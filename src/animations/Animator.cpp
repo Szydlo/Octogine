@@ -82,8 +82,8 @@ void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBon
 
 void Animator::calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
 {
-    auto& boneTransform = baseAnim->calculateBoneInterpolation(bone.name, baseAnim->currentTime);
-    auto& boneTransform2 = secondAnim->calculateBoneInterpolation(bone.name, secondAnim->currentTime);
+    auto boneTransform = baseAnim->calculateBoneInterpolation(bone.name, baseAnim->currentTime);
+    auto boneTransform2 = secondAnim->calculateBoneInterpolation(bone.name, secondAnim->currentTime);
 
     const glm::quat rot0 = glm::quat_cast(boneTransform);
     const glm::quat rot1 = glm::quat_cast(boneTransform2);
