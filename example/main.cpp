@@ -24,10 +24,8 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/archer.glb"),
-        anim("../../../assets/models/walkarch.glb"),
-        anim2("../../../assets/models/run.glb"),
-        animator(&cube)
+        cube("../../../assets/models/cube.glb"),
+        shadow(glm::vec2(1024))
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -41,13 +39,8 @@ public:
     {
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setSkyBox(skybox);
+        Octo::Renderer::setDirectionalLight(dirLight);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
-
-        floor = glm::scale(floor, glm::vec3(10.0, 0.2, 10.0));
-        floor = glm::translate(floor, glm::vec3(0, -6.2, 0));
-
-        //cube.setColor(glm::vec3(0, 1, 0));
-        //cube.setTransform(floor);
     }
 
     void click(int key, bool pressed)
@@ -67,6 +60,31 @@ public:
         }
     }
 
+    void scene(bool depth)
+    {
+        cube.setTransform(glm::mat4(1.0));
+        cube.setColor(glm::vec3(1.0, 0.0, 0.0));
+
+        Octo::Shader& cubeShader = cube.getShader();
+        cubeShader.bind();
+        cubeShader.setInt("shadowMap", 0);
+        cubeShader.setMat4("lightSpaceMatrix", shadow.getLightSpaceMatrix());
+
+        shadow.getDepthTexture().bind();
+        if (!depth) cube.draw(true);
+        if (depth) cube.draw(shadow.getDepthShader());
+
+        glm::mat4 transform = glm::mat4(1.0);
+        transform = glm::translate(transform, glm::vec3(0, -2, 0));
+        transform = glm::scale(transform, glm::vec3(5, 0.2, 5.0));
+
+        cube.setTransform(transform);
+        cube.setColor(glm::vec3(0.2, 0.8, 0.1));
+
+        shadow.getDepthTexture().bind();
+        if (!depth) cube.draw(true);
+        if (depth) cube.draw(shadow.getDepthShader());
+    }
 
     void update(double delta)
     {
@@ -79,21 +97,11 @@ public:
             camera.setPosition(moveDirection);
         }
 
-        ImGui::Begin("blend");
-        ImGui::SliderFloat("factor", &blendF, 0.0, 1.0);
-        ImGui::End();
+        shadow.startPass();
+        scene(true);
+        shadow.endPass();
 
-        glm::mat4 transform = glm::mat4(1.0);
-
-        transform = glm::scale(transform, glm::vec3(0.01));
-        transform = glm::rotate(transform, glm::radians(90.0f), glm::vec3(1, 0, 0));
-
-
-        animator.prepareModel();
-        //animator.updateAnimation(&anim, delta, transform);
-        animator.updateBlended(&anim, &anim2, blendF, delta, transform);
-
-        cube.draw();
+        scene(false);
     }
 
     void mouseMove(double x, double y)
@@ -123,15 +131,12 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     Octo::SkyBox skybox;
+    Octo::DirectionalLight dirLight;
+    Octo::Shadow shadow;
     Octo::Model cube;
-    Octo::Animation anim;
-    Octo::Animation anim2;
-    Octo::Animator animator;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
-
-    float blendF = 0.0f;
 
     std::optional<float> lastMouseX, lastMouseY;
 

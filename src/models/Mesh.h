@@ -20,8 +20,8 @@ namespace Octo
         glm::vec2 txtCoord = glm::vec2(0);
         glm::vec3 normal = glm::vec3(0);
 
-        int boneIDs[cMaxBoneInfluence];
-        float weights[cMaxBoneInfluence];
+        int boneIDs[cMaxBoneInfluence] = {0};
+        float weights[cMaxBoneInfluence] = {0};
 
        /* glm::vec3 tangent = glm::vec3(0);
         glm::vec3 bitangent = glm::vec3(0);*/

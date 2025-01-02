@@ -4,9 +4,12 @@ using Octo::Model;
 
 // @ TODO make it more flexible, mainly abillity to easily add new format other than gltf
 
-Model::Model(std::string path)
-    : m_Shader("../../../assets/shaders/skeletal.vs", "../../../assets/shaders/skeletal.fs")
+Model::Model(std::string path, bool loadSkeleton)
+    : m_Shader("../../../assets/shaders/main.vs", "../../../assets/shaders/main.fs")
 {
+    if (loadSkeleton)
+        m_Shader = Shader("../../../assets/shaders/skeletal.vs", "../../../assets/shaders/skeletal.fs");
+
     fastgltf::Parser parser;
     std::filesystem::path fpath(path);
 
@@ -80,34 +83,40 @@ Model::Model(std::string path)
             auto* weightIt = p.findAttribute("WEIGHTS_0");
             auto& weightAccessor = assets.accessors[weightIt->accessorIndex];
 
-            fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, weightAccessor,
-                [&](fastgltf::math::fvec4 weights, std::size_t idx)
-                {
-                    vertices[idx].weights[0] = weights.w();
-                    vertices[idx].weights[1] = weights.x();
-                    vertices[idx].weights[2] = weights.y();
-                    vertices[idx].weights[3] = weights.z();
-            }
-            );
+            if (!weightIt->name.empty())   
+            {
+                fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, weightAccessor,
+                    [&](fastgltf::math::fvec4 weights, std::size_t idx)
+                    {
+                        vertices[idx].weights[0] = weights.w();
+                        vertices[idx].weights[1] = weights.x();
+                        vertices[idx].weights[2] = weights.y();
+                        vertices[idx].weights[3] = weights.z();
+                });
+            }         
 
             auto* jointIt = p.findAttribute("JOINTS_0");
             auto& jointAccessor = assets.accessors[jointIt->accessorIndex];
 
-            fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, jointAccessor,
-                [&](fastgltf::math::fvec4 joints, std::size_t idx)
-                {
-                    vertices[idx].boneIDs[0] = joints.w();
-                    vertices[idx].boneIDs[1] = joints.x();
-                    vertices[idx].boneIDs[2] = joints.y();
-                    vertices[idx].boneIDs[3] = joints.z();
-                }
-            );
+            if (!jointIt->name.empty())
+            {
+                fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec4>(assets, jointAccessor,
+                    [&](fastgltf::math::fvec4 joints, std::size_t idx)
+                    {
+                        vertices[idx].boneIDs[0] = joints.w();
+                        vertices[idx].boneIDs[1] = joints.x();
+                        vertices[idx].boneIDs[2] = joints.y();
+                        vertices[idx].boneIDs[3] = joints.z();
+                    });
+            }
         }
 
         m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/character.png");
     }
 
     
+    if (!loadSkeleton) return;
+
     for (auto& skin : assets.skins)
     {
         spdlog::info("Loading skeleton: {}", skin.name);
@@ -152,12 +161,24 @@ Model::Model(std::string path)
     }
 }
 
-void Model::draw()
+void Model::draw(bool useColor)
 {
     for (auto& mesh : m_Meshes)
     {
+        m_Shader.bind();
+        m_Shader.setBool("useColor", useColor);
+        m_Shader.setVec3("color", m_Color);
+
 		mesh.draw(m_Shader, m_Transform);
     }  
+}
+
+void Model::draw(Shader& shader)
+{
+    for (auto& mesh : m_Meshes)
+    {
+        mesh.draw(shader, m_Transform);
+    }
 }
 
 Model::~Model()
