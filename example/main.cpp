@@ -24,7 +24,6 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        cube("../../../assets/models/cube.glb"),
         shadow(glm::vec2(1024))
     {
         Events::onStart.connect(&Game::start, this);
@@ -41,6 +40,13 @@ public:
         Octo::Renderer::setSkyBox(skybox);
         Octo::Renderer::setDirectionalLight(dirLight);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
+
+        Octo::AssetManager::loadAsset("cube", Octo::AssetType::Model, "../../../assets/models/cube.glb");
+        cube = Octo::AssetManager::getAsset<Octo::Model>("cube");
+        //Octo::AssetManager::loadAsset("backjpg", Octo::AssetType::Texture2D, "../../../assets/textures/skybox/back.jpg");
+        //auto asset = Octo::AssetManager::getAsset<Octo::Texture2D>("backjpg");
+      //  Octo::Asset<Octo::Texture2D> asset;
+       // auto asdas = asset.get();
     }
 
     void click(int key, bool pressed)
@@ -62,28 +68,28 @@ public:
 
     void scene(bool depth)
     {
-        cube.setTransform(glm::mat4(1.0));
-        cube.setColor(glm::vec3(1.0, 0.0, 0.0));
+        cube->setTransform(glm::mat4(1.0));
+        cube->setColor(glm::vec3(1.0, 0.0, 0.0));
 
-        Octo::Shader& cubeShader = cube.getShader();
+        Octo::Shader& cubeShader = cube->getShader();
         cubeShader.bind();
         cubeShader.setInt("shadowMap", 0);
         cubeShader.setMat4("lightSpaceMatrix", shadow.getLightSpaceMatrix());
 
         shadow.getDepthTexture().bind();
-        if (!depth) cube.draw(true);
-        if (depth) cube.draw(shadow.getDepthShader());
+        if (!depth) cube->draw(true);
+        if (depth) cube->draw(shadow.getDepthShader());
 
         glm::mat4 transform = glm::mat4(1.0);
         transform = glm::translate(transform, glm::vec3(0, -2, 0));
         transform = glm::scale(transform, glm::vec3(5, 0.2, 5.0));
 
-        cube.setTransform(transform);
-        cube.setColor(glm::vec3(0.2, 0.8, 0.1));
+        cube->setTransform(transform);
+        cube->setColor(glm::vec3(0.2, 0.8, 0.1));
 
         shadow.getDepthTexture().bind();
-        if (!depth) cube.draw(true);
-        if (depth) cube.draw(shadow.getDepthShader());
+        if (!depth) cube->draw(true);
+        if (depth) cube->draw(shadow.getDepthShader());
     }
 
     void update(double delta)
@@ -133,8 +139,8 @@ public:
     Octo::SkyBox skybox;
     Octo::DirectionalLight dirLight;
     Octo::Shadow shadow;
-    Octo::Model cube;
-
+    std::shared_ptr<Octo::Model> cube;
+    
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
 

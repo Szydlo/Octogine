@@ -30,11 +30,12 @@
 #include "audio/Sound.h"
 #include "audio/AudioListener.h"
 
-#include "models/Mesh.h"
 #include "models/Model.h"
 
 #include "animations/Animation.h"
 #include "animations/Animator.h"
+
+#include "assetmanager/AssetManager.h"
 
 /* 
     API CHEATSHEET
@@ -83,7 +84,7 @@
     Ocotogine::SkeletalMesh + Model - contains regular mesh + bones and positions - done
     Octogine::Animator - (blends between animations and plays them with skeletal mesh) - done
 
-    v0.7 - ASSET MANAGER
+    v0.7 - ASSET MANAGER - DONE
 
     v0.8 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM?
 

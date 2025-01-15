@@ -15,13 +15,13 @@ Model::Model(std::string path, bool loadSkeleton)
 
     auto data = fastgltf::GltfDataBuffer::FromPath(fpath);
     if (data.error() != fastgltf::Error::None) {
-        spdlog::error("error");
+        spdlog::error("fastgltf error");
         return;
     }
 
     auto asset = parser.loadGltf(data.get(), fpath.parent_path(), fastgltf::Options::None);
     if (auto error = asset.error(); error != fastgltf::Error::None) {
-        spdlog::error("error");
+        spdlog::error("fastgltf error");
         return;
     }
 

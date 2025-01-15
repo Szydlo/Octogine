@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mesh.h"
+#include "./Mesh.h"
 #include "../graphics/Shader.h"
 
 #include "../animations/Skeleton.h"
