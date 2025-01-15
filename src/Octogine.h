@@ -83,27 +83,23 @@
     Ocotogine::SkeletalMesh + Model - contains regular mesh + bones and positions - done
     Octogine::Animator - (blends between animations and plays them with skeletal mesh) - done
 
-    v0.7 - ADVANCED LIGHTING
-    Octogine::HDR
-    Octogine::Normal
-    Octogine::Parallax
-    Octogine::SSAO
-    Octogine::Bloom
+    v0.7 - ASSET MANAGER
 
-    v0.8 - MATERIALS
-    Octogine::Material - ability to create a PBR material.
-    (optional) Octogine::Patricles (cpu or gpu idk)
+    v0.8 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM?
+
+    v0.9 & 1.0 - RENDERER & MATERIALS
+    Octogine::HDR
+    Octogine::PBR (with normals)
+    Octogine::Emission lighting
+    Octogine::SSAO
 
     To finish v0.8 create scene with multiple point lights, materials, shiny and plastic,
     with reflection, like mirror, and different objects and shadows.
 
-    v0.9 - ASSET MANAGER
 
-    v1.0 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM?
-
-    v1.1 - FIXING BUGS, BASIC GAME
-    v1.2 - SCRIPTING LANGUAGE
-    v1.2 - TOOLS LIKE EDITOR
-    v1.3 - NETWORKING
+    v1.1 - TOOLS LIKE EDITOR
+    v1.2 - FIXING BUGS, BASIC GAME
+    v1.3 - SCRIPTING LANGUAGE
     v1.4 - Vehicles, softbodies
+    v1.5 - NETWORKING
 */
