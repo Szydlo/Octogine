@@ -23,8 +23,7 @@ public:
             "../../../assets/textures/skybox/bottom.jpg",
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
-        }),
-        shadow(glm::vec2(1024))
+        })
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -38,15 +37,7 @@ public:
     {
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setSkyBox(skybox);
-        Octo::Renderer::setDirectionalLight(dirLight);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
-
-        Octo::AssetManager::loadAsset("cube", Octo::AssetType::Model, "../../../assets/models/cube.glb");
-        cube = Octo::AssetManager::getAsset<Octo::Model>("cube");
-        //Octo::AssetManager::loadAsset("backjpg", Octo::AssetType::Texture2D, "../../../assets/textures/skybox/back.jpg");
-        //auto asset = Octo::AssetManager::getAsset<Octo::Texture2D>("backjpg");
-      //  Octo::Asset<Octo::Texture2D> asset;
-       // auto asdas = asset.get();
     }
 
     void click(int key, bool pressed)
@@ -66,31 +57,45 @@ public:
         }
     }
 
-    void scene(bool depth)
+    /*
+    bool ent = false;
+    bool is3d = false;
+
+    void setInsepctor(Octo::Entity& ent)
     {
-        cube->setTransform(glm::mat4(1.0));
-        cube->setColor(glm::vec3(1.0, 0.0, 0.0));
-
-        Octo::Shader& cubeShader = cube->getShader();
-        cubeShader.bind();
-        cubeShader.setInt("shadowMap", 0);
-        cubeShader.setMat4("lightSpaceMatrix", shadow.getLightSpaceMatrix());
-
-        shadow.getDepthTexture().bind();
-        if (!depth) cube->draw(true);
-        if (depth) cube->draw(shadow.getDepthShader());
-
-        glm::mat4 transform = glm::mat4(1.0);
-        transform = glm::translate(transform, glm::vec3(0, -2, 0));
-        transform = glm::scale(transform, glm::vec3(5, 0.2, 5.0));
-
-        cube->setTransform(transform);
-        cube->setColor(glm::vec3(0.2, 0.8, 0.1));
-
-        shadow.getDepthTexture().bind();
-        if (!depth) cube->draw(true);
-        if (depth) cube->draw(shadow.getDepthShader());
+        selectedNode = &ent;
     }
+
+    void hierarchy(Octo::Entity& ent)
+    {
+        if (!ent.hasChildren())
+            if (ImGui::TreeNodeEx(ent.getName().c_str(), ImGuiTreeNodeFlags_Leaf)) 
+            { 
+                if (ImGui::IsItemClicked())
+                {
+                    setInsepctor(ent);
+                }
+
+                ImGui::TreePop(); 
+
+                return; 
+            }
+
+        if (ImGui::TreeNodeEx(ent.getName().c_str())) 
+        { 
+            if (ImGui::IsItemClicked())
+            {
+                setInsepctor(ent);
+            }
+
+            for (auto& child : ent.getChildren())
+            {
+                hierarchy(child);
+            }
+
+            ImGui::TreePop(); 
+        }
+    }*/
 
     void update(double delta)
     {
@@ -103,11 +108,44 @@ public:
             camera.setPosition(moveDirection);
         }
 
-        shadow.startPass();
-        scene(true);
-        shadow.endPass();
+    /*
+       ImGui::Begin("Scene Hierarchy");
 
-        scene(false);
+        if (ImGui::TreeNodeEx(("scene: %s", scene.getName().c_str())))
+        {
+            for (auto& object : scene.getChildren())
+            {
+                hierarchy(object);
+            }
+
+            ImGui::TreePop();
+        }
+
+        scene.update(delta);
+
+        ImGui::End();
+
+        ImGui::Begin("Inspector");
+
+        if (selectedNode != nullptr)
+        {
+            ImGui::LabelText(selectedNode->getName().c_str(), "name: ");
+
+            if (dynamic_cast<Octo::Node3D*>(selectedNode))
+            {
+                Octo::Node3D* sn = dynamic_cast<Octo::Node3D*>(selectedNode);
+
+                float pos[3];
+            
+                pos[0] = sn->getPosition().x;
+                pos[1] = sn->getPosition().y;
+                pos[2] = sn->getPosition().z;
+
+                ImGui::InputFloat3("pos", pos);
+            }
+        }
+
+        ImGui::End();*/
     }
 
     void mouseMove(double x, double y)
@@ -137,9 +175,6 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     Octo::SkyBox skybox;
-    Octo::DirectionalLight dirLight;
-    Octo::Shadow shadow;
-    std::shared_ptr<Octo::Model> cube;
     
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

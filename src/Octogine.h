@@ -37,6 +37,9 @@
 
 #include "assetmanager/AssetManager.h"
 
+#include "scenes/Scene.h"
+#include "scenes/3D/Node3D.h"
+
 /* 
     API CHEATSHEET
 

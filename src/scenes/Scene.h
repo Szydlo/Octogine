@@ -1,22 +1,12 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include "Object.h"
+#include "Entity.h"
 
 namespace Octo
 {
-    class Scene
+    class Scene : public Entity
     {
         public:
             Scene(std::string name = "");
-
-            void createObject();
-            void removeObject();
-
-            void update(double delta);
-        private:
-            std::string m_Name;
-            std::vector<Object> m_Objects;
     };
 };
