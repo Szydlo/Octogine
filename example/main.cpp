@@ -194,7 +194,7 @@ public:
 
         ImGui::End();
 
-        scene.update(delta);
+        //scene.update(delta);
     }
 
     void mouseMove(double x, double y)

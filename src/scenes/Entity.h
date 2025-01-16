@@ -1,5 +1,8 @@
 #pragma once
 
+#include "../core/Events.h"
+#include "spdlog/spdlog.h"
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -12,7 +15,8 @@ namespace Octo
             Entity() = default;
             Entity(std::string name = "");
 
-            virtual void update(double deltaTime);
+            virtual void onStart();
+            virtual void onUpdate(double deltaTime);
 
             void addChild(Entity* entity)
             {

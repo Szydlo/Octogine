@@ -11,9 +11,9 @@ namespace Octo
             Sun3D(std::string name)
             : Node3D(name) {}
 
-            void update(double deltaTime) override
+            void onUpdate(double deltaTime) override
             {
-                Node3D::update(deltaTime);
+                Node3D::onUpdate(deltaTime);
                 m_DirLight.direction = m_Transform.rotation;
                 Renderer::setDirectionalLight(m_DirLight);
             }

@@ -10,9 +10,9 @@ namespace Octo
             Model3D(std::string name, std::string path)
             : Node3D(name), m_Model(path), m_Path(path) {}
 
-            void update(double deltaTime) override
+            void onUpdate(double deltaTime) override
             {
-                Node3D::update(deltaTime);
+                Node3D::onUpdate(deltaTime);
                 m_Model.setTransform(m_Transform.getMat4());
                 m_Model.setColor(m_Color);
                 m_Model.draw(m_UseColor);
