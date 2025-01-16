@@ -23,7 +23,7 @@ FetchContent_MakeAvailable(JoltPhysics)
 set_target_properties(Jolt PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 project(Octogine 
-    VERSION 0.6
+    VERSION 0.8 
     DESCRIPTION "Light-weight game engine"
 )
 

@@ -142,6 +142,16 @@ public:
         {
             ImGui::LabelText(selectedNode->getName().c_str(), "selected node: ");
 
+            if (selectedNode->getParent())
+            {
+                std::string& parentName = selectedNode->getParent()->getName();
+                ImGui::LabelText(parentName.data(), "parent: ");
+            }
+            else 
+            {
+                ImGui::LabelText("none", "parent: ");
+            }
+
             if (ImGui::CollapsingHeader("Entity"))
             {
                 ImGui::InputText(selectedNode->getName().data(), "name: ", selectedNode->getName().size(), ImGuiInputTextFlags_ReadOnly);

@@ -91,7 +91,7 @@
 
     v0.7 - ASSET MANAGER - DONE
 
-    v0.8 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM? - DONE
+    v0.8 - SCENE SYSTEM  - DONE
 
     v0.9 & 1.0 - RENDERER & MATERIALS
     Octogine::Normals

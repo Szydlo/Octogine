@@ -17,6 +17,7 @@ namespace Octo
             void addChild(Entity* entity)
             {
                 m_Children.push_back(entity);
+                entity->setParent(this);
             }
 
             bool hasChildren() 
@@ -37,10 +38,17 @@ namespace Octo
                 return dynamic_cast<T>(this);
             }
 
+            void setParent(Entity* entity)
+            {
+                m_Parent = entity;
+            }
+
+            Entity* getParent() { return m_Parent; }
+
             std::string& getName() { return m_Name; }
             std::vector<Entity*>& getChildren() { return m_Children;}
         protected:
-            std::shared_ptr<Entity> m_Parent;
+            Entity* m_Parent = nullptr;
             std::string m_Name;
             std::vector<Entity*> m_Children;
     };
