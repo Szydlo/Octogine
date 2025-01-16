@@ -2,21 +2,16 @@
 
 using Octo::Entity;
 
-Entity::Entity(std::string name, std::shared_ptr<Entity> parent)
-    : m_Name(name), m_Parent(parent)
+Entity::Entity(std::string name)
+    : m_Name(name)
 {
-
+    
 }
 
 void Entity::update(double deltaTime)
 {
-    for (auto& child : m_Children)
+    for (auto child : m_Children)
     {
-        child.update(deltaTime);
+        child->update(deltaTime);
     }
-}
-
-void Entity::setParent(std::shared_ptr<Entity> parent)
-{
-    m_Parent = parent;
 }

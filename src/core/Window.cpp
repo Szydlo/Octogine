@@ -80,6 +80,9 @@ void Window::start()
     double currentFrame;
 	double lastFrame = getTickCount();
 
+    unsigned int frameCount = 0;
+    double lastFrameTime = getTickCount();
+
     Physics::optimizeBroadPhase();
 
     while(!glfwWindowShouldClose(m_NativeWindow))
@@ -93,7 +96,17 @@ void Window::start()
             ImGui::NewFrame();
         }
 
+        frameCount++;
         currentFrame = getTickCount();
+
+        if (currentFrame - lastFrameTime >= 1.0) // one second
+        {
+            m_CurrentFPS = frameCount;
+
+            frameCount = 0;
+            lastFrameTime = currentFrame;
+        }
+
         m_DeltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 

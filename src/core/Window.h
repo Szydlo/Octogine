@@ -35,10 +35,14 @@ namespace Octo
 
             double getTickCount() { return glfwGetTime(); }
             double getDeltaTime() { return m_DeltaTime; }
+
+            unsigned int getFPS() { return m_CurrentFPS; }
         private:
             int m_Width, m_Height;
             double m_DeltaTime;
             std::string m_Title;
             GLFWwindow* m_NativeWindow;
+
+            unsigned int m_CurrentFPS = 0;
     };
 };

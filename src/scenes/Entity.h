@@ -9,36 +9,15 @@ namespace Octo
     class Entity
     {
         public:
-            Entity(std::string name = "", std::shared_ptr<Entity> parent = nullptr);
+            Entity() = default;
+            Entity(std::string name = "");
 
             virtual void update(double deltaTime);
-            void setParent(std::shared_ptr<Entity> parent);
-            
-            void addChild(Entity child) 
-            { 
-                m_Children.push_back(child); 
-                m_Children[m_Children.size()-1].setParent(std::make_shared<Entity>(this)); 
-            }
 
-            Entity& createChild(Entity child) 
-            { 
-                m_Children.emplace_back(child); 
-                m_Children[m_Children.size()-1].setParent(std::make_shared<Entity>(this)); 
-
-                return m_Children[m_Children.size()-1]; 
-            }
-
-            Entity& getChildByName(std::string name)
+            void addChild(Entity* entity)
             {
-                for (auto& child : m_Children)
-                {
-                    if (child.getName() == name)
-                    {
-                        return child;
-                    }
-                }
+                m_Children.push_back(entity);
             }
-
 
             bool hasChildren() 
             {
@@ -47,11 +26,22 @@ namespace Octo
                 return false;
             }
 
+            template<typename T>
+            bool isA()
+            {
+                return (dynamic_cast<T*>(this) != NULL);
+            }
+
+            template<typename T> T as()
+            {
+                return dynamic_cast<T>(this);
+            }
+
             std::string& getName() { return m_Name; }
-            //std::vector<Entity>& getChildren() { return m_Children;}*/
+            std::vector<Entity*>& getChildren() { return m_Children;}
         protected:
             std::shared_ptr<Entity> m_Parent;
             std::string m_Name;
-            std::vector<Entity> m_Children;
+            std::vector<Entity*> m_Children;
     };
 };

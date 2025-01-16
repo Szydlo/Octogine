@@ -23,7 +23,11 @@ public:
             "../../../assets/textures/skybox/bottom.jpg",
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
-        })
+        }),
+        scene("basic scene"),
+        node("node3d2"),
+        model("nice model", "../../../assets/models/cube.glb"),
+        sun("sun")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -38,6 +42,12 @@ public:
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
+
+        scene.addChild(&node);
+        scene.addChild(&model);
+        scene.addChild(&sun);
+
+        sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
     }
 
     void click(int key, bool pressed)
@@ -57,23 +67,15 @@ public:
         }
     }
 
-    /*
-    bool ent = false;
-    bool is3d = false;
 
-    void setInsepctor(Octo::Entity& ent)
+    void hierarchy(Octo::Entity* ent)
     {
-        selectedNode = &ent;
-    }
-
-    void hierarchy(Octo::Entity& ent)
-    {
-        if (!ent.hasChildren())
-            if (ImGui::TreeNodeEx(ent.getName().c_str(), ImGuiTreeNodeFlags_Leaf)) 
+        if (!ent->hasChildren())
+            if (ImGui::TreeNodeEx(ent->getName().c_str(), ImGuiTreeNodeFlags_Leaf)) 
             { 
                 if (ImGui::IsItemClicked())
                 {
-                    setInsepctor(ent);
+                    selectedNode = ent;
                 }
 
                 ImGui::TreePop(); 
@@ -81,21 +83,21 @@ public:
                 return; 
             }
 
-        if (ImGui::TreeNodeEx(ent.getName().c_str())) 
+        if (ImGui::TreeNodeEx(ent->getName().c_str())) 
         { 
             if (ImGui::IsItemClicked())
             {
-                setInsepctor(ent);
+                selectedNode = ent;
             }
 
-            for (auto& child : ent.getChildren())
+            for (auto child : ent->getChildren())
             {
                 hierarchy(child);
             }
 
             ImGui::TreePop(); 
         }
-    }*/
+    }
 
     void update(double delta)
     {
@@ -108,12 +110,22 @@ public:
             camera.setPosition(moveDirection);
         }
 
-    /*
-       ImGui::Begin("Scene Hierarchy");
+        ImGui::Begin("Game settings");
+        ImGui::DragFloat("camera speed", &cameraSpeed);
+        ImGui::DragFloat("mouse sens ", &mouseSensivity);
+        ImGui::LabelText(std::to_string(window.getFPS()).c_str(), "FPS");
+        ImGui::End();
 
-        if (ImGui::TreeNodeEx(("scene: %s", scene.getName().c_str())))
+        ImGui::Begin("Scene Hierarchy");
+
+        if (ImGui::TreeNodeEx(("scene: %s", scene.getName().c_str()), ImGuiTreeNodeFlags_Leaf))
         {
-            for (auto& object : scene.getChildren())
+            if (ImGui::IsItemClicked())
+            {
+                selectedNode = &scene;
+            }
+
+            for (auto object : scene.getChildren())
             {
                 hierarchy(object);
             }
@@ -121,31 +133,58 @@ public:
             ImGui::TreePop();
         }
 
-        scene.update(delta);
-
         ImGui::End();
 
-        ImGui::Begin("Inspector");
+        ImGui::Begin("inspector");
 
-        if (selectedNode != nullptr)
+        if (!selectedNode) { ImGui::LabelText("none", "selected node: "); }
+        else 
         {
-            ImGui::LabelText(selectedNode->getName().c_str(), "name: ");
+            ImGui::LabelText(selectedNode->getName().c_str(), "selected node: ");
 
-            if (dynamic_cast<Octo::Node3D*>(selectedNode))
+            if (ImGui::CollapsingHeader("Entity"))
             {
-                Octo::Node3D* sn = dynamic_cast<Octo::Node3D*>(selectedNode);
+                ImGui::InputText(selectedNode->getName().data(), "name: ", selectedNode->getName().size(), ImGuiInputTextFlags_ReadOnly);
+            }
 
-                float pos[3];
-            
-                pos[0] = sn->getPosition().x;
-                pos[1] = sn->getPosition().y;
-                pos[2] = sn->getPosition().z;
+            if (selectedNode->isA<Octo::Node3D>() && ImGui::CollapsingHeader("Node3D"))
+            {
+                Octo::Node3D* node3D = selectedNode->as<Octo::Node3D*>();
+                Octo::Transform& transform = node3D->getTransform();
 
-                ImGui::InputFloat3("pos", pos);
+                // @TODO YEY UNSAFE CODE!!!
+                float* posArray = &transform.position.x;
+                float* rotArray = &transform.rotation.x;
+                float* scaleArray = &transform.scale.x;
+
+                ImGui::LabelText("", "Transform");
+                ImGui::InputFloat3("position", posArray);
+                ImGui::InputFloat3("rotation", rotArray);
+                ImGui::InputFloat3("scale", scaleArray);
+            }
+
+            if (selectedNode->isA<Octo::Model3D>() && ImGui::CollapsingHeader("Model3D"))
+            {
+                Octo::Model3D* model3D = selectedNode->as<Octo::Model3D*>();
+                std::string& modelPath = model3D->getPath();
+
+                ImGui::InputText("path", modelPath.data(), modelPath.size(), ImGuiInputTextFlags_ReadOnly);
+
+                glm::vec3& color = model3D->getColor();
+
+                float* colorArr = &color.x;
+                ImGui::ColorPicker3("color", colorArr);
+            }
+
+            if (selectedNode->isA<Octo::Sun3D>() && ImGui::CollapsingHeader("Sun3D"))
+            {
+                Octo::Sun3D* sun3D = selectedNode->as<Octo::Sun3D*>();
             }
         }
 
-        ImGui::End();*/
+        ImGui::End();
+
+        scene.update(delta);
     }
 
     void mouseMove(double x, double y)
@@ -175,6 +214,11 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     Octo::SkyBox skybox;
+    Octo::Scene scene;
+    Octo::Entity* selectedNode = nullptr;
+    Octo::Node3D node;
+    Octo::Model3D model;
+    Octo::Sun3D sun;
     
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
@@ -183,8 +227,6 @@ public:
 
     float yaw = -90.0f;
     float pitch = 0.0f;
-
-    glm::mat4 floor = glm::mat4(1.0f);
 };
 
 int main() 

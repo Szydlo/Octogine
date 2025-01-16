@@ -39,6 +39,8 @@
 
 #include "scenes/Scene.h"
 #include "scenes/3D/Node3D.h"
+#include "scenes/3D/Model3D.h"
+#include "scenes/3D/Sun3D.h"
 
 /* 
     API CHEATSHEET
@@ -89,16 +91,21 @@
 
     v0.7 - ASSET MANAGER - DONE
 
-    v0.8 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM?
+    v0.8 - SCENE SYSTEM AND CHILDS - GODOT LIKE SYSTEM? - DONE
 
     v0.9 & 1.0 - RENDERER & MATERIALS
-    Octogine::HDR
-    Octogine::PBR (with normals)
-    Octogine::Emission lighting
+    Octogine::Normals
+    Octogine::PBR
+    Octogine::IBL
     Octogine::SSAO
+    Octogine::Bloom
 
-    To finish v0.8 create scene with multiple point lights, materials, shiny and plastic,
+    To finish v1.0 create scene with multiple point lights, materials, shiny and plastic,
     with reflection, like mirror, and different objects and shadows.
+
+    projects:
+        - basic model viewer
+        - basic game
 
 
     v1.1 - TOOLS LIKE EDITOR
