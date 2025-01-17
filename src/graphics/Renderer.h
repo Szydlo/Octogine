@@ -8,6 +8,7 @@
 #include "../lighting/SkyBox.h"
 
 #include "../lighting/DirectionalLight.h"
+#include "../lighting/SpotLight.h"
 #include "../lighting/Shadow.h"
 
 namespace Octo
@@ -31,6 +32,7 @@ namespace Octo
 
             inline static void setMainCamera(Camera& camera) { m_MainCamera = &camera; }
             inline static void setDirectionalLight(DirectionalLight& light) { m_DirLight = &light; }
+            inline static void setSpotLight(SpotLight& light) { m_SpotLight = &light; }
             inline static void setShadow(Shadow& shadow) { m_Shadow = &shadow; }
             inline static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }
         
@@ -46,6 +48,7 @@ namespace Octo
 
             inline static Camera* m_MainCamera;
             inline static DirectionalLight* m_DirLight;
+            inline static SpotLight* m_SpotLight;
             inline static SkyBox* m_SkyBox;
             inline static Shadow* m_Shadow = nullptr;
             inline static std::vector<DrawElement> m_DrawQueue;

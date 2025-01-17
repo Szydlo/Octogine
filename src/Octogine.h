@@ -41,6 +41,7 @@
 #include "scenes/3D/Node3D.h"
 #include "scenes/3D/Model3D.h"
 #include "scenes/3D/Sun3D.h"
+#include "scenes/3D/Spotlight3D.H"
 
 /* 
     API CHEATSHEET

@@ -103,6 +103,11 @@ void Renderer::drawElement(DrawElement& el, Shader* shader)
             m_DirLight->setShader(el.shader);
         }
 
+        if (m_SpotLight)
+        {
+            m_SpotLight->setShader(el.shader);
+        }
+
         el.vao->bind();
 
         glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
@@ -149,4 +154,5 @@ void Renderer::destroy()
     if (m_MainCamera) delete m_MainCamera;
     if (m_DirLight) delete m_DirLight;
     if (m_SkyBox) delete m_SkyBox;
+    if (m_Shadow) delete m_Shadow;
 }

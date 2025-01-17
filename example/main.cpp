@@ -28,7 +28,8 @@ public:
         node("node3d2"),
         model("nice model", "../../../assets/models/cube.glb"),
         floor("floor", "../../../assets/models/cube.glb"),
-        sun("sun")
+        sun("sun"),
+        sLight("spot light")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -48,12 +49,22 @@ public:
         scene.addChild(&model);
         scene.addChild(&sun);
         scene.addChild(&floor);
+        scene.addChild(&sLight);
 
         sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
 
         floor.getTransform().position = glm::vec3(0.0f, -1.0f, 0.0f);
         floor.getTransform().scale = glm::vec3(10.0f, 0.1f, 10.0f);
         floor.setColor({0.1, 0.8, 0.1});
+
+        sLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+        sLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+        sLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        sLight.constant = 1.0f;
+        sLight.linear = 0.09f;
+        sLight.quadratic = 0.032f;
+        sLight.cutOff = glm::cos(glm::radians(35.5f));
+        sLight.outerCutOff = glm::cos(glm::radians(180.0f));
     }
 
     void click(int key, bool pressed)
@@ -120,6 +131,12 @@ public:
         ImGui::DragFloat("camera speed", &cameraSpeed);
         ImGui::DragFloat("mouse sens ", &mouseSensivity);
         ImGui::LabelText(std::to_string(window.getFPS()).c_str(), "FPS");
+
+        auto cameraPos = camera.getPosition();
+        auto cameraRot = camera.getFront();
+
+        ImGui::InputFloat3("camera pos", &cameraPos.x);
+        ImGui::InputFloat3("camera rot", &cameraRot.x);
         ImGui::End();
 
         ImGui::Begin("Scene Hierarchy");
@@ -196,7 +213,22 @@ public:
             {
                 Octo::Sun3D* sun3D = selectedNode->as<Octo::Sun3D*>();
             }
+
+            if (selectedNode->isA<Octo::Spotlight3D>() && ImGui::CollapsingHeader("Spotlight3D"))
+            {
+                Octo::Spotlight3D* spotLight3D = selectedNode->as<Octo::Spotlight3D*>();
+
+                ImGui::InputFloat("constant", &spotLight3D->constant);
+                ImGui::InputFloat("linear", &spotLight3D->linear);
+                ImGui::InputFloat("quadratic", &spotLight3D->quadratic);
+                ImGui::InputFloat("cutOff", &spotLight3D->cutOff);
+                ImGui::InputFloat("outerCutOff", &spotLight3D->outerCutOff);
+            }
         }
+
+
+        sLight.getTransform().position = camera.getPosition();
+        sLight.getTransform().rotation = camera.getFront();
 
         ImGui::End();
     }
@@ -234,7 +266,8 @@ public:
     Octo::Model3D model;
     Octo::Sun3D sun;
     Octo::Model3D floor;
-    
+    Octo::Spotlight3D sLight;
+
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
 
