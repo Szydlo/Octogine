@@ -14,13 +14,13 @@ Shadow::Shadow(glm::vec2 resolution)
     m_DepthBuffer.unbind();
 }
 
-void Shadow::startPass()
+void Shadow::startPass(glm::vec3 lightDirection)
 {
     glm::mat4 lightProjection, lightView;
 
     float near_plane = 1.0f, far_plane = 7.5f;
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-    lightView = glm::lookAt(Renderer::getDirectionalLight()->direction, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    lightView = glm::lookAt(lightDirection, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
     m_LightSpaceMatrix = lightProjection * lightView;
 
     m_DepthShader.bind();

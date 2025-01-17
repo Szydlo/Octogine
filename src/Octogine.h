@@ -94,6 +94,7 @@
     v0.8 - SCENE SYSTEM  - DONE
 
     v0.9 & 1.0 - RENDERER & MATERIALS
+    Implement shadows and lights with node system.
     Octogine::Normals
     Octogine::PBR
     Octogine::IBL

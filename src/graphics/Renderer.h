@@ -8,11 +8,18 @@
 #include "../lighting/SkyBox.h"
 
 #include "../lighting/DirectionalLight.h"
-
-#include <iostream>
+#include "../lighting/Shadow.h"
 
 namespace Octo
 {
+    struct DrawElement
+    {
+        VertexArray* vao;
+        Shader* shader;
+        unsigned int count;
+        glm::mat4 transform;
+    };
+
     class Renderer
     {
         public:
@@ -20,9 +27,11 @@ namespace Octo
             static void basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, glm::mat4 model = glm::mat4(1));
 
             static void startPass();
+            static void drawElement(DrawElement& el, Shader* shader);
 
             inline static void setMainCamera(Camera& camera) { m_MainCamera = &camera; }
             inline static void setDirectionalLight(DirectionalLight& light) { m_DirLight = &light; }
+            inline static void setShadow(Shadow& shadow) { m_Shadow = &shadow; }
             inline static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }
         
             inline static Camera* getMainCamera() { return m_MainCamera; }
@@ -38,5 +47,7 @@ namespace Octo
             inline static Camera* m_MainCamera;
             inline static DirectionalLight* m_DirLight;
             inline static SkyBox* m_SkyBox;
+            inline static Shadow* m_Shadow = nullptr;
+            inline static std::vector<DrawElement> m_DrawQueue;
     };
 };

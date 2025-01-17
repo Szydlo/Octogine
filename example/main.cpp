@@ -27,6 +27,7 @@ public:
         scene("basic scene"),
         node("node3d2"),
         model("nice model", "../../../assets/models/cube.glb"),
+        floor("floor", "../../../assets/models/cube.glb"),
         sun("sun")
     {
         Events::onStart.connect(&Game::start, this);
@@ -46,8 +47,13 @@ public:
         scene.addChild(&node);
         scene.addChild(&model);
         scene.addChild(&sun);
+        scene.addChild(&floor);
 
         sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
+
+        floor.getTransform().position = glm::vec3(0.0f, -1.0f, 0.0f);
+        floor.getTransform().scale = glm::vec3(10.0f, 0.1f, 10.0f);
+        floor.setColor({0.1, 0.8, 0.1});
     }
 
     void click(int key, bool pressed)
@@ -193,8 +199,6 @@ public:
         }
 
         ImGui::End();
-
-        //scene.update(delta);
     }
 
     void mouseMove(double x, double y)
@@ -229,6 +233,7 @@ public:
     Octo::Node3D node;
     Octo::Model3D model;
     Octo::Sun3D sun;
+    Octo::Model3D floor;
     
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

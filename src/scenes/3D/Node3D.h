@@ -23,6 +23,11 @@ namespace Octo
 
             return pos * rot * scl;
         }
+
+        glm::mat4 getMat4Global(Transform& transform) // @ TODO IMPLEMENT INHERTHING TRANSFORM FROM PARENT.
+        {
+            return transform.getMat4() * getMat4();
+        }
     };
 
     class Node3D : public Entity

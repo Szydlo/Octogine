@@ -2,8 +2,11 @@
 
 #include "../graphics/FrameBuffer.h"
 #include "../graphics/Texture2D.h"
-#include "../graphics/Renderer.h"
 #include "../graphics/Shader.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace Octo
 {
@@ -12,7 +15,7 @@ namespace Octo
         public:
             Shadow(glm::vec2 resolution);
 
-            void startPass();
+            void startPass(glm::vec3 lightDirection);
             void endPass();
 
             Texture2D& getDepthTexture() { return m_DepthTxt; }

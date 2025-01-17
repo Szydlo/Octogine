@@ -4,7 +4,7 @@ using Octo::Renderer;
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, glm::mat4 model)
 {
-    if (!m_MainCamera) return;
+   /* if (!m_MainCamera) return;
     
     shader.bind();
     //txt.bind();
@@ -25,12 +25,13 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, g
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 
     vao.unbind();
-    shader.unbind();
+    shader.unbind();*/
 }
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, glm::mat4 model)
 {
-    if (!m_MainCamera) return;
+    m_DrawQueue.push_back({&vao, &shader, count, model});
+    /*if (!m_MainCamera) return;
     
     shader.bind();
     //txt.bind();
@@ -53,7 +54,7 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsig
     glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
 
     vao.unbind();
-    shader.unbind();
+    shader.unbind();*/
 }
 
 void Renderer::drawSkyBox(SkyBox* skybox)
@@ -79,11 +80,65 @@ void Renderer::drawSkyBox(SkyBox* skybox)
 
 void Renderer::startPass()
 {
-
+    m_DrawQueue.clear();
 }
 
+void Renderer::drawElement(DrawElement& el, Shader* shader)
+{
+        if (!m_MainCamera) return;
+    
+        shader->bind();
+        //txt.bind();
+
+        shader->setMat4("projection", m_MainCamera->getProjectionMatrix());
+        shader->setMat4("view", m_MainCamera->getViewMatrix());
+        shader->setMat4("model", el.transform);
+
+        //shader.setInt("txt", 0);
+
+        shader->setVec3("viewPos", m_MainCamera->getPosition());
+
+        if (m_DirLight)
+        {
+            m_DirLight->setShader(el.shader);
+        }
+
+        el.vao->bind();
+
+        glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
+
+        el.vao->unbind();
+        shader->unbind();
+
+}
 void Renderer::endPass()
 {
+    if (m_Shadow)
+    {
+        m_Shadow->startPass(m_DirLight->direction);
+
+        for (auto& el : m_DrawQueue)
+        {
+            drawElement(el, &m_Shadow->getDepthShader());
+        }  
+
+        m_Shadow->endPass();
+    }
+
+    for (auto& el : m_DrawQueue)
+    {
+        if (m_Shadow)
+        {
+            el.shader->bind();
+            m_Shadow->getDepthTexture().bind();
+            el.shader->setInt("shadowMap", 0);
+            el.shader->setMat4("lightSpaceMatrix", m_Shadow->getLightSpaceMatrix());
+            el.shader->unbind();
+        }
+
+        drawElement(el, el.shader);
+    }
+
     if (!m_SkyBox) return;
 
     drawSkyBox(m_SkyBox);

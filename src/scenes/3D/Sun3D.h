@@ -9,7 +9,13 @@ namespace Octo
     {
         public:
             Sun3D(std::string name)
-            : Node3D(name) {}
+            : Node3D(name), m_Shadow(glm::vec2(1024))
+            {}
+
+            void onStart() override
+            {
+                Renderer::setShadow(m_Shadow);
+            }
 
             void onUpdate(double deltaTime) override
             {
@@ -17,7 +23,10 @@ namespace Octo
                 m_DirLight.direction = m_Transform.rotation;
                 Renderer::setDirectionalLight(m_DirLight);
             }
+
+            Shadow& getShadow() { return m_Shadow; }
         private:
             DirectionalLight m_DirLight;
+            Shadow m_Shadow;
     };  
 };
