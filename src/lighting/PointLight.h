@@ -6,11 +6,11 @@ namespace Octo
 {
     struct PointLight : public Light
     {
-        glm::vec3 position;
+        glm::vec3 position = glm::vec3(0);
 
-        float constant;
-        float linear;
-        float quadratic;
+        float constant = 0;
+        float linear = 0;
+        float quadratic = 0;
 
         void setShader(Shader& shader) override
         {
@@ -24,5 +24,18 @@ namespace Octo
             shader.setVec3("pointLight.specular", specular);
             shader.setVec3("pointLight.diffuse", diffuse);
         }
+
+        void setShader(Shader* shader, int id)
+        {
+            shader->setVec3("pointLight.position", position);
+            
+            shader->setFloat("pointLight.constant", constant);
+            shader->setFloat("pointLight.linear", linear);
+            shader->setFloat("pointLight.quadratic", quadratic);
+
+            shader->setVec3("pointLight.ambient", ambient);
+            shader->setVec3("pointLight.specular", specular);
+            shader->setVec3("pointLight.diffuse", diffuse);
+        } 
     };
 };

@@ -18,6 +18,7 @@
 #include "lighting/Material.h"
 #include "lighting/SkyBox.h"
 #include "lighting/Shadow.h"
+#include "lighting/LightingManager.h"
 
 #include "physics/RigidBody.h"
 #include "physics/Shape.h"
@@ -41,7 +42,8 @@
 #include "scenes/3D/Node3D.h"
 #include "scenes/3D/Model3D.h"
 #include "scenes/3D/Sun3D.h"
-#include "scenes/3D/Spotlight3D.H"
+#include "scenes/3D/Spotlight3D.h"
+#include "scenes/3D/Pointlight3D.h"
 
 /* 
     API CHEATSHEET
@@ -96,6 +98,9 @@
 
     v0.9 & 1.0 - RENDERER & MATERIALS
     Implement shadows and lights with node system.
+    point lights
+    spot lights
+    lighting system
     Octogine::Normals
     Octogine::PBR
     Octogine::IBL

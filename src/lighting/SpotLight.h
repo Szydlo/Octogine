@@ -6,15 +6,15 @@ namespace Octo
 {
     struct SpotLight : public Light
     {
-        glm::vec3 position;
-        glm::vec3 direction;
+        glm::vec3 position = glm::vec3(0);
+        glm::vec3 direction = glm::vec3(0);
 
-        float constant;
-        float linear;
-        float quadratic;
+        float constant = 0;
+        float linear = 0;
+        float quadratic = 0;
 
-        float cutOff;
-        float outerCutOff;
+        float cutOff = 0;
+        float outerCutOff = 0;
 
         void setShader(Shader& shader) override
         {
@@ -33,7 +33,7 @@ namespace Octo
             shader.setFloat("spotLight.outerCutOff", outerCutOff);
         }
 
-        void setShader(Shader* shader)
+        void setShader(Shader* shader, int id)
         {
             shader->setVec3("spotLight.position", position);
             shader->setVec3("spotLight.direction", direction);

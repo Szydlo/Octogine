@@ -6,10 +6,7 @@
 #include "Texture2D.h"
 
 #include "../lighting/SkyBox.h"
-
-#include "../lighting/DirectionalLight.h"
-#include "../lighting/SpotLight.h"
-#include "../lighting/Shadow.h"
+#include "../lighting/LightingManager.h"
 
 namespace Octo
 {
@@ -31,13 +28,10 @@ namespace Octo
             static void drawElement(DrawElement& el, Shader* shader);
 
             inline static void setMainCamera(Camera& camera) { m_MainCamera = &camera; }
-            inline static void setDirectionalLight(DirectionalLight& light) { m_DirLight = &light; }
-            inline static void setSpotLight(SpotLight& light) { m_SpotLight = &light; }
-            inline static void setShadow(Shadow& shadow) { m_Shadow = &shadow; }
             inline static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }
         
             inline static Camera* getMainCamera() { return m_MainCamera; }
-            inline static DirectionalLight* getDirectionalLight() { return m_DirLight; }
+        
             inline static SkyBox* getSkyBox() { return m_SkyBox; }
 
             static void endPass();
@@ -47,10 +41,7 @@ namespace Octo
             static void drawSkyBox(SkyBox* skybox);
 
             inline static Camera* m_MainCamera;
-            inline static DirectionalLight* m_DirLight;
-            inline static SpotLight* m_SpotLight;
             inline static SkyBox* m_SkyBox;
-            inline static Shadow* m_Shadow = nullptr;
             inline static std::vector<DrawElement> m_DrawQueue;
     };
 };

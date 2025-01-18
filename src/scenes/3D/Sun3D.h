@@ -14,14 +14,16 @@ namespace Octo
 
             void onStart() override
             {
-                Renderer::setShadow(m_Shadow);
+                //Renderer::setShadow(m_Shadow);
+                LightingManager::setShadow(m_Shadow);
+                LightingManager::setDirectionalLight(m_DirLight);
             }
 
             void onUpdate(double deltaTime) override
             {
                 Node3D::onUpdate(deltaTime);
                 m_DirLight.direction = m_Transform.rotation;
-                Renderer::setDirectionalLight(m_DirLight);
+                //Renderer::setDirectionalLight(m_DirLight);
             }
 
             Shadow& getShadow() { return m_Shadow; }

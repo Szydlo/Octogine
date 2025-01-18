@@ -98,15 +98,17 @@ void Renderer::drawElement(DrawElement& el, Shader* shader)
 
         shader->setVec3("viewPos", m_MainCamera->getPosition());
 
-        if (m_DirLight)
+        /**if (m_DirLight)
         {
             m_DirLight->setShader(el.shader);
         }
 
         if (m_SpotLight)
         {
-            m_SpotLight->setShader(el.shader);
-        }
+            //m_SpotLight->setShader(el.shader);
+        }**/
+
+        LightingManager::updateLights(el.shader);
 
         el.vao->bind();
 
@@ -118,28 +120,23 @@ void Renderer::drawElement(DrawElement& el, Shader* shader)
 }
 void Renderer::endPass()
 {
-    if (m_Shadow)
+    Shadow* shadow = LightingManager::getShadow();
+
+    if (shadow)
     {
-        m_Shadow->startPass(m_DirLight->direction);
+        shadow->startPass(LightingManager::getDirectionalLight()->direction);
 
         for (auto& el : m_DrawQueue)
         {
-            drawElement(el, &m_Shadow->getDepthShader());
+            drawElement(el, &shadow->getDepthShader());
         }  
 
-        m_Shadow->endPass();
+        shadow->endPass();
     }
 
     for (auto& el : m_DrawQueue)
     {
-        if (m_Shadow)
-        {
-            el.shader->bind();
-            m_Shadow->getDepthTexture().bind();
-            el.shader->setInt("shadowMap", 0);
-            el.shader->setMat4("lightSpaceMatrix", m_Shadow->getLightSpaceMatrix());
-            el.shader->unbind();
-        }
+        LightingManager::updateShadow(el.shader);
 
         drawElement(el, el.shader);
     }
@@ -152,7 +149,5 @@ void Renderer::endPass()
 void Renderer::destroy()
 {
     if (m_MainCamera) delete m_MainCamera;
-    if (m_DirLight) delete m_DirLight;
     if (m_SkyBox) delete m_SkyBox;
-    if (m_Shadow) delete m_Shadow;
 }

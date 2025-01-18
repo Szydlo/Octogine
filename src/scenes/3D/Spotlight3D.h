@@ -13,7 +13,8 @@ namespace Octo
 
             void onStart() override
             {
-                Renderer::setSpotLight(m_SpotLight);
+                LightingManager::addSpotLight(&m_SpotLight);
+                //Renderer::setSpotLight(m_SpotLight);
             }
 
             void onUpdate(double deltaTime) override
