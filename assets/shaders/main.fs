@@ -144,8 +144,8 @@ void main()
 
     for(int i = 0; i < NR_LIGHTS; i++)
     {
-     //   result += calculatePointLight(pointLights[i], norm, FragPos, viewDir);
-      //  result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
+        result += calculatePointLight(pointLights[i], norm, FragPos, viewDir);
+        result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
     }
 
 	if (useColor)

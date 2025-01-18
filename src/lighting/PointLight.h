@@ -27,15 +27,15 @@ namespace Octo
 
         void setShader(Shader* shader, int id)
         {
-            shader->setVec3("pointLight.position", position);
+            shader->setVec3("pointLights[" + std::to_string(id) + "].position", position);
             
-            shader->setFloat("pointLight.constant", constant);
-            shader->setFloat("pointLight.linear", linear);
-            shader->setFloat("pointLight.quadratic", quadratic);
+            shader->setFloat("pointLights[" + std::to_string(id) + "].constant", constant);
+            shader->setFloat("pointLights[" + std::to_string(id) + "].linear", linear);
+            shader->setFloat("pointLights[" + std::to_string(id) + "].quadratic", quadratic);
 
-            shader->setVec3("pointLight.ambient", ambient);
-            shader->setVec3("pointLight.specular", specular);
-            shader->setVec3("pointLight.diffuse", diffuse);
+            shader->setVec3("pointLights[" + std::to_string(id) + "].ambient", ambient);
+            shader->setVec3("pointLights[" + std::to_string(id) + "].specular", specular);
+            shader->setVec3("pointLights[" + std::to_string(id) + "].diffuse", diffuse);
         } 
     };
 };

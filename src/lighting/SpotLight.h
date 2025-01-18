@@ -35,19 +35,19 @@ namespace Octo
 
         void setShader(Shader* shader, int id)
         {
-            shader->setVec3("spotLight.position", position);
-            shader->setVec3("spotLight.direction", direction);
+            shader->setVec3("spotLights[" + std::to_string(id) + "].position", position);
+            shader->setVec3("spotLights[" + std::to_string(id) + "].direction", direction);
             
-            shader->setFloat("spotLight.constant", constant);
-            shader->setFloat("spotLight.linear", linear);
-            shader->setFloat("spotLight.quadratic", quadratic);
+            shader->setFloat("spotLights[" + std::to_string(id) + "].constant", constant);
+            shader->setFloat("spotLights[" + std::to_string(id) + "].linear", linear);
+            shader->setFloat("spotLights[" + std::to_string(id) + "].quadratic", quadratic);
 
-            shader->setVec3("spotLight.ambient", ambient);
-            shader->setVec3("spotLight.specular", specular);
-            shader->setVec3("spotLight.diffuse", diffuse);
+            shader->setVec3("spotLights[" + std::to_string(id) + "].ambient", ambient);
+            shader->setVec3("spotLights[" + std::to_string(id) + "].specular", specular);
+            shader->setVec3("spotLights[" + std::to_string(id) + "].diffuse", diffuse);
 
-            shader->setFloat("spotLight.cutOff", cutOff);
-            shader->setFloat("spotLight.outerCutOff", outerCutOff);
+            shader->setFloat("spotLights[" + std::to_string(id) + "].cutOff", cutOff);
+            shader->setFloat("spotLights[" + std::to_string(id) + "].outerCutOff", outerCutOff);
         }
 
     };
