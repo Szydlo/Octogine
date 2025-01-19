@@ -24,9 +24,14 @@ namespace Octo
             return pos * rot * scl;
         }
 
-        glm::mat4 getMat4Global(Transform& transform) // @ TODO IMPLEMENT INHERTHING TRANSFORM FROM PARENT.
+        glm::mat4 getGlobalMat4(Transform& parentTransform)
         {
-            return transform.getMat4() * getMat4();
+            glm::mat4 pos = glm::translate(glm::mat4(1.0f), position + parentTransform.position);
+            glm::mat4 rot = glm::toMat4(glm::quat(rotation));
+            glm::mat4 scl = glm::scale(glm::mat4(1.0f), scale);
+
+
+            return pos * rot * scl;
         }
     };
 
@@ -34,6 +39,18 @@ namespace Octo
     {
         public:
             Node3D(std::string name) : Entity(name) {}
+
+            void onUpdate(double delta) override
+            {
+                Entity::onUpdate(delta);
+
+               /* if (m_Parent && m_Parent->isA<Octo::Node3D>())
+                {
+                    Octo::Node3D* parent = m_Parent->as<Octo::Node3D*>();
+
+
+                }*/
+            }
 
             Transform& getTransform() { return m_Transform; } 
         protected:

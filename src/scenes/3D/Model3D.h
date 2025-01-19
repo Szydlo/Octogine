@@ -13,7 +13,15 @@ namespace Octo
             void onUpdate(double deltaTime) override
             {
                 Node3D::onUpdate(deltaTime);
+
                 m_Model.setTransform(m_Transform.getMat4());
+
+                if (m_Parent && m_Parent->isA<Octo::Node3D>())
+                {
+                    Octo::Node3D* parent = m_Parent->as<Octo::Node3D*>();
+                    m_Model.setTransform(m_Transform.getGlobalMat4(parent->getTransform()));
+                }
+
                 m_Model.setColor(m_Color);
                 m_Model.draw(m_UseColor);
             }

@@ -47,9 +47,9 @@ public:
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
         scene.addChild(&node);
-        scene.addChild(&model);
         scene.addChild(&sun);
         scene.addChild(&floor);
+        floor.addChild(&model);
         scene.addChild(&sLight);
 //        scene.addChild(&pLight);
 
