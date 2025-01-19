@@ -36,7 +36,6 @@ namespace Octo
             glm::vec3 diffuse = glm::vec3(0.0f);
             glm::vec3 specular = glm::vec3(0.0f);
 
-
             float constant = 0;
             float linear = 0;
             float quadratic = 0;

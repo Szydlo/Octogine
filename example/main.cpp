@@ -29,7 +29,8 @@ public:
         model("nice model", "../../../assets/models/cube.glb"),
         floor("floor", "../../../assets/models/cube.glb"),
         sun("sun"),
-        sLight("spot light")
+        sLight("spot light"),
+        pLight("point light")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -50,6 +51,7 @@ public:
         scene.addChild(&sun);
         scene.addChild(&floor);
         scene.addChild(&sLight);
+//        scene.addChild(&pLight);
 
         sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
 
@@ -57,7 +59,7 @@ public:
         floor.getTransform().scale = glm::vec3(10.0f, 0.1f, 10.0f);
         floor.setColor({0.1, 0.8, 0.1});
 
-        sLight.ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+        sLight.ambient = glm::vec3(0.5f);
         sLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
         sLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
         sLight.constant = 1.0f;
@@ -65,6 +67,14 @@ public:
         sLight.quadratic = 0.032f;
         sLight.cutOff = glm::cos(glm::radians(35.5f));
         sLight.outerCutOff = glm::cos(glm::radians(180.0f));
+
+        pLight.getTransform().position = glm::vec3(0, 2, 0);
+        pLight.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
+        pLight.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+        pLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+        pLight.constant = 1.0f;
+        pLight.linear = 0.09f;
+        pLight.quadratic = 0.032f;
     }
 
     void click(int key, bool pressed)
@@ -218,17 +228,39 @@ public:
             {
                 Octo::Spotlight3D* spotLight3D = selectedNode->as<Octo::Spotlight3D*>();
 
+
+                float* ambientArr = &spotLight3D->ambient.x;
+                float* diffuseArr = &spotLight3D->diffuse.x;
+                float* specularArr = &spotLight3D->specular.x;
+
+                ImGui::InputFloat3("ambient", ambientArr);
+                ImGui::InputFloat3("diffuse", diffuseArr);
+                ImGui::InputFloat3("specular", specularArr);
+
                 ImGui::InputFloat("constant", &spotLight3D->constant);
                 ImGui::InputFloat("linear", &spotLight3D->linear);
                 ImGui::InputFloat("quadratic", &spotLight3D->quadratic);
                 ImGui::InputFloat("cutOff", &spotLight3D->cutOff);
                 ImGui::InputFloat("outerCutOff", &spotLight3D->outerCutOff);
             }
+
+            if (selectedNode->isA<Octo::Pointlight3D>() && ImGui::CollapsingHeader("Pointlight3d"))
+            {
+                Octo::Pointlight3D* pointLight3D = selectedNode->as<Octo::Pointlight3D*>();
+
+                float* ambientArr = &pointLight3D->ambient.x;
+                float* diffuseArr = &pointLight3D->diffuse.x;
+                float* specularArr = &pointLight3D->specular.x;
+
+                ImGui::InputFloat3("ambient", ambientArr);
+                ImGui::InputFloat3("diffuse", diffuseArr);
+                ImGui::InputFloat3("specular", specularArr);
+
+                ImGui::InputFloat("constant", &pointLight3D->constant);
+                ImGui::InputFloat("linear", &pointLight3D->linear);
+                ImGui::InputFloat("quadratic", &pointLight3D->quadratic);
+            }
         }
-
-
-        sLight.getTransform().position = camera.getPosition();
-        sLight.getTransform().rotation = camera.getFront();
 
         ImGui::End();
     }
@@ -267,6 +299,7 @@ public:
     Octo::Sun3D sun;
     Octo::Model3D floor;
     Octo::Spotlight3D sLight;
+    Octo::Pointlight3D pLight;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

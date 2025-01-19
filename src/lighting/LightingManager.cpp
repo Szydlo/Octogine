@@ -9,14 +9,8 @@ void LightingManager::updateLights(Shader* shader)
         m_DirLight->setShader(shader);
     }
 
-    for (int i = 0; i < NR_MAX_LIGHTS; i++)
-    {
-        // TODO @ TEMPORARY SOLUTION FOR NOW
-        PointLight pl;
-        SpotLight sl;
-        pl.setShader(shader, i);
-        sl.setShader(shader, i);
-    }
+    shader->setInt("currentPointLights", m_PointLights.size());
+    shader->setInt("currentSpotLights", m_SpotLights.size());
 
     for (int i = 0; i < m_PointLights.size(); i++)
     {

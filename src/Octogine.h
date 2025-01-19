@@ -97,10 +97,14 @@
     v0.8 - SCENE SYSTEM  - DONE
 
     v0.9 & 1.0 - RENDERER & MATERIALS
-    Implement shadows and lights with node system.
     point lights
     spot lights
-    lighting system
+    lighting system - DONE
+
+    read that:
+    https://learnopengl.com/Advanced-Lighting/Deferred-Shading
+    check if it fits for octogine
+
     Octogine::Normals
     Octogine::PBR
     Octogine::IBL
