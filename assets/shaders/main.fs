@@ -6,8 +6,6 @@ in vec3 Normal;
 in vec2 TexCoords;
 in vec4 FragPosLightSpace;
 
-uniform sampler2D txt;
-
 uniform vec3 viewPos;
 uniform bool useColor;
 uniform vec3 color;
@@ -52,15 +50,13 @@ struct SpotLight
 
 struct Material 
 {
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
-    float shininess;
+    sampler2D albedoTXT;
+    sampler2D normalTXT;
 }; 
 
 uniform Material material;
 
-#define NR_MAX_LIGHTS 128
+#define NR_MAX_LIGHTS 8
 
 uniform int currentPointLights;
 uniform int currentSpotLights;
@@ -98,7 +94,7 @@ vec3 calculatePointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewD
 
 vec3 calculateSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
 {
-    vec3 lightDir = normalize(light.position - fragPos);
+   vec3 lightDir = normalize(light.position - fragPos);
 
     float diff = max(dot(normal, lightDir), 0.0);
 
@@ -111,7 +107,7 @@ vec3 calculateSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir
     float theta = dot(lightDir, normalize(-light.direction)); 
     float epsilon = light.cutOff - light.outerCutOff;
     float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
-
+    
   	vec3 ambient = light.ambient;
     vec3 diffuse  = light.diffuse * diff;
     vec3 specular = light.specular * spec;  
@@ -120,8 +116,7 @@ vec3 calculateSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-    return ambient + diffuse + specular;
-    //return (ambient + diffuse + specular);
+    return (ambient + diffuse + specular);
 }
 
 float ShadowCalculation(vec4 fragPosLightSpace, DirLight light)
@@ -186,27 +181,18 @@ void main()
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-    float strength = 0.1;
-	vec3 result = calculateDirLight(dirLight, norm, viewDir) * strength;
-
-    //result += calculatePointLight(pointLights[0], norm, FragPos, viewDir);
+	vec3 result = calculateDirLight(dirLight, norm, viewDir);
 
     for(int i = 0; i < currentPointLights; i++)
     {
-        //result += calculatePointLight(pointLights[i], norm, FragPos, viewDir);
-       // result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
+        result += calculatePointLight(pointLights[i], norm, FragPos, viewDir);
     }
-
-    result += calculateSpotLight(spotLights[0], norm, FragPos, viewDir);
 
     for(int i = 0; i < currentSpotLights; i++)
     {
-       // result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
-       // result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
+        result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
     }
 
-	if (useColor)
-		FragColor = vec4(result, 1.0); 
-	else
-		FragColor = texture(txt, TexCoords);
+	//FragColor = vec4(result, 1.0);
+    FragColor = vec4(texture(material.albedoTXT, TexCoords));
 }

@@ -3,24 +3,28 @@
 #include "glm/glm.hpp"
 
 #include "../graphics/Shader.h"
+#include "../graphics/Texture2D.h"
 
 namespace Octo
 {
     struct Material
     {
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-        
-        float shininess;
-
-        void setShader(Shader& shader)
+        Material(std::string albPath, std::string normPath)
+            : albedoTXT(albPath), normalTXT(normPath, TextureColor::Normal)
         {
-            shader.setFloat("material.shininess", shininess);
 
-            shader.setVec3("material.ambient", ambient);
-            shader.setVec3("material.diffuse", diffuse);
-            shader.setVec3("material.specular", specular);
         }
+
+        void setShader(Shader* shader)
+        {
+            albedoTXT.bind(1);
+            shader->setInt("material.albedoTXT", 1);
+            normalTXT.bind(2);
+            shader->setInt("material.normalTXT", 2);
+        }
+
+        glm::vec3 albedoColor = glm::vec3(1.0, 1.0, 1.0);
+        Texture2D albedoTXT;
+        Texture2D normalTXT;
     };
 };

@@ -28,9 +28,7 @@ public:
         node("node3d2"),
         model("nice model", "../../../assets/models/cube.glb"),
         floor("floor", "../../../assets/models/cube.glb"),
-        sun("sun"),
-        sLight("spot light"),
-        pLight("point light")
+        sun("sun")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -50,8 +48,6 @@ public:
         scene.addChild(&sun);
         scene.addChild(&floor);
         floor.addChild(&model);
-        scene.addChild(&sLight);
-//        scene.addChild(&pLight);
 
         sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
 
@@ -59,22 +55,7 @@ public:
         floor.getTransform().scale = glm::vec3(10.0f, 0.1f, 10.0f);
         floor.setColor({0.1, 0.8, 0.1});
 
-        sLight.ambient = glm::vec3(0.5f);
-        sLight.diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
-        sLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-        sLight.constant = 1.0f;
-        sLight.linear = 0.09f;
-        sLight.quadratic = 0.032f;
-        sLight.cutOff = glm::cos(glm::radians(35.5f));
-        sLight.outerCutOff = glm::cos(glm::radians(180.0f));
-
-        pLight.getTransform().position = glm::vec3(0, 2, 0);
-        pLight.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
-        pLight.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
-        pLight.specular = glm::vec3(1.0f, 1.0f, 1.0f);
-        pLight.constant = 1.0f;
-        pLight.linear = 0.09f;
-        pLight.quadratic = 0.032f;
+        model.getTransform().position = glm::vec3(0.0f, 1.0f, 0.0f);
     }
 
     void click(int key, bool pressed)
@@ -298,8 +279,6 @@ public:
     Octo::Model3D model;
     Octo::Sun3D sun;
     Octo::Model3D floor;
-    Octo::Spotlight3D sLight;
-    Octo::Pointlight3D pLight;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

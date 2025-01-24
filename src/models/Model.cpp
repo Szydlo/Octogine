@@ -73,6 +73,27 @@ Model::Model(std::string path, bool loadSkeleton)
                 }
             );
 
+
+            auto* tangentIt = p.findAttribute("TANGENT");
+            auto& tangentAccessor = assets.accessors[tangentIt->accessorIndex];
+
+            fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, tangentAccessor,
+                [&](fastgltf::math::fvec3 tang, std::size_t idx)
+                {
+                    vertices[idx].tangent = glm::vec3(tang.x(), tang.y(), tang.z());
+                }
+            );
+
+            auto* bitangentIt = p.findAttribute("BITANGENT");
+            auto& bitangentAccessor = assets.accessors[bitangentIt->accessorIndex];
+
+            fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, bitangentAccessor,
+                [&](fastgltf::math::fvec3 bitang, std::size_t idx)
+                {
+                    vertices[idx].bitangent = glm::vec3(bitang.x(), bitang.y(), bitang.z());
+                }
+            );
+
             auto& indexAccessor = assets.accessors[p.indicesAccessor.value()];
             
             for (auto element : fastgltf::iterateAccessor<std::uint32_t>(assets, indexAccessor))
@@ -111,7 +132,7 @@ Model::Model(std::string path, bool loadSkeleton)
             }
         }
 
-        m_Meshes.emplace_back(vertices, indices, "../../../assets/textures/character.png");
+        m_Meshes.emplace_back(vertices, indices);
     }
 
     
@@ -168,7 +189,6 @@ void Model::draw(bool useColor)
         m_Shader.bind();
         m_Shader.setBool("useColor", useColor);
         m_Shader.setVec3("color", m_Color);
-
 		mesh.draw(m_Shader, m_Transform);
     }  
 }

@@ -66,8 +66,7 @@ void Texture::getFormatFromColor(TextureColor color, unsigned int channels)
     }
     else if (color == TextureColor::Normal)
     {
-        m_InternalFormat = GL_RGB;
-        m_DataFormat = GL_RGBA;
+        getFormat(channels);
         m_Attachment = TextureAttachment::Color;
     }
     else if (color == TextureColor::Displacement)

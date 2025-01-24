@@ -2,8 +2,9 @@
 
 using Octo::Mesh;
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::string txtPath)
-    : m_Texture(txtPath), m_VBO(BufferType::Array), m_EBO(BufferType::Element)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
+    : m_VBO(BufferType::Array), m_EBO(BufferType::Element),
+    material("../../../assets/textures/brick_albedo.png", "../../../assets/textures/brick_normal.png")
 {
     m_VAO.bind();
 
@@ -20,9 +21,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
     m_VAO.setAttribute((int)Attributes::BoneIDs, 4, sizeof(Vertex), offsetof(Vertex, Vertex::boneIDs));
     m_VAO.setAttribute((int)Attributes::Weights, 4, sizeof(Vertex), offsetof(Vertex, Vertex::weights));
 
-   /* m_VAO.setAttribute((int)Attributes::Tangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::tangent));
+    m_VAO.setAttribute((int)Attributes::Tangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::tangent));
     m_VAO.setAttribute((int)Attributes::Bitangent, 3, sizeof(Vertex), offsetof(Vertex, Vertex::bitangent));
-*/
+
 
     m_VAO.unbind();
     m_EBO.unbind();
@@ -31,5 +32,6 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std:
 
 void Mesh::draw(Shader& shader, glm::mat4 model)
 {
-    Renderer::basicDraw(m_VAO, shader, m_Texture, m_EBO.getCount(), model);
+    material.setShader(&shader);
+    Renderer::basicDraw(m_VAO, shader, m_EBO.getCount(), model);
 }

@@ -4,6 +4,7 @@ using Octo::Renderer;
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, glm::mat4 model)
 {
+    m_DrawQueue.push_back({&vao, &shader, count, model});
    /* if (!m_MainCamera) return;
     
     shader.bind();
@@ -85,38 +86,22 @@ void Renderer::startPass()
 
 void Renderer::drawElement(DrawElement& el, Shader* shader)
 {
-        if (!m_MainCamera) return;
+    if (!m_MainCamera) return;
     
-        shader->bind();
-        //txt.bind();
+    shader->bind();
 
-        shader->setMat4("projection", m_MainCamera->getProjectionMatrix());
-        shader->setMat4("view", m_MainCamera->getViewMatrix());
-        shader->setMat4("model", el.transform);
+    shader->setMat4("projection", m_MainCamera->getProjectionMatrix());
+    shader->setMat4("view", m_MainCamera->getViewMatrix());
+    shader->setMat4("model", el.transform);
+    shader->setVec3("viewPos", m_MainCamera->getPosition());
 
-        //shader.setInt("txt", 0);
+    LightingManager::updateLights(el.shader);
 
-        shader->setVec3("viewPos", m_MainCamera->getPosition());
+    el.vao->bind();
+    glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
+    el.vao->unbind();
 
-        /**if (m_DirLight)
-        {
-            m_DirLight->setShader(el.shader);
-        }
-
-        if (m_SpotLight)
-        {
-            //m_SpotLight->setShader(el.shader);
-        }**/
-
-        LightingManager::updateLights(el.shader);
-
-        el.vao->bind();
-
-        glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
-
-        el.vao->unbind();
-        shader->unbind();
-
+    shader->unbind();
 }
 void Renderer::endPass()
 {
