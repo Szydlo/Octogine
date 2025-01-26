@@ -96,7 +96,7 @@
 
     v0.8 - SCENE SYSTEM  - DONE
 
-    v0.9 & 1.0 - RENDERER & MATERIALS
+    v0.9 - RENDERER & MATERIALS
     point lights - DONE
     spot lights - DONE
     lighting system - DONE

@@ -21,9 +21,20 @@ namespace Octo
             shader->setInt("material.albedoTXT", 1);
             normalTXT.bind(2);
             shader->setInt("material.normalTXT", 2);
+        
+            shader->setVec3("material.albedo", albedo);
+            
+            shader->setFloat("material.metallic", metallic);
+            shader->setFloat("material.roughness", roughness);
+            shader->setFloat("material.ao", ao);
         }
 
-        glm::vec3 albedoColor = glm::vec3(1.0, 1.0, 1.0);
+        glm::vec3 albedo = glm::vec3(1.0, 1.0, 1.0);
+
+        float metallic = 0;
+        float roughness = 0;
+        float ao = 0;
+
         Texture2D albedoTXT;
         Texture2D normalTXT;
     };

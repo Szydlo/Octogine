@@ -198,6 +198,24 @@ public:
 
                 float* colorArr = &color.x;
                 ImGui::ColorPicker3("color", colorArr);
+
+                if (ImGui::CollapsingHeader("Material"))
+                {
+                    Octo::Material& mat = model3D->getModel().getMeshes()[0].material;
+
+                    float* albedoArray = &mat.albedo.x;
+
+                    ImGui::InputFloat3("albedo", albedoArray);
+
+                    ImGui::InputFloat("metallic", &mat.metallic);
+                    ImGui::InputFloat("roughness", &mat.roughness);
+                    ImGui::InputFloat("ao", &mat.ao);
+
+                    ImGui::LabelText("normal txt", "albedo txt");
+                    ImGui::Image((void*)mat.albedoTXT.getIdentity(), ImVec2(64, 64));
+                    ImGui::SameLine();
+                    ImGui::Image((void*)mat.normalTXT.getIdentity(), ImVec2(64, 64));
+                }
             }
 
             if (selectedNode->isA<Octo::Sun3D>() && ImGui::CollapsingHeader("Sun3D"))

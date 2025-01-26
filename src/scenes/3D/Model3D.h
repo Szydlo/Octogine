@@ -29,6 +29,7 @@ namespace Octo
             std::string& getPath() { return m_Path; }
             glm::vec3& getColor() { return m_Color; }
             void setColor(glm::vec3 color) { m_Color = color; }
+            Model& getModel() { return m_Model; }
         private:
             Model m_Model;
             glm::vec3 m_Color = glm::vec3(1.0);
