@@ -15,7 +15,6 @@ void Physics::init()
     m_PhysicsSystem->Init(cMaxBodies, cNumBodyMutexes, cMaxBodyPairs, cMaxContactConstraints, m_BPLayerInterface, m_ObjectVsBrodPhaseFilter, m_ObjectLayerPair);
 
     m_BodyInterface = &m_PhysicsSystem->GetBodyInterface();
-    
 }
 
 void Physics::update(double deltaTime)

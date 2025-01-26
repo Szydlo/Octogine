@@ -5,7 +5,7 @@ using Octo::Entity;
 Entity::Entity(std::string name)
     : m_Name(name)
 {
-    Events::onStart.connect(&Entity::onStart, this);
+    Events::onNodeStart.connect(&Entity::onStart, this);
     Events::onUpdate.connect(&Entity::onUpdate, this);
 }
 

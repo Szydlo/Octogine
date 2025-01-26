@@ -77,6 +77,7 @@ Window::Window(int width, int height, std::string title)
 void Window::start()
 {
     Events::onStart();
+    Events::onNodeStart();
     double currentFrame;
 	double lastFrame = getTickCount();
 

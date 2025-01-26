@@ -44,6 +44,8 @@
 #include "scenes/3D/Sun3D.h"
 #include "scenes/3D/Spotlight3D.h"
 #include "scenes/3D/Pointlight3D.h"
+#include "scenes/3D/Collider3D.h"
+#include "scenes/3D/Rigidbody3D.h"
 
 /* 
     API CHEATSHEET

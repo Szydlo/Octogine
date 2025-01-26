@@ -16,11 +16,13 @@ namespace Octo
     class RigidBody
     {
         public:
-            RigidBody(Collider& collider, BodyMode mode, JPH::ObjectLayer layer, bool activate);
+            RigidBody(BodyMode mode, JPH::ObjectLayer layer, bool activate);
             ~RigidBody();
 
             glm::vec3 getPosition();
             glm::quat getRotation();
+
+            void setCollider(Collider* collider);
 
             void setPosition(glm::vec3 position);
             void setRotation(glm::quat rotation);
@@ -36,8 +38,11 @@ namespace Octo
         private:
             JPH::EMotionType convertBodyMode(BodyMode mode);
 
-            JPH::Body* m_JoltBody;
+            JPH::Body* m_JoltBody = nullptr;
             JPH::BodyInterface* m_bodyInterface;
             BodyMode m_Mode;
+            Collider* m_Collider;
+            JPH::ObjectLayer m_Layer;
+            bool m_Activate = true;
     };
 };

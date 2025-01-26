@@ -2,21 +2,24 @@
 
 using Octo::RigidBody;
 
-RigidBody::RigidBody(Collider& collider, BodyMode mode, JPH::ObjectLayer layer, bool activate)
-    : m_Mode(mode)
+RigidBody::RigidBody(BodyMode mode, JPH::ObjectLayer layer, bool activate)
+    : m_Mode(mode), m_Layer(layer), m_Activate(activate)
 {
     m_bodyInterface = Physics::getBodyInterface();
+}
 
+void RigidBody::setCollider(Collider* collider)
+{
     JPH::BodyCreationSettings bodySettings(
-        collider.getShape().geJoltShape(),
+        collider->getShape().geJoltShape(),
         JPH::RVec3(0, 0, 0),
         JPH::Quat::sIdentity(), 
-        convertBodyMode(mode), 
-        layer
+        convertBodyMode(m_Mode), 
+        m_Layer
     );
     
     m_JoltBody = m_bodyInterface->CreateBody(bodySettings);
-    m_bodyInterface->AddBody(m_JoltBody->GetID(), (activate ? JPH::EActivation::Activate : JPH::EActivation::DontActivate) );
+    m_bodyInterface->AddBody(m_JoltBody->GetID(), (m_Activate ? JPH::EActivation::Activate : JPH::EActivation::DontActivate) );
 }
 
 RigidBody::~RigidBody()
@@ -53,6 +56,7 @@ void RigidBody::addImpulse(glm::vec3 impulse)
 
 void RigidBody::setPosition(glm::vec3 position)
 {
+    m_bodyInterface->SetLinearAndAngularVelocity(m_JoltBody->GetID(), JoltUtils::convertGlmVec3({0, 0, 0}), JoltUtils::convertGlmVec3({0, 0, 0}));
     m_bodyInterface->SetPosition(m_JoltBody->GetID(), JoltUtils::convertGlmVec3(position), JPH::EActivation::Activate);
 }
 

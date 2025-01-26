@@ -10,6 +10,8 @@ BoxShape::BoxShape(glm::vec3 size)
     m_Shape = m_ShapeResult.Get();
 }
 
+
+
 CapsuleShape::CapsuleShape(float halfHeight, float radius)
 {
     JPH::CapsuleShapeSettings capsuleSettings(halfHeight, radius);

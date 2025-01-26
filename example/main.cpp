@@ -28,7 +28,9 @@ public:
         node("node3d2"),
         model("nice model", "../../../assets/models/cube.glb"),
         floor("floor", "../../../assets/models/cube.glb"),
-        sun("sun")
+        sun("sun"),
+        rb("rbody"),
+        collider("box collider")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -47,7 +49,10 @@ public:
         scene.addChild(&node);
         scene.addChild(&sun);
         scene.addChild(&floor);
-        floor.addChild(&model);
+
+        scene.addChild(&rb);
+        rb.addChild(&collider);
+        rb.addChild(&model);
 
         sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
 
@@ -182,7 +187,14 @@ public:
                 float* scaleArray = &transform.scale.x;
 
                 ImGui::LabelText("", "Transform");
-                ImGui::InputFloat3("position", posArray);
+                if (ImGui::InputFloat3("position", posArray))
+                {  
+                    if (selectedNode->isA<Octo::Rigidbody3D>())
+                    {
+                        Octo::Rigidbody3D* rbody3D = selectedNode->as<Octo::Rigidbody3D*>();
+                        rbody3D->getBody().setPosition(transform.position);
+                    }
+                }
                 ImGui::InputFloat3("rotation", rotArray);
                 ImGui::InputFloat3("scale", scaleArray);
             }
@@ -243,7 +255,7 @@ public:
                 ImGui::InputFloat("outerCutOff", &spotLight3D->outerCutOff);
             }
 
-            if (selectedNode->isA<Octo::Pointlight3D>() && ImGui::CollapsingHeader("Pointlight3d"))
+            if (selectedNode->isA<Octo::Pointlight3D>() && ImGui::CollapsingHeader("Pointlight3D"))
             {
                 Octo::Pointlight3D* pointLight3D = selectedNode->as<Octo::Pointlight3D*>();
 
@@ -258,6 +270,16 @@ public:
                 ImGui::InputFloat("constant", &pointLight3D->constant);
                 ImGui::InputFloat("linear", &pointLight3D->linear);
                 ImGui::InputFloat("quadratic", &pointLight3D->quadratic);
+            }
+
+            if (selectedNode->isA<Octo::Rigidbody3D>() && ImGui::CollapsingHeader("Rigidbody3D"))
+            {
+                Octo::Rigidbody3D* rbody3D = selectedNode->as<Octo::Rigidbody3D*>();
+            }
+
+            if (selectedNode->isA<Octo::Collider3D>() && ImGui::CollapsingHeader("Collider3D"))
+            {
+                Octo::Collider3D* collider3D = selectedNode->as<Octo::Collider3D*>();
             }
         }
 
@@ -297,6 +319,8 @@ public:
     Octo::Model3D model;
     Octo::Sun3D sun;
     Octo::Model3D floor;
+    Octo::Rigidbody3D rb;
+    Octo::Collider3D collider;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
