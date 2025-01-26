@@ -10,6 +10,7 @@ add_executable(
     ExampleProject
 
     main.cpp
+    inspector.h
 )
 
 target_link_libraries(ExampleProject Octogine glm)
