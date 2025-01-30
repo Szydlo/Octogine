@@ -26,11 +26,7 @@ public:
             "../../../assets/textures/skybox/front.jpg",
             "../../../assets/textures/skybox/back.jpg"
         }),
-        scene("basic scene"),
-        node("node3d2"),
-        model("nice model", "../../../assets/models/cube.glb"),
-        floor("floor", "../../../assets/models/cube.glb"),
-        sun("sun")
+        sphere("../../../assets/models/sphere.glb")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -46,18 +42,6 @@ public:
         Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
-        scene.addChild(&node);
-        scene.addChild(&sun);
-        scene.addChild(&floor);
-        scene.addChild(&model);
-
-        sun.getTransform().rotation = glm::vec3(-2.0f, 4.0f, -1.0f);
-
-        floor.getTransform().position = glm::vec3(0.0f, -1.0f, 0.0f);
-        floor.getTransform().scale = glm::vec3(10.0f, 0.1f, 10.0f);
-        floor.setColor({0.1, 0.8, 0.1});
-
-        model.getTransform().position = glm::vec3(0.0f, 1.0f, 0.0f);
     }
 
     void click(int key, bool pressed)
@@ -100,7 +84,24 @@ public:
         ImGui::InputFloat3("camera rot", &cameraRot.x);
         ImGui::End();
 
-        Inspector::draw(scene);
+        for (int y = 0; y < 5; y++)
+        for (int x = 0; x < 5; x++)
+        {
+            Octo::Material& material = sphere.getMeshes()[0].material;
+
+            material.albedo = glm::vec3(0.5f, 0.0, 0.0);
+
+            material.roughness = glm::clamp((float)x / (float)5, 0.05f, 1.0f);
+            material.metallic = (float)y / 5.0f;
+
+            material.ao = 1.0;
+
+            glm::mat4 mat = glm::mat4(1.0);
+            mat = glm::translate(mat, glm::vec3(x * 2, y * 2, 0));
+
+            sphere.setTransform(mat);
+            sphere.draw();
+        }
     }
 
     void mouseMove(double x, double y)
@@ -130,11 +131,7 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     Octo::SkyBox skybox;
-    Octo::Scene scene;
-    Octo::Node3D node;
-    Octo::Model3D model;
-    Octo::Sun3D sun;
-    Octo::Model3D floor;
+    Octo::Model sphere;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

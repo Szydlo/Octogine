@@ -1,4 +1,4 @@
-#version 330 core
+#version 440 core
 out vec4 FragColor;
 
 in vec3 FragPos;
@@ -223,20 +223,37 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 
 void main()
 {
+
+    //int numLights = 1 + currentPointLights + currentSpotLights;
+
+    /*vec3 lightPositions[1 + NR_MAX_LIGHTS + NR_MAX_LIGHTS];
+    lightPositions[0] = dirLight.direction;
+    
+    vec3 lightColors[1 + NR_MAX_LIGHTS + NR_MAX_LIGHTS];
+    lightColors[0] = dirLight.ambient;*/
+
+    vec3 lightPositions[4] = {
+            vec3(-10.0f,  10.0f, 10.0f),
+            vec3( 10.0f,  10.0f, 10.0f),
+            vec3(-10.0f, -10.0f, 10.0f),
+            vec3( 10.0f, -10.0f, 10.0f),
+    };
+
+    vec3 lightColors[] = {
+        vec3(300.0f, 300.0f, 300.0f),
+        vec3(300.0f, 300.0f, 300.0f),
+        vec3(300.0f, 300.0f, 300.0f),
+        vec3(300.0f, 300.0f, 300.0f)
+    };
+
+    int numLights = 4;
+
     vec3 N = normalize(Normal);
     vec3 V = normalize(viewPos - FragPos);
 
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, material.albedo, material.metallic);
     vec3 Lo = vec3(0.0);
-
-    int numLights = 1 + currentPointLights + currentSpotLights;
-
-    vec3 lightPositions[1 + NR_MAX_LIGHTS + NR_MAX_LIGHTS];
-    lightPositions[0] = dirLight.direction;
-    
-    vec3 lightColors[1 + NR_MAX_LIGHTS + NR_MAX_LIGHTS];
-    lightColors[0] = dirLight.ambient;
 
     for (int i = 0; i < numLights; i++)
     {

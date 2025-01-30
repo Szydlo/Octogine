@@ -2,7 +2,6 @@
 
 #include "./Mesh.h"
 #include "../graphics/Shader.h"
-
 #include "../animations/Skeleton.h"
 
 #include "spdlog/spdlog.h"
