@@ -14,5 +14,5 @@ bin/
 build/
 /.vs
 /.vscode
-.idea
-cmake-build-debug
+.idea/
+cmake-build-debug/
