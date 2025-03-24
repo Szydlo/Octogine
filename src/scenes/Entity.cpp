@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+#include "../core/Events.h"
+
 using Octo::Entity;
 
 Entity::Entity(const std::string &name)

@@ -1,5 +1,8 @@
 #include "Shape.h"
 
+#include "JoltUtils.h"
+
+
 using namespace Octo;
 
 BoxShape::BoxShape(const glm::vec3 size)

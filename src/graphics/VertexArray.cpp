@@ -1,5 +1,8 @@
 #include "VertexArray.h"
 
+#include "glad/glad.h"
+#include "spdlog/spdlog.h"
+
 using Octo::VertexArray;
 
 VertexArray::VertexArray()

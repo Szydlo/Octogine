@@ -5,10 +5,6 @@
 #include <map>
 #include <string>
 
-#include "spdlog/spdlog.h"
-
-#include <any>
-
 namespace Octo
 {
     class AssetManager

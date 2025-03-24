@@ -3,11 +3,6 @@
 #include "Texture.h"
 
 #include <string>
-#include <filesystem>
-
-#include "spdlog/spdlog.h"
-#include "../../vendor/stb/stb_image.h"
-#include "../../vendor/stb/stb_image_write.h"
 
 namespace Octo
 {

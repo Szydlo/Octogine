@@ -7,8 +7,6 @@
 #include "../graphics/Texture2D.h"
 #include "../models/Model.h"
 
-#include <any>
-
 namespace Octo
 {
     enum class AssetType : unsigned int

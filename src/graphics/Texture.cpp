@@ -1,5 +1,7 @@
 #include "Texture.h"
 
+#include "spdlog/spdlog.h"
+
 using Octo::Texture;
 
 Texture::Texture(const TextureType type)
@@ -57,7 +59,7 @@ void Texture::getFormat(const unsigned int channels)
     }
 }
 
-void Texture::getFormatFromColor(TextureColor color, unsigned int channels)
+void Texture::getFormatFromColor(const TextureColor color, const unsigned int channels)
 {
     if (color == TextureColor::Color)
     {

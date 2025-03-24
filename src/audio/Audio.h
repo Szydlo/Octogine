@@ -1,7 +1,5 @@
 #pragma once
 
-#include <spdlog/spdlog.h>
-
 #include "../../vendor/miniaudio/miniaudio.h"
 
 #include "AudioListener.h"

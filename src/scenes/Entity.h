@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "../core/Events.h"
-
 namespace Octo
 {
     class Entity

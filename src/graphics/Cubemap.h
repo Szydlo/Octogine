@@ -2,9 +2,8 @@
 
 #include "Texture.h"
 
-#include "../../vendor/stb/stb_image.h"
-
 #include <array>
+#include <string>
 
 namespace Octo
 {

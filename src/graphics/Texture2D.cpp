@@ -1,5 +1,10 @@
 #include "Texture2D.h"
 
+#include <filesystem>
+#include "spdlog/spdlog.h"
+#include "../../vendor/stb/stb_image.h"
+#include "../../vendor/stb/stb_image_write.h"
+
 using Octo::Texture2D;
 
 Texture2D::Texture2D(std::string path, const TextureColor color)

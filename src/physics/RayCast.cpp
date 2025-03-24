@@ -1,5 +1,12 @@
 #include "RayCast.h"
 
+#include <Jolt/Physics/Collision/CastResult.h>
+#include <Jolt/Physics/Collision/CollisionCollector.h>
+#include <Jolt/Physics/Collision/CollisionCollectorImpl.h>
+
+#include "Physics.h"
+#include "JoltUtils.h"
+
 using Octo::RayCast;
 
 bool RayCast::Cast(const glm::vec3 start, const glm::vec3 direction, ResultHit& hit)

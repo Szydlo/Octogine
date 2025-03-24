@@ -2,15 +2,12 @@
 
 #include <Jolt/Jolt.h>
 
+#include <glm/glm.hpp>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 #include <Jolt/Physics/Collision/Shape/CylinderShape.h>
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
 #include <Jolt/Physics/Collision/Shape/TriangleShape.h>
-
-#include <glm/glm.hpp>
-
-#include "JoltUtils.h"
 
 
 namespace Octo

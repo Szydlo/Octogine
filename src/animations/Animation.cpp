@@ -1,5 +1,9 @@
 #include "Animation.h"
 
+#include "spdlog/spdlog.h"
+#include "fastgltf/core.hpp"
+#include "fastgltf/tools.hpp"
+
 using Octo::Animation;
 
 Animation::Animation(const std::string& path, int animation)

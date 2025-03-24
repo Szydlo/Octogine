@@ -1,9 +1,5 @@
 #pragma once
 
-#include "glad/glad.h"
-
-#include "spdlog/spdlog.h"
-
 /*
     @ IMPORTANT
 

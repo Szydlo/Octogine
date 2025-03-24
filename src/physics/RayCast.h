@@ -4,12 +4,6 @@
 
 #include <Jolt/Jolt.h>
 #include <Jolt/Physics/Collision/RayCast.h>
-#include <Jolt/Physics/Collision/CastResult.h>
-#include <Jolt/Physics/Collision/CollisionCollector.h>
-#include <Jolt/Physics/Collision/CollisionCollectorImpl.h>
-
-#include "Physics.h"
-#include "JoltUtils.h"
 
 #include <vector>
 

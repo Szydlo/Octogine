@@ -4,10 +4,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-#include "spdlog/spdlog.h"
-#include "fastgltf/core.hpp"
 #include "fastgltf/types.hpp"
-#include "fastgltf/tools.hpp"
 
 #include "../models/Model.h"
 

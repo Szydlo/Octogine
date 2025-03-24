@@ -3,8 +3,6 @@
 #include "glm/glm.hpp"
 #include "glad/glad.h"
 
-#include "spdlog/spdlog.h"
-
 namespace Octo
 {
     enum class TextureType : int
@@ -46,11 +44,11 @@ namespace Octo
             void getFormat(unsigned int channels);
             void getFormatFromColor(TextureColor color, unsigned int channels = 4);
 
-            unsigned int m_Identity;
-            int m_Width, m_Height;
+            unsigned int m_Identity{};
+            int m_Width{}, m_Height{};
 
             TextureType m_Type;
             TextureAttachment m_Attachment;
-            GLenum m_InternalFormat, m_DataFormat;
+            GLenum m_InternalFormat{}, m_DataFormat{};
     };
 };

@@ -5,7 +5,7 @@
 #include "SpotLight.h"
 #include "Shadow.h"
 
-#include <array>
+#include <vector>
 
 namespace Octo
 {

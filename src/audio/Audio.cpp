@@ -1,5 +1,7 @@
 #include "Audio.h"
 
+#include <spdlog/spdlog.h>
+
 using Octo::Audio;
 
 void Audio::init()

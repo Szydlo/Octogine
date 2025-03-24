@@ -1,7 +1,8 @@
 #include "FrameBuffer.h"
 
-using Octo::FrameBuffer;
+#include "glad/glad.h"
 
+using Octo::FrameBuffer;
 
 FrameBuffer::FrameBuffer()
 {

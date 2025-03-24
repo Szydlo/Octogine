@@ -1,5 +1,8 @@
 #include "Cubemap.h"
 
+#include "../../vendor/stb/stb_image.h"
+#include <spdlog/spdlog.h>
+
 using Octo::Cubemap;
 
 Cubemap::Cubemap(const glm::vec2 size, const TextureColor color)

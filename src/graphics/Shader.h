@@ -1,13 +1,7 @@
 #pragma once
 
-#include "glad/glad.h"
 #include <glm/glm.hpp>
-#include "spdlog/spdlog.h"
-
 #include <string>
-#include <filesystem>
-#include <fstream> 
-#include <sstream>
 
 namespace Octo
 {

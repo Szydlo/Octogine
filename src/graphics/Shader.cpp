@@ -1,5 +1,12 @@
 #include "Shader.h"
 
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
+#include "glad/glad.h"
+#include "spdlog/spdlog.h"
+
 using Octo::Shader;
 
 Shader::Shader(std::string vertexShader, std::string fragmentShader, std::string geomtryShader)

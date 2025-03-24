@@ -1,5 +1,9 @@
 #include "Model.h"
 
+#include "fastgltf/core.hpp"
+#include "fastgltf/types.hpp"
+#include "fastgltf/tools.hpp"
+
 using Octo::Model;
 
 // @ TODO make it more flexible, mainly ability to easily add new format other than gltf

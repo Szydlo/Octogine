@@ -1,5 +1,14 @@
 #include "Window.h"
 
+#include "Events.h"
+#include "Input.h"
+
+#include "../graphics/Renderer.h"
+#include "../physics/Physics.h"
+#include "../audio/Audio.h"
+
+#include "spdlog/spdlog.h"
+
 using Octo::Window;
 
 Window::Window(const int width, const int height, const std::string &title)

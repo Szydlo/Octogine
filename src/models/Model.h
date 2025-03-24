@@ -5,9 +5,6 @@
 #include "../animations/Skeleton.h"
 
 #include "spdlog/spdlog.h"
-#include "fastgltf/core.hpp"
-#include "fastgltf/types.hpp"
-#include "fastgltf/tools.hpp"
 
 #include <string>
 #include <vector>
