@@ -12,13 +12,13 @@ namespace Octo
             FrameBuffer();
             ~FrameBuffer();
 
-            void setTexture2D(Texture2D& texture);
+            static void setTexture2D(Texture2D& texture);
 
-            void drawBuffer(int buffer);
-            void readBuffer(int buffer);
+            static void drawBuffer(int buffer);
+            static void readBuffer(int buffer);
 
-            void bind();
-            void unbind();
+            void bind() const;
+            static void unbind();
         private:
             unsigned int m_Identity;
     };

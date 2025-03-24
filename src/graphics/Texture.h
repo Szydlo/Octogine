@@ -29,19 +29,19 @@ namespace Octo
     class Texture
     {
         public:
-            Texture(TextureType type);
+            explicit Texture(TextureType type);
             ~Texture();
 
             void bind(unsigned int slot = 0);
             void unbind();
 
-            TextureType getType() { return m_Type; }
-            TextureAttachment getAttachment() { return m_Attachment; }
+            [[nodiscard]] TextureType getType() const { return m_Type; }
+            [[nodiscard]] TextureAttachment getAttachment() const { return m_Attachment; }
 
             unsigned int getIdentity() { return m_Identity; }
 
-            int getWidth() { return m_Width; }
-            int getHeight() { return m_Height; }
+            [[nodiscard]] int getWidth() const { return m_Width; }
+            [[nodiscard]] int getHeight() const { return m_Height; }
         protected:
             void getFormat(unsigned int channels);
             void getFormatFromColor(TextureColor color, unsigned int channels = 4);

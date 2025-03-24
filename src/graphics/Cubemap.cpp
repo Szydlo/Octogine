@@ -2,7 +2,7 @@
 
 using Octo::Cubemap;
 
-Cubemap::Cubemap(glm::vec2 size, TextureColor color)
+Cubemap::Cubemap(const glm::vec2 size, const TextureColor color)
     : Texture(TextureType::Cubemap)
 {
     bind();
@@ -21,7 +21,7 @@ Cubemap::Cubemap(glm::vec2 size, TextureColor color)
     unbind();
 }
 
-Cubemap::Cubemap(std::array<std::string, 6> paths, TextureColor color)
+Cubemap::Cubemap(std::array<std::string, 6> paths, const TextureColor color)
     : Texture(TextureType::Cubemap)
 {
     bind();

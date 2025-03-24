@@ -13,13 +13,13 @@ namespace Octo
     class Shadow
     {
         public:
-            Shadow(glm::vec2 resolution);
+            explicit Shadow(glm::vec2 resolution);
 
             void startPass(glm::vec3 lightDirection);
             void endPass();
 
             Texture2D& getDepthTexture() { return m_DepthTxt; }
-            glm::mat4 getLightSpaceMatrix() { return m_LightSpaceMatrix; }
+            [[nodiscard]] glm::mat4 getLightSpaceMatrix() const { return m_LightSpaceMatrix; }
             Shader& getDepthShader() { return m_DepthShader; }
             FrameBuffer& getDepthFrameBuffer() { return m_DepthBuffer;}
         private:
@@ -28,6 +28,6 @@ namespace Octo
             Shader m_DepthShader;
             glm::vec2 m_Resolution;
 
-            glm::mat4 m_LightSpaceMatrix;
+            glm::mat4 m_LightSpaceMatrix = {};
     };
 };

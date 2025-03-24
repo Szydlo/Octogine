@@ -19,29 +19,29 @@ namespace Octo
             RigidBody(BodyMode mode, JPH::ObjectLayer layer, bool activate);
             ~RigidBody();
 
-            glm::vec3 getPosition();
-            glm::quat getRotation();
+            [[nodiscard]] glm::vec3 getPosition() const;
+            [[nodiscard]] glm::quat getRotation() const;
 
             void setCollider(Collider* collider);
 
-            void setPosition(glm::vec3 position);
-            void setRotation(glm::quat rotation);
+            void setPosition(glm::vec3 position) const;
+            void setRotation(glm::quat rotation) const;
 
-            void setLinearVelocity(glm::vec3 velocity);
-            void setAngularVelocity(glm::vec3 velocity);
-            void addForce(glm::vec3 force);
-            void addForce(glm::vec3 force, glm::vec3 direction);
-            void addImpulse(glm::vec3 impulse);
+            void setLinearVelocity(glm::vec3 velocity) const;
+            void setAngularVelocity(glm::vec3 velocity) const;
+            void addForce(glm::vec3 force) const;
+            void addForce(glm::vec3 force, glm::vec3 direction) const;
+            void addImpulse(glm::vec3 impulse) const;
 
-            JPH::Body* getJoltBody() { return m_JoltBody; }
-            JPH::BodyInterface* getJoltBodyInterface() { return m_bodyInterface; }
+            [[nodiscard]] const JPH::Body* getJoltBody() const { return m_JoltBody; }
+            [[nodiscard]] const JPH::BodyInterface* getJoltBodyInterface() const { return m_bodyInterface; }
         private:
-            JPH::EMotionType convertBodyMode(BodyMode mode);
+            static JPH::EMotionType convertBodyMode(BodyMode mode);
 
             JPH::Body* m_JoltBody = nullptr;
             JPH::BodyInterface* m_bodyInterface;
             BodyMode m_Mode;
-            Collider* m_Collider;
+            Collider* m_Collider = nullptr;
             JPH::ObjectLayer m_Layer;
             bool m_Activate = true;
     };

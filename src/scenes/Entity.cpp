@@ -2,7 +2,7 @@
 
 using Octo::Entity;
 
-Entity::Entity(std::string name)
+Entity::Entity(const std::string &name)
     : m_Name(name)
 {
     Events::onNodeStart.connect(&Entity::onStart, this);
@@ -14,9 +14,9 @@ void Entity::onStart()
 
 }
 
-void Entity::onUpdate(double deltaTime)
+void Entity::onUpdate(const double deltaTime)
 {
-    for (auto child : m_Children)
+    for (const auto child : m_Children)
     {
         child->onUpdate(deltaTime);
     }

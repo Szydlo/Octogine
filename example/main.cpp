@@ -19,14 +19,14 @@ public:
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
         skybox({
-            "../../../assets/textures/skybox/right.jpg",
-            "../../../assets/textures/skybox/left.jpg",
-            "../../../assets/textures/skybox/top.jpg",
-            "../../../assets/textures/skybox/bottom.jpg",
-            "../../../assets/textures/skybox/front.jpg",
-            "../../../assets/textures/skybox/back.jpg"
+            "../../assets/textures/skybox/right.jpg",
+            "../../assets/textures/skybox/left.jpg",
+            "../../assets/textures/skybox/top.jpg",
+            "../../assets/textures/skybox/bottom.jpg",
+            "../../assets/textures/skybox/front.jpg",
+            "../../assets/textures/skybox/back.jpg"
         }),
-        sphere("../../../assets/models/sphere.glb")
+        sphere("../../assets/models/sphere.glb")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);

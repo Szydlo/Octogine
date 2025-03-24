@@ -8,16 +8,15 @@ Camera::Camera(glm::vec2 resolution, glm::vec3 position)
     calculateCameraVectors();
 }
 
-Camera::~Camera()
-{
-    
-}
+Camera::~Camera() = default;
 
-glm::mat4 Camera::getViewMatrix() {
+glm::mat4 Camera::getViewMatrix() const
+{
     return glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 }
 
-glm::mat4 Camera::getProjectionMatrix() {
+glm::mat4 Camera::getProjectionMatrix() const
+{
     return glm::perspective(glm::radians(m_FOV), 
         static_cast<float>(m_Resolution.x) / static_cast<float>(m_Resolution.y), 
         m_Near, m_Far);
@@ -25,7 +24,7 @@ glm::mat4 Camera::getProjectionMatrix() {
 
 void Camera::calculateCameraVectors()
 {
-	glm::vec3 front(
+	const glm::vec3 front(
 		cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch)),
 		sin(glm::radians(m_Pitch)),
 		sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch))

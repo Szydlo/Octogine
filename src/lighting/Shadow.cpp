@@ -2,10 +2,10 @@
 
 using Octo::Shadow;
 
-Shadow::Shadow(glm::vec2 resolution)
-    : m_DepthTxt(NULL, resolution, TextureColor::Depth), 
-    m_Resolution(resolution),
-    m_DepthShader("../../../assets/shaders/depth.vs", "../../../assets/shaders/depth.fs")
+Shadow::Shadow(const glm::vec2 resolution)
+    : m_DepthTxt(nullptr, resolution, TextureColor::Depth),
+    m_DepthShader("../../../assets/shaders/depth.vs", "../../../assets/shaders/depth.fs"),
+    m_Resolution(resolution)
 {
     m_DepthBuffer.bind();
     m_DepthBuffer.readBuffer(NULL);
@@ -14,13 +14,13 @@ Shadow::Shadow(glm::vec2 resolution)
     m_DepthBuffer.unbind();
 }
 
-void Shadow::startPass(glm::vec3 lightDirection)
+void Shadow::startPass(const glm::vec3 lightDirection)
 {
-    glm::mat4 lightProjection, lightView;
+    const float near_plane = 1.0f;
+    const float far_plane = 7.5f;
 
-    float near_plane = 1.0f, far_plane = 7.5f;
-    lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-    lightView = glm::lookAt(lightDirection, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+    const glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+    const glm::mat4 lightView = glm::lookAt(lightDirection, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
     m_LightSpaceMatrix = lightProjection * lightView;
 
     m_DepthShader.bind();

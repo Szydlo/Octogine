@@ -33,7 +33,7 @@ namespace Octo
             shader.setFloat("spotLight.outerCutOff", outerCutOff);
         }
 
-        void setShader(Shader* shader, int id)
+        void setShader(Shader* shader, const int id) const
         {
             shader->setVec3("spotLights[" + std::to_string(id) + "].position", position);
             shader->setVec3("spotLights[" + std::to_string(id) + "].direction", direction);

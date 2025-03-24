@@ -17,24 +17,24 @@ namespace Octo
             Shader(std::string vertexShader, std::string fragmentShader, std::string geomtryShader = "");
             ~Shader();
 
-            void setBool(std::string name, bool value);
-            void setInt(std::string name, int value);
-            void setFloat(std::string name, float value);
-            void setVec2(std::string name, glm::vec2 value);
-            void setVec3(std::string name, glm::vec3 value);
-            void setVec4(std::string name, glm::vec4 value);
-            void setMat2(std::string name, glm::mat2 value);
-            void setMat3(std::string name, glm::mat3 value);
-            void setMat4(std::string name, glm::mat4 value);
+            void setBool(const std::string &name, bool value) const;
+            void setInt(const std::string& name, int value) const;
+            void setFloat(const std::string& name, float value) const;
+            void setVec2(const std::string& name, const glm::vec2& value) const;
+            void setVec3(const std::string& name, const glm::vec3& value) const;
+            void setVec4(const std::string& name, const glm::vec4& value) const;
+            void setMat2(const std::string& name, const glm::mat2& value) const;
+            void setMat3(const std::string& name, const glm::mat3& value) const;
+            void setMat4(const std::string& name, const glm::mat4& value) const;
 
-            void bind();
-            void unbind();
+            void bind() const;
+            static void unbind();
 
-            unsigned int getID() { return m_Identity; }
+            [[nodiscard]] unsigned int getID() const { return m_Identity; }
         private:
             unsigned int m_Identity;
 
-            void checkErrorShader(unsigned int shader, std::string path);
-	        void checkErrorProgram(unsigned int shader);
+            static void checkErrorShader(unsigned int shader, std::string path);
+	        static void checkErrorProgram(unsigned int shader);
     };
 };

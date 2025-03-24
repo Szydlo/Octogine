@@ -37,7 +37,7 @@ void Audio::init()
 
     m_EngineConfig.listenerCount = 2;
 
-    ma_result result = ma_engine_init(&m_EngineConfig, &m_Engine);
+    const ma_result result = ma_engine_init(&m_EngineConfig, &m_Engine);
 
     if (result != MA_SUCCESS)
     {
@@ -66,5 +66,5 @@ void Audio::setListener(AudioListener* listener)
 {
     m_Listener = listener;
 
-    m_Listener->setListener(&m_Engine, (unsigned int)Listeners::Spatial);
+    m_Listener->setListener(&m_Engine, static_cast<unsigned int>(Listeners::Spatial));
 }

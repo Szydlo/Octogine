@@ -19,9 +19,9 @@ namespace Octo
     class Collider
     {
         public:
-            Collider(Shape& shape);
+            explicit Collider(Shape& shape);
 
-            Shape& getShape() { return m_Shape; }
+            [[nodiscard]] Shape& getShape() const { return m_Shape; }
         private:
             Shape& m_Shape;
     };

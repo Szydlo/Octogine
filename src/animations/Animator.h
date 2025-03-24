@@ -13,12 +13,12 @@ namespace Octo
     class Animator
     {
         public:
-            Animator(Model* model);
+            explicit Animator(Model* model);
 
-            void prepareModel();
+            void prepareModel() const;
 
             void updateAnimation(Animation* anim, double deltaTime, glm::mat4 parentTransform = glm::mat4(1.0));
-            void updateBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, double deltaTime, glm::mat4 parentTransform);
+            void updateBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, double deltaTime, const glm::mat4 &parentTransform);
         private:
             void calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index);
             void calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index);

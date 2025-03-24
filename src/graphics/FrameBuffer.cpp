@@ -13,7 +13,7 @@ FrameBuffer::~FrameBuffer()
     glDeleteFramebuffers(1, &m_Identity);
 }
 
-void FrameBuffer::bind()
+void FrameBuffer::bind() const
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_Identity);
 }
@@ -25,15 +25,15 @@ void FrameBuffer::unbind()
 
 void FrameBuffer::setTexture2D(Texture2D& texture)
 {
-    glFramebufferTexture2D(GL_FRAMEBUFFER, (int)texture.getAttachment(), GL_TEXTURE_2D, texture.getIdentity(), 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<int>(texture.getAttachment()), GL_TEXTURE_2D, texture.getIdentity(), 0);
 }
 
-void FrameBuffer::drawBuffer(int buffer)
+void FrameBuffer::drawBuffer(const int buffer)
 {
     glDrawBuffer(buffer);
 }
 
-void FrameBuffer::readBuffer(int buffer)
+void FrameBuffer::readBuffer(const int buffer)
 {
     glReadBuffer(buffer);
 }

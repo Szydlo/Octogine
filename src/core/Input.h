@@ -13,14 +13,14 @@ namespace Octo
     class Input
     {
         public:
-            inline static void setWindow(GLFWwindow* window) { m_Window = window; }
+            static void setWindow(GLFWwindow* window) { m_Window = window; }
             
-            inline static bool getKeyDown(int key) { return glfwGetKey(Input::m_Window, key) == GLFW_PRESS; }
-            inline static bool getKeyUp(int key) { return glfwGetKey(Input::m_Window, key) == GLFW_RELEASE; }
-            inline static bool getKey(int key) { return glfwGetKey(Input::m_Window, key) == GLFW_PRESS || glfwGetKey(Input::m_Window, key) == GLFW_RELEASE; }
+            static bool getKeyDown(const int key) { return glfwGetKey(Input::m_Window, key) == GLFW_PRESS; }
+            static bool getKeyUp(const int key) { return glfwGetKey(Input::m_Window, key) == GLFW_RELEASE; }
+            static bool getKey(const int key) { return glfwGetKey(Input::m_Window, key) == GLFW_PRESS || glfwGetKey(Input::m_Window, key) == GLFW_RELEASE; }
             
-            inline static CursorMode getCursorMode() { return (CursorMode)glfwGetInputMode(Input::m_Window, GLFW_CURSOR); }
-            inline static void setCursorMode(CursorMode mode) { glfwSetInputMode(Input::m_Window, GLFW_CURSOR, (int)mode); }
+            static CursorMode getCursorMode() { return static_cast<CursorMode>(glfwGetInputMode(Input::m_Window, GLFW_CURSOR)); }
+            static void setCursorMode(CursorMode mode) { glfwSetInputMode(Input::m_Window, GLFW_CURSOR, static_cast<int>(mode)); }
            
             static float getDirection(int key, int secondKey);
         private:

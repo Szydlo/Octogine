@@ -13,7 +13,7 @@ Animator::Animator(Model* model)
     }
 }
 
-void Animator::prepareModel()
+void Animator::prepareModel() const
 {
     for (int i = 0; i < m_finalBoneMatrices.size(); i++)
     {
@@ -22,7 +22,7 @@ void Animator::prepareModel()
     }
 }
 
-void Animator::updateAnimation(Animation* anim, double deltaTime, glm::mat4 parentTransform)
+void Animator::updateAnimation(Animation* anim, const double deltaTime, const glm::mat4 parentTransform)
 {
     if (!anim || !m_CurrentModel) { return; }
 
@@ -37,7 +37,7 @@ void Animator::updateAnimation(Animation* anim, double deltaTime, glm::mat4 pare
     calculateBonesTransform(anim, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
 }
 
-void Animator::updateBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, double deltaTime, glm::mat4 parentTransform)
+void Animator::updateBlended(Animation* baseAnim, Animation* secondAnim, const float blendFactor, const double deltaTime, const glm::mat4& parentTransform)
 {
     if (!baseAnim || !m_CurrentModel) { return; }
 
@@ -64,11 +64,11 @@ void Animator::updateBlended(Animation* baseAnim, Animation* secondAnim, float b
     calculateBonesTransformsBlended(baseAnim, secondAnim, blendFactor, m_CurrentModel->getSkeleton(), rootBone, parentTransform, index);
 }
 
-void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
+void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, const glm::mat4 parentTransform, int& index)
 {
-    auto& boneTransform = anim->calculateBoneInterpolation(bone.name, anim->currentTime);
-    glm::mat4 globalTransform = parentTransform * boneTransform;
-    glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
+    const auto boneTransform = anim->calculateBoneInterpolation(bone.name, anim->currentTime);
+    const glm::mat4 globalTransform = parentTransform * boneTransform;
+    const glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
 
     m_finalBoneMatrices[index] = localTransform;
     index++;
@@ -80,7 +80,7 @@ void Animator::calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBon
     }
 }
 
-void Animator::calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index)
+void Animator::calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, const float blendFactor, Skeleton& skeleton, TBone& bone, const glm::mat4 parentTransform, int& index)
 {
     auto boneTransform = baseAnim->calculateBoneInterpolation(bone.name, baseAnim->currentTime);
     auto boneTransform2 = secondAnim->calculateBoneInterpolation(bone.name, secondAnim->currentTime);
@@ -91,8 +91,8 @@ void Animator::calculateBonesTransformsBlended(Animation* baseAnim, Animation* s
     glm::mat4 blendedMat = glm::mat4_cast(finalRot);
     blendedMat[3] = (1.0f - blendFactor) * boneTransform[3] + boneTransform2[3] * blendFactor;
 
-    glm::mat4 globalTransform = parentTransform * blendedMat;
-    glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
+    const glm::mat4 globalTransform = parentTransform * blendedMat;
+    const glm::mat4 localTransform = globalTransform * bone.inverseBindMatrix;
 
     m_finalBoneMatrices[index] = localTransform;
     index++;

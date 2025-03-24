@@ -2,7 +2,7 @@
 
 using Octo::Texture;
 
-Texture::Texture(TextureType type)
+Texture::Texture(const TextureType type)
     : m_Type(type)
 {
     glGenTextures(1, &m_Identity);
@@ -13,7 +13,7 @@ Texture::~Texture()
     glDeleteTextures(1, &m_Identity);
 }
 
-void Texture::bind(unsigned int slot)
+void Texture::bind(const unsigned int slot)
 {
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(static_cast<int>(m_Type), m_Identity);
@@ -24,7 +24,7 @@ void Texture::unbind()
     glBindTexture(static_cast<int>(m_Type), 0);
 }
 
-void Texture::getFormat(unsigned int channels)
+void Texture::getFormat(const unsigned int channels)
 {
     switch(channels)
     {

@@ -21,7 +21,7 @@ namespace Octo
         std::string name;
         std::vector<TBone> bones;
 
-        int getBoneID(std::string name)
+        int getBoneID(const std::string& name)
         {
             int i = 0;
 

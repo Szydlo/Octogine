@@ -12,7 +12,7 @@ namespace Octo
     class SkyBox
     {
         public:
-            SkyBox(std::array<std::string, 6> paths);
+            explicit SkyBox(const std::array<std::string, 6> &paths);
 
             Cubemap& getCubemap() { return m_Cubemap; }
             Shader& getShader() { return m_Shader; }

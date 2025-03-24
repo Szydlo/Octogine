@@ -36,7 +36,7 @@ namespace Octo
         BoneIDs = 3,
         Weights = 4,
         Tangent = 5,
-       Bitangent = 6,
+        Bitangent = 6,
     };
 
     class Mesh
@@ -44,7 +44,7 @@ namespace Octo
         public:
             Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices); 
 
-            void draw(Shader& shader, glm::mat4 model);
+            void draw(Shader& shader, const glm::mat4 &model);
 
             VertexArray& getVAO() { return m_VAO; }
             Buffer& getVBO() { return m_VBO; }

@@ -2,21 +2,19 @@
 
 using Octo::RayCast;
 
-bool RayCast::Cast(glm::vec3 start, glm::vec3 direction, ResultHit& hit)
+bool RayCast::Cast(const glm::vec3 start, const glm::vec3 direction, ResultHit& hit)
 {
-    JPH::RayCast raycast;
+    JPH::RayCast rayCast;
          
-    raycast.mOrigin = JoltUtils::convertGlmVec3(start);
-    raycast.mDirection = JoltUtils::convertGlmVec3(direction);
+    rayCast.mOrigin = JoltUtils::convertGlmVec3(start);
+    rayCast.mDirection = JoltUtils::convertGlmVec3(direction);
          
     JPH::AllHitCollisionCollector<JPH::RayCastBodyCollector> collector;
-    Physics::getPhysicsSystem()->GetBroadPhaseQuery().CastRay(raycast, collector);
-    int num_hits = (int)collector.mHits.size();
-    JPH::BroadPhaseCastResult *results = collector.mHits.data();
+    Physics::getPhysicsSystem()->GetBroadPhaseQuery().CastRay(rayCast, collector);
+    const int num_hits = static_cast<int>(collector.mHits.size());
+    const JPH::BroadPhaseCastResult* results = collector.mHits.data();
 
     hit.bodyID = results[0].mBodyID.GetIndex();
-
-    results[0];
 
     if (num_hits > 0)
         return true;
@@ -24,21 +22,21 @@ bool RayCast::Cast(glm::vec3 start, glm::vec3 direction, ResultHit& hit)
     return false;
 }
 
-bool RayCast::CastMultiple(glm::vec3 start, glm::vec3 direction, std::vector<ResultHit>& hits)
+bool RayCast::CastMultiple(const glm::vec3 start, const glm::vec3 direction, std::vector<ResultHit>& hits)
 {
-    JPH::RayCast raycast;   
+    JPH::RayCast rayCast;   
          
-    raycast.mOrigin = JoltUtils::convertGlmVec3(start);
-    raycast.mDirection = JoltUtils::convertGlmVec3(direction);
+    rayCast.mOrigin = JoltUtils::convertGlmVec3(start);
+    rayCast.mDirection = JoltUtils::convertGlmVec3(direction);
          
     JPH::AllHitCollisionCollector<JPH::RayCastBodyCollector> collector;
-    Physics::getPhysicsSystem()->GetBroadPhaseQuery().CastRay(raycast, collector);
-    int num_hits = (int)collector.mHits.size();
-    JPH::BroadPhaseCastResult *results = collector.mHits.data();
+    Physics::getPhysicsSystem()->GetBroadPhaseQuery().CastRay(rayCast, collector);
+    const int num_hits = static_cast<int>(collector.mHits.size());
+    const JPH::BroadPhaseCastResult* results = collector.mHits.data();
 
     for (int i = 0; i < num_hits; i++)
     {
-        ResultHit hit;
+        ResultHit hit{};
         hit.bodyID = results[i].mBodyID.GetIndex();;
         hits.push_back(hit);
     }

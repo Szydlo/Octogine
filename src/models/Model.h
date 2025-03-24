@@ -17,7 +17,7 @@ namespace Octo
     class Model
     {
         public:
-            Model(std::string path, bool loadSkeleton = false);
+            explicit Model(const std::string& path, bool loadSkeleton = false);
             ~Model();
 
             void draw(bool useColor = false);
@@ -27,10 +27,10 @@ namespace Octo
             glm::mat4& getTransform() { return m_Transform; }
             std::vector<Mesh>& getMeshes() { return m_Meshes; }
             Skeleton& getSkeleton() { return m_Skeleton; }
-            glm::vec3 getColor() { return m_Color; }
+            [[nodiscard]] glm::vec3 getColor() const { return m_Color; }
 
-            void setColor(glm::vec3 color) { m_Color = color; }
-            void setTransform(glm::mat4 transform) { m_Transform = transform; }
+            void setColor(const glm::vec3 color) { m_Color = color; }
+            void setTransform(const glm::mat4 &transform) { m_Transform = transform; }
         private:
             Shader m_Shader;
             Skeleton m_Skeleton;

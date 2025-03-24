@@ -25,7 +25,7 @@ namespace Octo
             shader.setVec3("pointLight.diffuse", diffuse);
         }
 
-        void setShader(Shader* shader, int id)
+        void setShader(Shader* shader, const int id) const
         {
             shader->setVec3("pointLights[" + std::to_string(id) + "].position", position);
             

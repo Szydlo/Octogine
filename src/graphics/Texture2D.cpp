@@ -2,7 +2,7 @@
 
 using Octo::Texture2D;
 
-Texture2D::Texture2D(std::string path, TextureColor color)
+Texture2D::Texture2D(std::string path, const TextureColor color)
     : Texture(TextureType::Texture2D)
 {
     bind();
@@ -47,7 +47,7 @@ Texture2D::Texture2D(std::string path, TextureColor color)
     unbind();
 }
 
-Texture2D::Texture2D(void* data, glm::vec2 size, TextureColor color)
+Texture2D::Texture2D(const void* data, const glm::vec2 size, const TextureColor color)
      : Texture(TextureType::Texture2D)
 {
     bind();
@@ -62,7 +62,7 @@ Texture2D::Texture2D(void* data, glm::vec2 size, TextureColor color)
 	glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, size.x, size.y, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	//glGenerateMipmap(GL_TEXTURE_2D);
 
-    float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+    constexpr float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
     unbind();

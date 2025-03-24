@@ -9,7 +9,7 @@ namespace Octo
 {
     struct Material
     {
-        Material(std::string albPath, std::string normPath)
+        Material(const std::string &albPath, const std::string &normPath)
             : albedoTXT(albPath), normalTXT(normPath, TextureColor::Normal)
         {
 

@@ -15,7 +15,7 @@ namespace Octo
         ma_engine* engine = nullptr;
         unsigned int listener;
 
-        void setListener(ma_engine* _engine, unsigned int _listener)
+        void setListener(ma_engine* _engine, const unsigned int _listener)
         {
             engine = _engine;
             listener = _listener;
@@ -23,7 +23,7 @@ namespace Octo
             ma_engine_listener_set_enabled(_engine, _listener, MA_TRUE);
         }
 
-        void setData()
+        void setData() const
         {
             if (engine == nullptr) return;
 

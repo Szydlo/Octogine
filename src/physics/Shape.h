@@ -12,15 +12,16 @@
 
 #include "JoltUtils.h"
 
+
 namespace Octo
 {
     struct Shape
     {
         public:
-            JPH::Shape* geJoltShape() { return m_Shape; }
+            [[nodiscard]] JPH::Shape* geJoltShape() const { return m_Shape; }
             JPH::ShapeSettings::ShapeResult getShapeSettingsResult() { return m_ShapeResult; }
         protected:
-            JPH::Shape* m_Shape;
+            JPH::Shape* m_Shape = nullptr;
             JPH::ShapeSettings::ShapeResult m_ShapeResult;
     };
 

@@ -2,7 +2,7 @@
 
 using Octo::Scene;
 
-Scene::Scene(std::string name)
+Scene::Scene(const std::string &name)
     : Entity(name)
 {
     

@@ -20,13 +20,14 @@ namespace Octo
             VertexArray();
             ~VertexArray();
 
-            void bind();
-            void unbind();
+            void bind() const;
+            static void unbind();
 
-            void setAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset);
-            void setIAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset);
-            void setAttribDivisior(unsigned int index, unsigned int divisior);
+            static void setAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset);
+
+            static void setIAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset);
+            static void setAttribDivisior(unsigned int index, unsigned int divisior);
         private:
-            unsigned int m_Identity;
+            unsigned int m_Identity = 0;
     };
 };

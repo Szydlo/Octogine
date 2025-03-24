@@ -22,8 +22,8 @@ namespace Octo
 
             static ma_engine* getMaEngine() { return &m_Engine; }
 
-            static void setVolume(float volume) { ma_engine_set_volume(&m_Engine, volume); }
-            static float getVolume() { ma_engine_get_volume(&m_Engine); }
+            static void setVolume(const float volume) { ma_engine_set_volume(&m_Engine, volume); }
+            static float getVolume() { return ma_engine_get_volume(&m_Engine); }
 
             static void setListener(AudioListener* listener);
         private:

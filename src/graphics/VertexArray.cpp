@@ -14,7 +14,7 @@ VertexArray::~VertexArray()
    //glDeleteVertexArrays(1, &m_Identity);
 }
 
-void VertexArray::bind()
+void VertexArray::bind() const
 {
     glBindVertexArray(m_Identity);
 }
@@ -24,19 +24,19 @@ void VertexArray::unbind()
     glBindVertexArray(0);
 }
 
-void VertexArray::setAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset)
+void VertexArray::setAttribute(const unsigned int index, const int size, const unsigned int stride, const unsigned int offset)
 {
 	glEnableVertexAttribArray(index);
 	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, (void*)(offset));
 }
 
-void VertexArray::setIAttribute(unsigned int index, int size, unsigned int stride, unsigned int offset)
+void VertexArray::setIAttribute(const unsigned int index, const int size, const unsigned int stride, const unsigned int offset)
 {
 	glEnableVertexAttribArray(index);
 	glVertexAttribIPointer(index, size, GL_FLOAT, stride, (void*)(offset));
 }
 
-void VertexArray::setAttribDivisior(unsigned int index, unsigned int divisior)
+void VertexArray::setAttribDivisior(const unsigned int index, const unsigned int divisior)
 {
 	glVertexAttribDivisor(index, divisior);
 }

@@ -9,7 +9,7 @@ void Physics::init()
     JPH::RegisterTypes();
 
     m_Allocator = new JPH::TempAllocatorImpl(PhysicsAllocatorSize);
-    m_JobSystem = new JPH::JobSystemThreadPool(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, JPH::thread::hardware_concurrency() - 1);
+    m_JobSystem = new JPH::JobSystemThreadPool(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, static_cast<int>(JPH::thread::hardware_concurrency()) - 1);
 
     m_PhysicsSystem = new JPH::PhysicsSystem();
     m_PhysicsSystem->Init(cMaxBodies, cNumBodyMutexes, cMaxBodyPairs, cMaxContactConstraints, m_BPLayerInterface, m_ObjectVsBrodPhaseFilter, m_ObjectLayerPair);
@@ -19,7 +19,6 @@ void Physics::init()
 
 void Physics::update(double deltaTime)
 {
-    const int cCollisionSteps = 1;
     m_PhysicsSystem->Update(cDeltaTime, cCollisionSteps, m_Allocator, m_JobSystem);
 }
 

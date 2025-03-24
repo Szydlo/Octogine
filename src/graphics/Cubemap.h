@@ -11,7 +11,7 @@ namespace Octo
     class Cubemap : public Texture
     {
         public:
-            Cubemap(std::array<std::string, 6> paths, TextureColor color = TextureColor::Color);
-            Cubemap(glm::vec2 size, TextureColor color = TextureColor::Color);
+            explicit Cubemap(std::array<std::string, 6> paths, TextureColor color = TextureColor::Color);
+            explicit Cubemap(glm::vec2 size, TextureColor color = TextureColor::Color);
     };
 };

@@ -22,21 +22,21 @@ namespace Octo
     class Window
     {
         public:
-            Window(int width = 1280, int height = 720, std::string title = "Octogine application");
+            explicit Window(int width = 1280, int height = 720, const std::string &title = "Octogine application");
             ~Window();
             
             void start();
             void setResolution(int width, int height);
-            void closeWindow();
-            bool shouldWindowClose() { return glfwWindowShouldClose(m_NativeWindow); }
+            void closeWindow() const;
 
-            int getWidth() { return m_Width; }
-            int getHeight() { return m_Height; }
+            [[nodiscard]] bool shouldWindowClose() const { return glfwWindowShouldClose(m_NativeWindow); }
+            [[nodiscard]] int getWidth() const { return m_Width; }
+            [[nodiscard]] int getHeight() const { return m_Height; }
 
-            double getTickCount() { return glfwGetTime(); }
-            double getDeltaTime() { return m_DeltaTime; }
+            static double getTickCount() { return glfwGetTime(); }
 
-            unsigned int getFPS() { return m_CurrentFPS; }
+            [[nodiscard]] double getDeltaTime() const { return m_DeltaTime; }
+            [[nodiscard]] unsigned int getFPS() const { return m_CurrentFPS; }
         private:
             int m_Width, m_Height;
             double m_DeltaTime;

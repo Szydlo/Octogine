@@ -24,33 +24,33 @@ namespace Octo
     };
 
     template<typename T>
-    struct Asset : public IAsset
+    struct Asset : IAsset
     {
-        Asset() {}
+        Asset() : IAsset() {}
 
         std::shared_ptr<T> assetData;
         std::shared_ptr<T> getAsset() { return assetData; }
     };
 
-    struct AssetTexture2D : public Asset<Texture2D> 
+    struct AssetTexture2D : Asset<Texture2D>
     {
-        AssetTexture2D(std::string path)
+        explicit AssetTexture2D(const std::string& path)
         {
-            assetData = std::make_shared<Octo::Texture2D>(path);
+            assetData = std::make_shared<Texture2D>(path);
         }
     };
 
-    struct AssetShader : public Asset<Shader>
+    struct AssetShader : Asset<Shader>
     {
-        AssetShader(std::string vs, std::string fs)
+        AssetShader(const std::string& vs, const std::string& fs)
         {
-            assetData = std::make_shared<Octo::Shader>(vs, fs);
+            assetData = std::make_shared<Shader>(vs, fs);
         }
     };
 
-    struct AssetModel : public Asset<Model>
+    struct AssetModel :  Asset<Model>
     {
-        AssetModel(std::string path, bool loadSkeleton = false)
+        explicit AssetModel(const std::string& path, const bool loadSkeleton = false)
         {
            assetData = std::make_shared<Model>(path, loadSkeleton);
         }

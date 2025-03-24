@@ -8,7 +8,7 @@ using Octo::Buffer;
     (maybe not xd)
 */
 
-Buffer::Buffer(BufferType type)
+Buffer::Buffer(const BufferType type)
     : m_Type(type)
 {
     glGenBuffers(1, &m_Identity);
@@ -20,7 +20,7 @@ Buffer::~Buffer()
     //glDeleteBuffers(1, &m_Identity);
 }
 
-void Buffer::setData(size_t size, void* data, DrawMode mode)
+void Buffer::setData(const size_t size, const void* data, DrawMode mode)
 {
     glBufferData(static_cast<int>(m_Type), size, data, static_cast<int>(mode));
 

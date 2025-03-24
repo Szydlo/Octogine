@@ -9,26 +9,26 @@ namespace Octo
     class Camera
     {
         public:
-            Camera(glm::vec2 resolutiion, glm::vec3 position = glm::vec3(0));
+            explicit Camera(glm::vec2 resolution, glm::vec3 position = glm::vec3(0));
             ~Camera();
 
-            glm::mat4 getViewMatrix();
-            glm::mat4 getProjectionMatrix();
+            glm::mat4 getViewMatrix() const;
+            glm::mat4 getProjectionMatrix() const;
 
-            glm::vec3 getPosition() { return m_Position; }
-            glm::vec3 getFront()    { return m_Front; }
-            glm::vec3 getRight()    { return m_Right; }
-            glm::vec3 getUp() { return m_Up; }
-            glm::vec3 getWorldUp() { return m_WorldUp; }
+            [[nodiscard]] glm::vec3 getPosition() const { return m_Position; }
+            [[nodiscard]] glm::vec3 getFront() const { return m_Front; }
+            [[nodiscard]] glm::vec3 getRight() const { return m_Right; }
+            [[nodiscard]] glm::vec3 getUp() const { return m_Up; }
+            [[nodiscard]] glm::vec3 getWorldUp() const { return m_WorldUp; }
 
-            void setPosition(glm::vec3 pos) {m_Position = pos; calculateCameraVectors();}
-            void setYaw(float yaw) {m_Yaw = yaw; calculateCameraVectors();}
-            void setPitch(float pitch) {m_Pitch = pitch; calculateCameraVectors();}
+            void setPosition(const glm::vec3 pos) {m_Position = pos; calculateCameraVectors();}
+            void setYaw(const float yaw) {m_Yaw = yaw; calculateCameraVectors();}
+            void setPitch(const float pitch) {m_Pitch = pitch; calculateCameraVectors();}
         private:
-            glm::vec2 m_Resolution;
+            glm::vec2 m_Resolution = {};
 
-            glm::vec3 m_Position;
-            glm::vec3 m_Right;
+            glm::vec3 m_Position = {};
+            glm::vec3 m_Right = {};
             glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
             glm::vec3 m_Up = glm::vec3(0.0f, 1.0f, 0.0f);
             glm::vec3 m_WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);

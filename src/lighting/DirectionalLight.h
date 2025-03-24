@@ -16,7 +16,7 @@ namespace Octo
             shader.setVec3("dirLight.diffuse", diffuse);
         }
 
-        void setShader(Shader* shader)
+        void setShader(Shader* shader) const
         {
             shader->setVec3("dirLight.direction", direction);
             shader->setVec3("dirLight.ambient", ambient);

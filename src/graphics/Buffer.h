@@ -21,15 +21,15 @@ namespace Octo
     class Buffer
     {
         public:
-            Buffer(BufferType type);
+            explicit Buffer(BufferType type);
             ~Buffer();
 
             void bind();
             void unbind();
 
-            void setData(size_t size, void* data, DrawMode mode);
+            void setData(size_t size, const void* data, DrawMode mode);
 
-            unsigned int getCount() { return m_Count; }
+            [[nodiscard]] unsigned int getCount() const { return m_Count; }
         private:
             unsigned int m_Count; // only for element buffer
             unsigned int m_Identity;

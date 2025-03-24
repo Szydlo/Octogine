@@ -1,11 +1,9 @@
 #pragma once
 
-#include "../core/Events.h"
-#include "spdlog/spdlog.h"
-
 #include <string>
 #include <vector>
-#include <memory>
+
+#include "../core/Events.h"
 
 namespace Octo
 {
@@ -13,7 +11,8 @@ namespace Octo
     {
         public:
             Entity() = default;
-            Entity(std::string name = "");
+            explicit Entity(const std::string &name = "");
+            virtual ~Entity() = default;
 
             virtual void onStart();
             virtual void onUpdate(double deltaTime);
@@ -24,9 +23,9 @@ namespace Octo
                 entity->setParent(this);
             }
 
-            bool hasChildren() 
+            [[nodiscard]] bool hasChildren() const
             {
-                if (m_Children.size() > 0)
+                if (!m_Children.empty())
                     return true;
                 return false;
             }
@@ -34,7 +33,7 @@ namespace Octo
             template<typename T>
             bool isA()
             {
-                return (dynamic_cast<T*>(this) != NULL);
+                return (dynamic_cast<T*>(this) != nullptr);
             }
 
             template<typename T> T as()
@@ -47,7 +46,7 @@ namespace Octo
                 m_Parent = entity;
             }
 
-            Entity* getParent() { return m_Parent; }
+            [[nodiscard]] Entity* getParent() const { return m_Parent; }
 
             std::string& getName() { return m_Name; }
             std::vector<Entity*>& getChildren() { return m_Children;}

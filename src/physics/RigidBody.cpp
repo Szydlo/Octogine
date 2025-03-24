@@ -2,7 +2,7 @@
 
 using Octo::RigidBody;
 
-RigidBody::RigidBody(BodyMode mode, JPH::ObjectLayer layer, bool activate)
+RigidBody::RigidBody(const BodyMode mode, const JPH::ObjectLayer layer, const bool activate)
     : m_Mode(mode), m_Layer(layer), m_Activate(activate)
 {
     m_bodyInterface = Physics::getBodyInterface();
@@ -10,7 +10,7 @@ RigidBody::RigidBody(BodyMode mode, JPH::ObjectLayer layer, bool activate)
 
 void RigidBody::setCollider(Collider* collider)
 {
-    JPH::BodyCreationSettings bodySettings(
+    const JPH::BodyCreationSettings bodySettings(
         collider->getShape().geJoltShape(),
         JPH::RVec3(0, 0, 0),
         JPH::Quat::sIdentity(), 
@@ -28,44 +28,44 @@ RigidBody::~RigidBody()
     m_bodyInterface->DestroyBody(m_JoltBody->GetID());
 }
 
-void RigidBody::setLinearVelocity(glm::vec3 velocity)
+void RigidBody::setLinearVelocity(const glm::vec3 velocity) const
 {
     m_bodyInterface->SetLinearVelocity(m_JoltBody->GetID(), JPH::Vec3(velocity.x, velocity.y, velocity.z));
     //m_JoltBody->SetLinearVelocity(JPH::Vec3(velocity.x, velocity.y, velocity.z));
 }
 
-void RigidBody::setAngularVelocity(glm::vec3 velocity)
+void RigidBody::setAngularVelocity(const glm::vec3 velocity) const
 {
     m_bodyInterface->SetAngularVelocity(m_JoltBody->GetID(), JPH::Vec3(velocity.x, velocity.y, velocity.z));
 }
 
-void RigidBody::addForce(glm::vec3 force)
+void RigidBody::addForce(const glm::vec3 force) const
 {
     m_bodyInterface->AddForce(m_JoltBody->GetID(), JPH::Vec3(force.x, force.y, force.z));
 }
 
-void RigidBody::addForce(glm::vec3 force, glm::vec3 direction)
+void RigidBody::addForce(const glm::vec3 force, const glm::vec3 direction) const
 {
     m_bodyInterface->AddForce(m_JoltBody->GetID(), JPH::Vec3(force.x, force.y, force.z), JPH::Vec3(direction.x, direction.y, direction.z));
 }
 
-void RigidBody::addImpulse(glm::vec3 impulse)
+void RigidBody::addImpulse(const glm::vec3 impulse) const
 {
     m_bodyInterface->AddImpulse(m_JoltBody->GetID(), JPH::Vec3(impulse.x, impulse.y, impulse.z));
 }
 
-void RigidBody::setPosition(glm::vec3 position)
+void RigidBody::setPosition(const glm::vec3 position) const
 {
     m_bodyInterface->SetLinearAndAngularVelocity(m_JoltBody->GetID(), JoltUtils::convertGlmVec3({0, 0, 0}), JoltUtils::convertGlmVec3({0, 0, 0}));
     m_bodyInterface->SetPosition(m_JoltBody->GetID(), JoltUtils::convertGlmVec3(position), JPH::EActivation::Activate);
 }
 
-void RigidBody::setRotation(glm::quat rotation)
+void RigidBody::setRotation(const glm::quat rotation) const
 {
     m_bodyInterface->SetRotation(m_JoltBody->GetID(), JoltUtils::convertGlmQuat(rotation), JPH::EActivation::Activate);
 }
 
-glm::vec3 RigidBody::getPosition()
+glm::vec3 RigidBody::getPosition() const
 {
     //auto pos = m_JoltBody->GetPosition();
     //auto pos = m_bodyInterface->GetPosition(m_JoltBody->GetID());
@@ -75,7 +75,7 @@ glm::vec3 RigidBody::getPosition()
     return JoltUtils::convertJoltVec3(m_bodyInterface->GetPosition(m_JoltBody->GetID()));
 }
 
-glm::quat RigidBody::getRotation()
+glm::quat RigidBody::getRotation() const
 {
     //auto rot = m_JoltBody->GetRotation();
    // auto rot = m_bodyInterface->GetRotation(m_JoltBody->GetID());
@@ -84,7 +84,7 @@ glm::quat RigidBody::getRotation()
    return JoltUtils::convertJoltQuat(m_bodyInterface->GetRotation(m_JoltBody->GetID()));
 }
 
-JPH::EMotionType RigidBody::convertBodyMode(BodyMode mode)
+JPH::EMotionType RigidBody::convertBodyMode(const BodyMode mode)
 {
     switch (mode)
         {

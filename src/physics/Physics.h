@@ -19,6 +19,7 @@ namespace Octo
     constexpr JPH::uint cNumBodyMutexes = 0;
     constexpr JPH::uint cMaxBodyPairs = 1024;
     constexpr JPH::uint cMaxContactConstraints = 1024;
+    constexpr int cCollisionSteps = 1;
     constexpr double cDeltaTime = 1.0f / 60.0f;
 
     class Physics 

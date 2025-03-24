@@ -2,7 +2,7 @@
 
 using Octo::Window;
 
-Window::Window(int width, int height, std::string title)
+Window::Window(const int width, const int height, const std::string &title)
     : m_Width(width), m_Height(height), m_Title(title)
 {
     spdlog::info("Creating window");
@@ -46,7 +46,7 @@ Window::Window(int width, int height, std::string title)
 
 	glfwSetFramebufferSizeCallback(m_NativeWindow, [](GLFWwindow* window, int width, int height)
 	{
-        Window* data = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        auto* data = static_cast<Window*>(glfwGetWindowUserPointer(window));
         data->setResolution(width, height);
 	});
 
@@ -78,8 +78,7 @@ void Window::start()
 {
     Events::onStart();
     Events::onNodeStart();
-    double currentFrame;
-	double lastFrame = getTickCount();
+    double lastFrame = getTickCount();
 
     unsigned int frameCount = 0;
     double lastFrameTime = getTickCount();
@@ -98,7 +97,7 @@ void Window::start()
         }
 
         frameCount++;
-        currentFrame = getTickCount();
+        const double currentFrame = getTickCount();
 
         if (currentFrame - lastFrameTime >= 1.0) // one second
         {
@@ -125,7 +124,7 @@ void Window::start()
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             ImGuiIO& io = ImGui::GetIO();
-            io.DisplaySize = ImVec2((float)m_Width, (float)m_Height);
+            io.DisplaySize = ImVec2(static_cast<float>(m_Width), static_cast<float>(m_Height));
 
             if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
             {
@@ -141,7 +140,7 @@ void Window::start()
     } 
 }
 
-void Window::closeWindow()
+void Window::closeWindow() const
 {
     glfwSetWindowShouldClose(m_NativeWindow, GLFW_TRUE);
 }
@@ -163,7 +162,7 @@ Window::~Window()
     glfwTerminate();
 }
 
-void Window::setResolution(int width, int height) 
+void Window::setResolution(const int width, const int height)
 {
     m_Width = width;
     m_Height = height;

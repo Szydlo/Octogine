@@ -8,6 +8,8 @@ namespace Octo
 {
     struct Light
     {
+        virtual ~Light() = default;
+
         glm::vec3 diffuse = glm::vec3(0.6);    
         glm::vec3 ambient = glm::vec3(0.6);
         glm::vec3 specular = glm::vec3(0.6);

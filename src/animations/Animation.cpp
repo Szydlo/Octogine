@@ -2,7 +2,7 @@
 
 using Octo::Animation;
 
-Animation::Animation(std::string path, int animation)
+Animation::Animation(const std::string& path, int animation)
 {
     fastgltf::Parser parser;
     std::filesystem::path fpath(path);
@@ -23,7 +23,7 @@ Animation::Animation(std::string path, int animation)
 
     auto& assets = asset.get();
 
-    if (assets.animations.size() < 1)
+    if (assets.animations.empty())
     {
         spdlog::error("there is no anim in this file");
         return;
@@ -45,41 +45,47 @@ Animation::Animation(std::string path, int animation)
     }
 }
 
-void Animation::fillTimeStamps(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& inputAccessor, std::string boneName)
+void Animation::fillTimeStamps(const fastgltf::Asset& asset, const fastgltf::AnimationChannel& channel, const fastgltf::Accessor& inputAccessor, const std::string &boneName)
 {
     int framesCount = 0;
 
     fastgltf::iterateAccessor<float>(asset, inputAccessor, 
-        [&](float timeStamp)
+        [&](const float timeStamp)
         {
-            framesCount = std::max((int)(inputAccessor.count), framesCount);
+            framesCount = std::max(static_cast<int>(inputAccessor.count), framesCount);
 
             switch (channel.path)
             {
-            case fastgltf::AnimationPath::Translation:
-                PositionKey pKey;
-                pKey.timeStamp = timeStamp;
-                m_PositionKeyFrames[boneName].push_back(pKey);
+                case fastgltf::AnimationPath::Translation:
+                {
+                    PositionKey pKey{};
+                    pKey.timeStamp = timeStamp;
+                    m_PositionKeyFrames[boneName].push_back(pKey);
 
-                m_Duration = std::max(m_Duration, timeStamp);
+                    m_Duration = std::max(m_Duration, timeStamp);
 
-                break;
-            case fastgltf::AnimationPath::Rotation:
-                RotationKey rKey;
-                rKey.timeStamp = timeStamp;
-                m_RotationKeyFrames[boneName].push_back(rKey);
+                    break;
+                }
+                case fastgltf::AnimationPath::Rotation:
+                {
+                    RotationKey rKey{};
+                    rKey.timeStamp = timeStamp;
+                    m_RotationKeyFrames[boneName].push_back(rKey);
 
-                m_Duration = std::max(m_Duration, timeStamp);
+                    m_Duration = std::max(m_Duration, timeStamp);
 
-                break;
-            case fastgltf::AnimationPath::Scale:
-                ScaleKey sKey;
-                sKey.timeStamp = timeStamp;
-                m_ScaleKeyFrames[boneName].push_back(sKey);
+                    break;
+                }
+                case fastgltf::AnimationPath::Scale:
+                {
+                    ScaleKey sKey{};
+                    sKey.timeStamp = timeStamp;
+                    m_ScaleKeyFrames[boneName].push_back(sKey);
 
-                m_Duration = std::max(m_Duration, timeStamp);
+                    m_Duration = std::max(m_Duration, timeStamp);
 
-                break;
+                    break;
+                }
             }
         }
     );
@@ -87,7 +93,7 @@ void Animation::fillTimeStamps(fastgltf::Asset& asset, fastgltf::AnimationChanne
     m_framesPerSecond = framesCount;
 }
 
-void Animation::fillKeyFrames(fastgltf::Asset& asset, fastgltf::AnimationChannel& channel, fastgltf::Accessor& outputAccessor, std::string boneName)
+void Animation::fillKeyFrames(const fastgltf::Asset& asset, const fastgltf::AnimationChannel& channel, const fastgltf::Accessor& outputAccessor, const std::string& boneName)
 {
     switch (channel.path)
         {
@@ -124,15 +130,15 @@ void Animation::fillKeyFrames(fastgltf::Asset& asset, fastgltf::AnimationChannel
         }
 }
 
-glm::mat4 Animation::getBoneTransform(std::string boneName, int keyFrame)
+glm::mat4 Animation::getBoneTransform(const std::string& boneName, const int keyFrame)
 {
-    auto& position = m_PositionKeyFrames[boneName][keyFrame].position;
-    auto& rotation = m_RotationKeyFrames[boneName][keyFrame].rotation;
-    auto& scale = m_ScaleKeyFrames[boneName][keyFrame].scale;
+    const auto& position = m_PositionKeyFrames[boneName][keyFrame].position;
+    const auto& rotation = m_RotationKeyFrames[boneName][keyFrame].rotation;
+    const auto& scale = m_ScaleKeyFrames[boneName][keyFrame].scale;
 
-    glm::mat4 pos = glm::translate(glm::mat4(1.0), position);
-    glm::mat4 rot = glm::toMat4(glm::normalize(rotation));
-    glm::mat4 sc = glm::scale(glm::mat4(1.0), scale);
+    const glm::mat4 pos = glm::translate(glm::mat4(1.0), position);
+    const glm::mat4 rot = glm::toMat4(glm::normalize(rotation));
+    const glm::mat4 sc = glm::scale(glm::mat4(1.0), scale);
 
     return pos * rot * sc;
 }
@@ -140,7 +146,7 @@ glm::mat4 Animation::getBoneTransform(std::string boneName, int keyFrame)
 
 // @ TODO THIS POSITIONKEYFRAME ETC IS SHIT, FIX IT LATER
 // @ TODO QUICK FIX FOR NOW: "m_PositionKeyFrames[boneName].size()-1" FIX IT LATER
-int Animation::getPositionKeyFrame(std::string boneName, float timeStamp)
+int Animation::getPositionKeyFrame(const std::string& boneName, const float timeStamp)
 {
     for (int i = 0; i < m_PositionKeyFrames[boneName].size()-1; i++)
         if (timeStamp < m_PositionKeyFrames[boneName][i+1].timeStamp) return i; 
@@ -148,7 +154,7 @@ int Animation::getPositionKeyFrame(std::string boneName, float timeStamp)
     return 0;
 }
 
-int Animation::getRotationKeyFrame(std::string boneName, float timeStamp)
+int Animation::getRotationKeyFrame(const std::string& boneName, const float timeStamp)
 {
     for (int i = 0; i < m_RotationKeyFrames[boneName].size()-1; i++)
         if (timeStamp < m_RotationKeyFrames[boneName][i+1].timeStamp) return i;
@@ -156,7 +162,7 @@ int Animation::getRotationKeyFrame(std::string boneName, float timeStamp)
     return 0;
 }
 
-int Animation::getScaleKeyFrame(std::string boneName, float timeStamp)
+int Animation::getScaleKeyFrame(const std::string& boneName, const float timeStamp)
 {
     for (int i = 0; i < m_ScaleKeyFrames[boneName].size()-1; i++)
         if (timeStamp < m_ScaleKeyFrames[boneName][i+1].timeStamp) return i; 
@@ -165,65 +171,63 @@ int Animation::getScaleKeyFrame(std::string boneName, float timeStamp)
 }
 
 
-float Animation::getScaleFactor(float lastTimeStamp, float nextTimeStamp, float animTime)
+float Animation::getScaleFactor(const float lastTimeStamp, const float nextTimeStamp, float animTime)
 {
-    float scaleFactor = 0.0f;
-    float midwayLength = animTime - lastTimeStamp;
-    float framesDiff = nextTimeStamp - lastTimeStamp;
-
-    scaleFactor = midwayLength / framesDiff;
+    const float midwayLength = animTime - lastTimeStamp;
+    const float framesDiff = nextTimeStamp - lastTimeStamp;
+    const float scaleFactor = midwayLength / framesDiff;
 
     return scaleFactor;
 }
 
-glm::mat4 Animation::interpolatePosition(std::string boneName, float timeStamp)
+glm::mat4 Animation::interpolatePosition(const std::string& boneName, const float timeStamp)
 {
-    int key = getPositionKeyFrame(boneName, timeStamp);
-    int key2 = key + 1;
+    const int key = getPositionKeyFrame(boneName, timeStamp);
+    const int key2 = key + 1;
 
-    auto& frame = m_PositionKeyFrames[boneName][key];
-    auto& frame2 = m_PositionKeyFrames[boneName][key2];
+    const auto& frame = m_PositionKeyFrames[boneName][key];
+    const auto& frame2 = m_PositionKeyFrames[boneName][key2];
 
-    float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
-    glm::vec3 finalPosition = glm::mix(frame.position, frame2.position, scaleFactor);
+    const float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
+    const glm::vec3 finalPosition = glm::mix(frame.position, frame2.position, scaleFactor);
 
     return glm::translate(glm::mat4(1.0f), finalPosition);
 }
 
-glm::mat4 Animation::interpolateRotation(std::string boneName, float timeStamp)
+glm::mat4 Animation::interpolateRotation(const std::string& boneName, const float timeStamp)
 {
-    int key = getRotationKeyFrame(boneName, timeStamp);
-    int key2 = key + 1;
+    const int key = getRotationKeyFrame(boneName, timeStamp);
+    const int key2 = key + 1;
 
-    auto& frame = m_RotationKeyFrames[boneName][key];
-    auto& frame2 = m_RotationKeyFrames[boneName][key2];
+    const auto& frame = m_RotationKeyFrames[boneName][key];
+    const auto& frame2 = m_RotationKeyFrames[boneName][key2];
 
-    float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
-    glm::quat finalRotation = glm::slerp(frame.rotation, frame2.rotation, scaleFactor);
+    const float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
+    const glm::quat finalRotation = glm::slerp(frame.rotation, frame2.rotation, scaleFactor);
 
     return glm::toMat4(glm::normalize(finalRotation));
 }
 
-glm::mat4 Animation::interpolateScale(std::string boneName, float timeStamp)
+glm::mat4 Animation::interpolateScale(const std::string& boneName, const float timeStamp)
 {
-    int key = getScaleKeyFrame(boneName, timeStamp);
-    int key2 = key + 1;
+    const int key = getScaleKeyFrame(boneName, timeStamp);
+    const int key2 = key + 1;
 
-    auto& frame = m_ScaleKeyFrames[boneName][key];
-    auto& frame2 = m_ScaleKeyFrames[boneName][key2];
+    const auto& frame = m_ScaleKeyFrames[boneName][key];
+    const auto& frame2 = m_ScaleKeyFrames[boneName][key2];
 
-    float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
-    glm::vec3 finalScale = glm::mix(frame.scale, frame2.scale, scaleFactor);
+    const float scaleFactor = getScaleFactor(frame.timeStamp, frame2.timeStamp, timeStamp);
+    const glm::vec3 finalScale = glm::mix(frame.scale, frame2.scale, scaleFactor);
 
     return glm::scale(glm::mat4(1.0f), finalScale);
 }
 
 
-glm::mat4 Animation::calculateBoneInterpolation(std::string boneName, float timeStamp)
+glm::mat4 Animation::calculateBoneInterpolation(const std::string& boneName, const float timeStamp)
 {
-    glm::mat4 position = interpolatePosition(boneName, timeStamp);
-    glm::mat4 rotation = interpolateRotation(boneName, timeStamp);
-    glm::mat4 scale = interpolateScale(boneName, timeStamp);
+    const glm::mat4 position = interpolatePosition(boneName, timeStamp);
+    const glm::mat4 rotation = interpolateRotation(boneName, timeStamp);
+    const glm::mat4 scale = interpolateScale(boneName, timeStamp);
 
     return position * rotation * scale;
 }

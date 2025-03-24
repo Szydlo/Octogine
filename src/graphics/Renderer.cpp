@@ -84,7 +84,7 @@ void Renderer::startPass()
     m_DrawQueue.clear();
 }
 
-void Renderer::drawElement(DrawElement& el, Shader* shader)
+void Renderer::drawElement(const DrawElement& el, const Shader* shader)
 {
     if (!m_MainCamera) return;
     
@@ -105,9 +105,7 @@ void Renderer::drawElement(DrawElement& el, Shader* shader)
 }
 void Renderer::endPass()
 {
-    Shadow* shadow = LightingManager::getShadow();
-
-    if (shadow)
+    if (Shadow* shadow = LightingManager::getShadow())
     {
         shadow->startPass(LightingManager::getDirectionalLight()->direction);
 
@@ -133,6 +131,6 @@ void Renderer::endPass()
 
 void Renderer::destroy()
 {
-    if (m_MainCamera) delete m_MainCamera;
-    if (m_SkyBox) delete m_SkyBox;
+    delete m_MainCamera;
+    delete m_SkyBox;
 }
