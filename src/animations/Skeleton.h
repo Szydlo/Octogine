@@ -13,7 +13,7 @@ namespace Octo
     {
         std::vector<std::string> children;
         std::string name;
-        glm::mat4 inverseBindMatrix;
+        glm::mat4 inverseBindMatrix = {};
     };
 
     struct Skeleton

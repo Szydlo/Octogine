@@ -8,7 +8,7 @@ RigidBody::RigidBody(const BodyMode mode, const JPH::ObjectLayer layer, const bo
     m_bodyInterface = Physics::getBodyInterface();
 }
 
-void RigidBody::setCollider(Collider* collider)
+void RigidBody::setCollider(const Collider* collider)
 {
     const JPH::BodyCreationSettings bodySettings(
         collider->getShape().geJoltShape(),

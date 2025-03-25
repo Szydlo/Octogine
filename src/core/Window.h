@@ -31,7 +31,7 @@ namespace Octo
             [[nodiscard]] unsigned int getFPS() const { return m_CurrentFPS; }
         private:
             int m_Width, m_Height;
-            double m_DeltaTime;
+            double m_DeltaTime = 0.0;
             std::string m_Title;
             GLFWwindow* m_NativeWindow;
 

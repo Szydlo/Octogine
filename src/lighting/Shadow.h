@@ -16,7 +16,7 @@ namespace Octo
             explicit Shadow(glm::vec2 resolution);
 
             void startPass(glm::vec3 lightDirection);
-            void endPass();
+            void endPass() const;
 
             Texture2D& getDepthTexture() { return m_DepthTxt; }
             [[nodiscard]] glm::mat4 getLightSpaceMatrix() const { return m_LightSpaceMatrix; }

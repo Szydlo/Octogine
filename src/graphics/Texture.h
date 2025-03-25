@@ -36,7 +36,7 @@ namespace Octo
             [[nodiscard]] TextureType getType() const { return m_Type; }
             [[nodiscard]] TextureAttachment getAttachment() const { return m_Attachment; }
 
-            unsigned int getIdentity() { return m_Identity; }
+            [[nodiscard]] unsigned int getIdentity() const { return m_Identity; }
 
             [[nodiscard]] int getWidth() const { return m_Width; }
             [[nodiscard]] int getHeight() const { return m_Height; }
@@ -48,7 +48,7 @@ namespace Octo
             int m_Width{}, m_Height{};
 
             TextureType m_Type;
-            TextureAttachment m_Attachment;
+            TextureAttachment m_Attachment{};
             GLenum m_InternalFormat{}, m_DataFormat{};
     };
 };

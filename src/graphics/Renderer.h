@@ -21,8 +21,8 @@ namespace Octo
     class Renderer
     {
         public:
-            static void basicDraw(VertexArray& vao, Shader& shader, unsigned int count, glm::mat4 model = glm::mat4(1));
-            static void basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, glm::mat4 model = glm::mat4(1));
+            static void basicDraw(VertexArray& vao, Shader& shader, unsigned int count, const glm::mat4 &model = glm::mat4(1));
+            static void basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, const glm::mat4 &model = glm::mat4(1));
 
             static void startPass();
             static void drawElement(const DrawElement& el, const Shader* shader);

@@ -2,7 +2,7 @@
 
 using Octo::Renderer;
 
-void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, glm::mat4 model)
+void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, const glm::mat4 &model)
 {
     m_DrawQueue.push_back({&vao, &shader, count, model});
    /* if (!m_MainCamera) return;
@@ -29,7 +29,7 @@ void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, g
     shader.unbind();*/
 }
 
-void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, glm::mat4 model)
+void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, const glm::mat4 &model)
 {
     m_DrawQueue.push_back({&vao, &shader, count, model});
     /*if (!m_MainCamera) return;
@@ -64,7 +64,7 @@ void Renderer::drawSkyBox(SkyBox* skybox)
 
     skybox->getShader().bind();
 
-    glm::mat4 view = glm::mat4(glm::mat3(m_MainCamera->getViewMatrix())); // remove translation from the view matrix
+    const glm::mat4 view = glm::mat4(glm::mat3(m_MainCamera->getViewMatrix())); // remove translation from the view matrix
     skybox->getShader().setMat4("view", view);
 
     skybox->getShader().setMat4("projection", m_MainCamera->getProjectionMatrix());

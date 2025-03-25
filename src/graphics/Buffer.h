@@ -31,8 +31,8 @@ namespace Octo
 
             [[nodiscard]] unsigned int getCount() const { return m_Count; }
         private:
-            unsigned int m_Count; // only for element buffer
-            unsigned int m_Identity;
+            unsigned int m_Count = 0; // only for element buffer
+            unsigned int m_Identity = 0;
             BufferType m_Type;
     };
 }

@@ -120,7 +120,7 @@ void Shader::checkErrorProgram(const unsigned int shader)
 	if (!success)
 	{
 		char infoLog[1024];
-		glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+		glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
         
         spdlog::error("Shader error program {}", infoLog);
 	}

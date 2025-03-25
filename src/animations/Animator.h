@@ -17,11 +17,11 @@ namespace Octo
 
             void prepareModel() const;
 
-            void updateAnimation(Animation* anim, double deltaTime, glm::mat4 parentTransform = glm::mat4(1.0));
+            void updateAnimation(Animation* anim, double deltaTime, const glm::mat4 &parentTransform = glm::mat4(1.0));
             void updateBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, double deltaTime, const glm::mat4 &parentTransform);
         private:
-            void calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index);
-            void calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, glm::mat4 parentTransform, int& index);
+            void calculateBonesTransform(Animation* anim, Skeleton& skeleton, TBone& bone, const glm::mat4 &parentTransform, int& index);
+            void calculateBonesTransformsBlended(Animation* baseAnim, Animation* secondAnim, float blendFactor, Skeleton& skeleton, TBone& bone, const glm::mat4 &parentTransform, int& index);
 
             std::vector<glm::mat4> m_finalBoneMatrices;
             Model* m_CurrentModel;

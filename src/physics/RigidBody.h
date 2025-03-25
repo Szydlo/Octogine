@@ -22,7 +22,7 @@ namespace Octo
             [[nodiscard]] glm::vec3 getPosition() const;
             [[nodiscard]] glm::quat getRotation() const;
 
-            void setCollider(Collider* collider);
+            void setCollider(const Collider* collider);
 
             void setPosition(glm::vec3 position) const;
             void setRotation(glm::quat rotation) const;

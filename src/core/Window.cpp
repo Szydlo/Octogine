@@ -22,7 +22,7 @@ Window::Window(const int width, const int height, const std::string &title)
         return;
     }
 
-    m_NativeWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    m_NativeWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
     if (!m_NativeWindow)
     {

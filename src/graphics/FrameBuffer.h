@@ -18,6 +18,6 @@ namespace Octo
             void bind() const;
             static void unbind();
         private:
-            unsigned int m_Identity;
+            unsigned int m_Identity = 0;
     };
 }

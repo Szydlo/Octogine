@@ -44,7 +44,7 @@ bool RayCast::CastMultiple(const glm::vec3 start, const glm::vec3 direction, std
     for (int i = 0; i < num_hits; i++)
     {
         ResultHit hit{};
-        hit.bodyID = results[i].mBodyID.GetIndex();;
+        hit.bodyID = results[i].mBodyID.GetIndex();
         hits.push_back(hit);
     }
 

@@ -12,8 +12,8 @@ namespace Octo
             explicit Camera(glm::vec2 resolution, glm::vec3 position = glm::vec3(0));
             ~Camera();
 
-            glm::mat4 getViewMatrix() const;
-            glm::mat4 getProjectionMatrix() const;
+            [[nodiscard]] glm::mat4 getViewMatrix() const;
+            [[nodiscard]] glm::mat4 getProjectionMatrix() const;
 
             [[nodiscard]] glm::vec3 getPosition() const { return m_Position; }
             [[nodiscard]] glm::vec3 getFront() const { return m_Front; }
