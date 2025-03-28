@@ -11,6 +11,7 @@ add_subdirectory(lib/sigslot)
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glad)
 add_subdirectory(lib/fastgltf)
+add_subdirectory(lib/yaml-cpp)
 
 FetchContent_Declare(
         JoltPhysics
@@ -23,7 +24,7 @@ FetchContent_MakeAvailable(JoltPhysics)
 set_target_properties(Jolt PROPERTIES MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 project(Octogine 
-    VERSION 0.8 
+    VERSION 0.9
     DESCRIPTION "Light-weight game engine"
 )
 
@@ -60,6 +61,7 @@ target_link_libraries(Octogine
     glad
     Jolt 
     fastgltf
+		yaml-cpp
 )
 
 
