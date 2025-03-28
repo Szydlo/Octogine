@@ -38,7 +38,7 @@ namespace Octo
             float m_FOV = 90.0f; 
 
             float m_Near = 0.1f;
-            float m_Far = 100000.0f;
+            float m_Far = 100.0f;
 
             void calculateCameraVectors();
     };

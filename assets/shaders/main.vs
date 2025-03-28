@@ -21,6 +21,7 @@ void main()
 {
     FragPos = vec3(model * vec4(aPos, 1.0));
     mat3 normalMatrix = transpose(inverse(mat3(model)));
+
     Normal = normalMatrix * aNormal;   
     //Normal = transpose(inverse(mat3(model))) * aNormal;
     TexCoords = aTexCoords;

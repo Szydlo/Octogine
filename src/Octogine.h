@@ -11,6 +11,7 @@
 #include "graphics/Camera.h"
 #include "graphics/Texture2D.h"
 #include "graphics/FrameBuffer.h"
+#include "graphics/RenderBuffer.h"
 
 #include "lighting/DirectionalLight.h"
 #include "lighting/PointLight.h"
@@ -118,8 +119,7 @@
 
 
     v1.1 - TOOLS LIKE EDITOR
-    v1.2 - FIXING BUGS, BASIC GAME
-    v1.3 - SCRIPTING LANGUAGE
-    v1.4 - Vehicles, softbodies
-    v1.5 - NETWORKING
+    v1.2 - SCRIPTING LANGUAGE
+    v1.3 - Vehicles, softbodies
+    v1.4 - NETWORKING
 */

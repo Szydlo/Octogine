@@ -18,15 +18,20 @@ public:
     Game()
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
-        skybox({
+        /*skybox({
             "../../assets/textures/skybox/right.jpg",
             "../../assets/textures/skybox/left.jpg",
             "../../assets/textures/skybox/top.jpg",
             "../../assets/textures/skybox/bottom.jpg",
             "../../assets/textures/skybox/front.jpg",
             "../../assets/textures/skybox/back.jpg"
-        }),
-        sphere("../../assets/models/sphere.glb")
+        }),*/
+        hdrMap("../../assets/textures/hdrmap.hdr"),
+        sphere("../../assets/models/sphere.glb"),
+        cube("../../assets/models/cube.glb"),
+        shader("../../assets/shaders/cubemap.vs", "../../assets/shaders/cubemap.fs"),
+        bgShader("../../assets/shaders/background.vs", "../../assets/shaders/background.fs"),
+        cubeMap({512, 512})
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -38,10 +43,69 @@ public:
 
     void start()
     {
+        glDepthFunc(GL_LEQUAL);
         Octo::Renderer::setMainCamera(camera);
-        Octo::Renderer::setSkyBox(skybox);
+        //Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
+        rb.attachFrameBuffer(fb);
+
+        glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
+        glm::mat4 captureViews[] =
+        {
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
+         };
+
+        shader.bind();
+        cubeMap.bind();
+        hdrMap.bind();
+
+        shader.setInt("equirectangularMap", 0);
+        shader.setMat4("projection", captureProjection);
+
+        glViewport(0, 0, 512, 512);
+
+        fb.bind();
+
+        for (unsigned int i = 0; i < 6; ++i)
+        {
+            shader.setMat4("view", captureViews[i]);
+
+            fb.setCubeMapFace(cubeMap, i);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            auto& mesh = cube.getMeshes()[0];
+
+            mesh.getVAO().bind();
+            glDrawElements(GL_TRIANGLES, mesh.getEBO().getCount(), GL_UNSIGNED_INT, 0);
+            mesh.getVAO().unbind();
+
+
+            /*//cube.draw(shader);
+            Octo::DrawElement drawel;
+
+            drawel.vao = &cube.getMeshes()[0].getVAO();
+            drawel.transform = glm::mat4(1.0f);
+            drawel.count = cube.getMeshes()[0].getEBO().getCount();
+            drawel.shader = &shader;
+
+            Octo::Renderer::drawElement(drawel, &shader);*/
+        }
+
+        fb.unbind();
+
+
+        glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
+        bgShader.bind();
+        bgShader.setMat4("projection", projection);
+
+
+        glViewport(0, 0, 1920, 1080);
     }
 
     void click(int key, bool pressed)
@@ -102,6 +166,15 @@ public:
             sphere.setTransform(mat);
             sphere.draw();
         }
+
+
+        bgShader.bind();
+        cubeMap.bind();
+        //hdrMap.bind();
+        //hdrMap.bind();
+        bgShader.setInt("environmentMap", 0);
+        cube.draw(bgShader);
+        bgShader.unbind();
     }
 
     void mouseMove(double x, double y)
@@ -130,8 +203,15 @@ public:
 
     Octo::Window window;
     Octo::Camera camera;
-    Octo::SkyBox skybox;
+    Octo::Shader shader;
+    Octo::Shader bgShader;
+    Octo::FrameBuffer fb;
+    Octo::RenderBuffer rb;
+    //Octo::SkyBox skybox;
+    Octo::Texture2D hdrMap;
+    Octo::Cubemap cubeMap;
     Octo::Model sphere;
+    Octo::Model cube;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
