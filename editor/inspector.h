@@ -5,9 +5,9 @@
 #include <iostream>
 #include <filesystem>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/type_ptr.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "../lib/glm/glm/glm.hpp"
+#include "../lib/glm/glm/gtc/type_ptr.hpp"
+#include "../lib/glm/glm/gtc/matrix_transform.hpp"
 
 #include <vector>
 #include <optional>

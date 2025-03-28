@@ -99,17 +99,16 @@
 
     v0.8 - SCENE SYSTEM  - DONE
 
-    v0.9 - RENDERER & MATERIALS
+    v0.9 - RENDERER & MATERIALS - DONE
     point lights - DONE
     spot lights - DONE
     lighting system - DONE
-    Octogine::Normals
-    Octogine::PBR
-    Octogine::IBL
-    Add it to Octo::Material
-    Octogine::SSAO
-    Octogine::Bloom
+    Octogine::Normals - DONE
+    Octogine::PBR - DONE
+    Octogine::IBL - DONE
+    Add it to Octo::Material - DONE
 
+    v1.0
     To finish v1.0 create scene with multiple point lights, materials, shiny and plastic,
     with reflection, like mirror, and different objects and shadows.
 

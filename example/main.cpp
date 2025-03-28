@@ -10,7 +10,7 @@
 #include <vector>
 #include <optional>
 
-#include "inspector.h"
+#include "../editor/inspector.h"
 #include "../src/lighting/Enivroment.h"
 
 class Game

@@ -70,3 +70,4 @@ target_include_directories(Octogine
 )
 
 add_subdirectory(example)
+add_subdirectory(editor)
