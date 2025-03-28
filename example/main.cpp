@@ -32,8 +32,12 @@ public:
         shader("../../assets/shaders/cubemap.vs", "../../assets/shaders/cubemap.fs"),
         bgShader("../../assets/shaders/background.vs", "../../assets/shaders/background.fs"),
         irrshader("../../assets/shaders/cubemap.vs", "../../assets/shaders/irradiance.fs"),
+        preShader("../../assets/shaders/cubemap.vs", "../../assets/shaders/prefilter.fs"),
+        brdfShader("../../assets/shaders/brdf.vs", "../../assets/shaders/brdf.fs"),
         cubeMap({512, 512}),
-        irradianceMap({32, 32})
+        irradianceMap({32, 32}),
+        prefilterMap({128, 128}),
+        brdtTXT(nullptr, {512, 512})
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -50,36 +54,37 @@ public:
         //Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
+        fb.bind();
+        rb.bind();
         rb.renderBufferStorage({512, 512});
         rb.attachFrameBuffer(fb);
 
         glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
         glm::mat4 captureViews[] =
         {
-            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
             glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
-            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)),
-            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)),
-            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
-            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3( 0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
-         };
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f,  0.0f), glm::vec3(0.0f,  0.0f, -1.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f,  1.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
+            glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
+        };
 
         shader.bind();
-        cubeMap.bind();
-        hdrMap.bind();
-
         shader.setInt("equirectangularMap", 0);
         shader.setMat4("projection", captureProjection);
 
-        glViewport(0, 0, 512, 512);
+        hdrMap.bind();
+
+        glViewport(0, 0, 512, 512); // don't forget to configure the viewport to the capture dimensions.
 
         fb.bind();
 
         for (unsigned int i = 0; i < 6; ++i)
         {
             shader.setMat4("view", captureViews[i]);
-
             fb.setCubeMapFace(cubeMap, i);
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             auto& mesh = cube.getMeshes()[0];
@@ -87,39 +92,35 @@ public:
             mesh.getVAO().bind();
             glDrawElements(GL_TRIANGLES, mesh.getEBO().getCount(), GL_UNSIGNED_INT, 0);
             mesh.getVAO().unbind();
-
-
-            /*//cube.draw(shader);
-            Octo::DrawElement drawel;
-
-            drawel.vao = &cube.getMeshes()[0].getVAO();
-            drawel.transform = glm::mat4(1.0f);
-            drawel.count = cube.getMeshes()[0].getEBO().getCount();
-            drawel.shader = &shader;
-
-            Octo::Renderer::drawElement(drawel, &shader);*/
         }
 
         fb.unbind();
+
+        cubeMap.bind();
+        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+
+        irradianceMap.bind();
 
         fb.bind();
         rb.bind();
         rb.renderBufferStorage({32, 32});
 
+        // pbr: solve diffuse integral by convolution to create an irradiance (cube)map.
+        // -----------------------------------------------------------------------------
         irrshader.bind();
         irrshader.setInt("environmentMap", 0);
         irrshader.setMat4("projection", captureProjection);
 
         cubeMap.bind();
-        glViewport(0, 0, 32, 32);
 
+        glViewport(0, 0, 32, 32); // don't forget to configure the viewport to the capture dimensions.
         fb.bind();
-
         for (unsigned int i = 0; i < 6; ++i)
         {
             irrshader.setMat4("view", captureViews[i]);
-
             fb.setCubeMapFace(irradianceMap, i);
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             auto& mesh = cube.getMeshes()[0];
@@ -132,12 +133,95 @@ public:
         fb.unbind();
 
 
+        prefilterMap.bind();
+        glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+
+        preShader.bind();
+        preShader.setInt("environmentMap", 0);
+        preShader.setMat4("projection", captureProjection);
+
+        cubeMap.bind();
+
+        fb.bind();
+        unsigned int maxMipLevels = 5;
+        for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
+        {
+            // reisze framebuffer according to mip-level size.
+            unsigned int mipWidth  = static_cast<unsigned int>(128 * std::pow(0.5, mip));
+            unsigned int mipHeight = static_cast<unsigned int>(128 * std::pow(0.5, mip));
+
+            rb.bind();
+            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mipWidth, mipHeight);
+            glViewport(0, 0, mipWidth, mipHeight);
+
+            float roughness = (float)mip / (float)(maxMipLevels - 1);
+            preShader.setFloat("roughness", roughness);
+            for (unsigned int i = 0; i < 6; ++i)
+            {
+                preShader.setMat4("view", captureViews[i]);
+
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, prefilterMap.getIdentity(), mip);
+
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+                auto& mesh = cube.getMeshes()[0];
+
+                mesh.getVAO().bind();
+                glDrawElements(GL_TRIANGLES, mesh.getEBO().getCount(), GL_UNSIGNED_INT, 0);
+                mesh.getVAO().unbind();
+            }
+        }
+        fb.unbind();
+
+
+        brdtTXT.bind();
+
+        // then re-configure capture framebuffer object and render screen-space quad with BRDF shader.
+        fb.bind();
+        rb.bind();
+        rb.renderBufferStorage({512, 512});
+        fb.setTexture2D(brdtTXT);
+
+        glViewport(0, 0, 512, 512);
+        brdfShader.bind();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        unsigned int quadVAO = 0;
+        unsigned int quadVBO;
+
+        if (quadVAO == 0)
+        {
+            float quadVertices[] = {
+                // positions        // texture Coords
+                -1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+                -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+                 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+                 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+            };
+            // setup plane VAO
+            glGenVertexArrays(1, &quadVAO);
+            glGenBuffers(1, &quadVBO);
+            glBindVertexArray(quadVAO);
+            glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+        }
+        glBindVertexArray(quadVAO);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBindVertexArray(0);
+
+        fb.unbind();
+
+
         glm::mat4 projection = glm::perspective(glm::radians(60.0f), (float)1920 / (float)1080, 0.1f, 100.0f);
+
         bgShader.bind();
         bgShader.setMat4("projection", projection);
 
-
-        glViewport(0, 0, 1920, 1080);
+        glViewport(0, 0, 1920, 1090);
     }
 
     void click(int key, bool pressed)
@@ -198,8 +282,14 @@ public:
             sphere.setTransform(mat);
 
             irradianceMap.bind(10);
+            prefilterMap.bind(11);
+            brdtTXT.bind(12);
+
             sphere.getShader().bind();
             sphere.getShader().setInt("irradianceMap", 10);
+            sphere.getShader().setInt("prefilterMap", 11);
+            sphere.getShader().setInt("brdfLUT", 12);
+
             sphere.draw();
         }
 
@@ -242,12 +332,16 @@ public:
     Octo::Shader shader;
     Octo::Shader irrshader;
     Octo::Shader bgShader;
+    Octo::Shader preShader;
+    Octo::Shader brdfShader;
     Octo::FrameBuffer fb;
     Octo::RenderBuffer rb;
     //Octo::SkyBox skybox;
     Octo::Texture2D hdrMap;
     Octo::Cubemap cubeMap;
     Octo::Cubemap irradianceMap;
+    Octo::Cubemap prefilterMap;
+    Octo::Texture2D brdtTXT;
     Octo::Model sphere;
     Octo::Model cube;
 

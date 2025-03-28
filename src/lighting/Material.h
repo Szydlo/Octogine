@@ -9,8 +9,8 @@ namespace Octo
 {
     struct Material
     {
-        Material(const std::string &albPath, const std::string &normPath)
-            : albedoTXT(albPath), normalTXT(normPath, TextureColor::Normal)
+        Material(const std::string &albPath, const std::string &normPath, const std::string &metPath, const std::string &roPath, const std::string &aoPath)
+            : albedoTXT(albPath), normalTXT(normPath, TextureColor::Normal), metallicTXT(metPath), roughnessTXT(roPath), aoTXT(aoPath)
         {
 
         }
@@ -21,7 +21,13 @@ namespace Octo
             shader->setInt("material.albedoTXT", 1);
             normalTXT.bind(2);
             shader->setInt("material.normalTXT", 2);
-        
+            metallicTXT.bind(3);
+            shader->setInt("material.metallicTXT", 3);
+            roughnessTXT.bind(4);
+            shader->setInt("material.roughnessTXT", 4);
+            aoTXT.bind(5);
+            shader->setInt("material.aoTXT", 5);
+
             shader->setVec3("material.albedo", albedo);
             
             shader->setFloat("material.metallic", metallic);
@@ -37,5 +43,8 @@ namespace Octo
 
         Texture2D albedoTXT;
         Texture2D normalTXT;
+        Texture2D metallicTXT;
+        Texture2D roughnessTXT;
+        Texture2D aoTXT;
     };
 };

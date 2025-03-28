@@ -3,7 +3,12 @@
 using Octo::Mesh;
 
 Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices)
-    : material("../../assets/textures/brick_albedo.png", "../../assets/textures/brick_normal.png"), m_VBO(BufferType::Array),
+    : material("../../assets/textures/brick_albedo.png",
+        "../../assets/textures/brick_normal.png",
+        "../../assets/textures/brick_metallic.png",
+        "../../assets/textures/brick_height.png",
+        "../../assets/textures/brick_ao.png"
+        ), m_VBO(BufferType::Array),
     m_EBO(BufferType::Element)
 {
     m_VAO.bind();
