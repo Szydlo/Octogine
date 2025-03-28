@@ -12,7 +12,7 @@ namespace Octo
             ~FrameBuffer();
 
             static void setTexture2D(Texture2D& texture);
-            static void setCubeMapFace(Cubemap& cubemap, unsigned int id = 0);
+            static void setCubeMapFace(Cubemap& cubemap, unsigned int id = 0, int mip = 0);
 
             static void drawBuffer(int buffer);
             static void readBuffer(int buffer);

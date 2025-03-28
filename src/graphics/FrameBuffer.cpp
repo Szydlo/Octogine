@@ -29,9 +29,9 @@ void FrameBuffer::setTexture2D(Texture2D& texture)
     glFramebufferTexture2D(GL_FRAMEBUFFER, static_cast<int>(texture.getAttachment()), GL_TEXTURE_2D, texture.getIdentity(), 0);
 }
 
-void FrameBuffer::setCubeMapFace(Cubemap &cubemap, unsigned int id)
+void FrameBuffer::setCubeMapFace(Cubemap &cubemap, unsigned int id, int mip)
 {
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + id, cubemap.getIdentity(), 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + id, cubemap.getIdentity(), mip);
 }
 
 

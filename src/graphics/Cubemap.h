@@ -12,5 +12,7 @@ namespace Octo
         public:
             explicit Cubemap(std::array<std::string, 6> paths, TextureColor color = TextureColor::Color);
             explicit Cubemap(glm::vec2 size, TextureColor color = TextureColor::Color);
+
+            void createMipmap();
     };
 };

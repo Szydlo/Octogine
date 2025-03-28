@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Texture2D.h"
 
+#include "../lighting/Enivroment.h"
 #include "../lighting/SkyBox.h"
 #include "../lighting/LightingManager.h"
 
@@ -29,6 +30,7 @@ namespace Octo
 
             static void setMainCamera(Camera& camera) { m_MainCamera = &camera; }
             static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }
+            static void setEnivroment(Enivroment& enivroment) { m_Enivroment = &enivroment; }
         
             static Camera* getMainCamera() { return m_MainCamera; }
         
@@ -40,8 +42,9 @@ namespace Octo
         private:
             static void drawSkyBox(SkyBox* skybox);
 
-            inline static Camera* m_MainCamera;
-            inline static SkyBox* m_SkyBox;
+            inline static Camera* m_MainCamera = nullptr;
+            inline static SkyBox* m_SkyBox = nullptr;
+            inline static Enivroment* m_Enivroment = nullptr;
             inline static std::vector<DrawElement> m_DrawQueue;
     };
 };

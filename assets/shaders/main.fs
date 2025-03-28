@@ -354,6 +354,7 @@ void main()
         result += calculateSpotLight(spotLights[i], norm, FragPos, viewDir);
     }*/
 
+
 	FragColor = vec4(color, 1.0);
     //FragColor = vec4(texture(material.albedoTXT, TexCoords));
 }

@@ -44,6 +44,13 @@ void Texture::getFormat(const unsigned int channels)
 
         break;
     }
+        case 2:
+    {
+        m_InternalFormat = GL_RGBA;
+        m_DataFormat = GL_RG;
+
+        break;
+    }
     case 1:
     {
         m_InternalFormat = GL_SRGB;
@@ -53,7 +60,7 @@ void Texture::getFormat(const unsigned int channels)
     }
     default:
     {
-        spdlog::error("[TEXTURE] texture channels not supported");
+        spdlog::error("[TEXTURE] texture channels not supported: {}", channels);
         break;
     }
     }

@@ -58,3 +58,10 @@ Cubemap::Cubemap(std::array<std::string, 6> paths, const TextureColor color)
 
     unbind();
 }
+
+void Cubemap::createMipmap()
+{
+    bind();
+    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+    unbind();
+}

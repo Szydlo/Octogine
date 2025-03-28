@@ -97,6 +97,9 @@ void Renderer::drawElement(const DrawElement& el, const Shader* shader)
 
     LightingManager::updateLights(el.shader);
 
+    if (m_Enivroment)
+        m_Enivroment->setShader(shader);
+
     el.vao->bind();
     glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
     el.vao->unbind();
@@ -124,13 +127,18 @@ void Renderer::endPass()
         drawElement(el, el.shader);
     }
 
-    if (!m_SkyBox) return;
+    if (m_SkyBox)
+        drawSkyBox(m_SkyBox);
 
-    //drawSkyBox(m_SkyBox);
+    if (m_Enivroment)
+    {
+        m_Enivroment->drawBackground(m_MainCamera);
+    }
 }
 
 void Renderer::destroy()
 {
     delete m_MainCamera;
     delete m_SkyBox;
+    delete m_Enivroment;
 }
