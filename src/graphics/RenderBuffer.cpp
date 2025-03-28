@@ -22,10 +22,16 @@ void RenderBuffer::unbind() const
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
+void RenderBuffer::renderBufferStorage(glm::vec2 size)
+{
+    bind();
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, size.x, size.y);
+}
+
+
 void RenderBuffer::attachFrameBuffer(const FrameBuffer &frameBuffer) const
 {
     frameBuffer.bind();
     bind();
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_Identity);
 }

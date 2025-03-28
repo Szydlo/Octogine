@@ -31,7 +31,9 @@ public:
         cube("../../assets/models/cube.glb"),
         shader("../../assets/shaders/cubemap.vs", "../../assets/shaders/cubemap.fs"),
         bgShader("../../assets/shaders/background.vs", "../../assets/shaders/background.fs"),
-        cubeMap({512, 512})
+        irrshader("../../assets/shaders/cubemap.vs", "../../assets/shaders/irradiance.fs"),
+        cubeMap({512, 512}),
+        irradianceMap({32, 32})
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -48,6 +50,7 @@ public:
         //Octo::Renderer::setSkyBox(skybox);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
 
+        rb.renderBufferStorage({512, 512});
         rb.attachFrameBuffer(fb);
 
         glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
@@ -95,6 +98,35 @@ public:
             drawel.shader = &shader;
 
             Octo::Renderer::drawElement(drawel, &shader);*/
+        }
+
+        fb.unbind();
+
+        fb.bind();
+        rb.bind();
+        rb.renderBufferStorage({32, 32});
+
+        irrshader.bind();
+        irrshader.setInt("environmentMap", 0);
+        irrshader.setMat4("projection", captureProjection);
+
+        cubeMap.bind();
+        glViewport(0, 0, 32, 32);
+
+        fb.bind();
+
+        for (unsigned int i = 0; i < 6; ++i)
+        {
+            irrshader.setMat4("view", captureViews[i]);
+
+            fb.setCubeMapFace(irradianceMap, i);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            auto& mesh = cube.getMeshes()[0];
+
+            mesh.getVAO().bind();
+            glDrawElements(GL_TRIANGLES, mesh.getEBO().getCount(), GL_UNSIGNED_INT, 0);
+            mesh.getVAO().unbind();
         }
 
         fb.unbind();
@@ -155,8 +187,8 @@ public:
 
             material.albedo = glm::vec3(0.5f, 0.0, 0.0);
 
-            material.roughness = glm::clamp((float)x / (float)5, 0.05f, 1.0f);
-            material.metallic = (float)y / 5.0f;
+            material.roughness = 1.0f / x;
+            material.metallic = 1.0f / y;
 
             material.ao = 1.0;
 
@@ -164,6 +196,10 @@ public:
             mat = glm::translate(mat, glm::vec3(x * 2, y * 2, 0));
 
             sphere.setTransform(mat);
+
+            irradianceMap.bind(10);
+            sphere.getShader().bind();
+            sphere.getShader().setInt("irradianceMap", 10);
             sphere.draw();
         }
 
@@ -204,12 +240,14 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     Octo::Shader shader;
+    Octo::Shader irrshader;
     Octo::Shader bgShader;
     Octo::FrameBuffer fb;
     Octo::RenderBuffer rb;
     //Octo::SkyBox skybox;
     Octo::Texture2D hdrMap;
     Octo::Cubemap cubeMap;
+    Octo::Cubemap irradianceMap;
     Octo::Model sphere;
     Octo::Model cube;
 

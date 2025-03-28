@@ -10,6 +10,7 @@ namespace Octo
         RenderBuffer();
         ~RenderBuffer();
 
+        void renderBufferStorage(glm::vec2 size);
         void attachFrameBuffer(const FrameBuffer& frameBuffer) const;
 
         void bind() const;

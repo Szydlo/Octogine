@@ -59,6 +59,8 @@ struct Material
     float ao;
 }; 
 
+uniform samplerCube irradianceMap;
+
 uniform Material material;
 
 #define NR_MAX_LIGHTS 8
@@ -250,9 +252,11 @@ void main()
 
     vec3 N = normalize(Normal);
     vec3 V = normalize(viewPos - FragPos);
+    vec3 R = reflect(-V, N);
 
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, material.albedo, material.metallic);
+
     vec3 Lo = vec3(0.0);
 
     for (int i = 0; i < numLights; i++)
@@ -281,7 +285,14 @@ void main()
         Lo += (kD * material.albedo / PI + specular) * radiance * NdotL; 
     }
 
-    vec3 ambient = vec3(0.03) * material.albedo * material.ao;
+    vec3 kS = fresnelSchlick(max(dot(N, V), 0.0), F0);
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - material.metallic;	
+    vec3 irradiance = texture(irradianceMap, N).rgb;
+    vec3 diffuse = irradiance * material.albedo;
+    vec3 ambient = (kD * diffuse) * material.ao;
+
+    
     vec3 color = ambient + Lo;
     // HDR tonemapping
     color = color / (color + vec3(1.0));
