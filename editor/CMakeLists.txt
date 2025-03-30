@@ -11,6 +11,9 @@ add_executable(
 
         main.cpp
         inspector.h
+        baseUI.h
+        viewport.h
+        assetBrowser.h
 )
 
 target_link_libraries(Editor Octogine glm)

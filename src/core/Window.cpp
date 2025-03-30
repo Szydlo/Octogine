@@ -78,7 +78,8 @@ Window::Window(const int width, const int height, const std::string &title)
         ImGui_ImplGlfw_InitForOpenGL(m_NativeWindow, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
         ImGui_ImplOpenGL3_Init();
     }  
-    
+
+    Renderer::init();
     Physics::init(); 
     Audio::init();
 }
@@ -123,9 +124,7 @@ void Window::start()
         Audio::update();
 
         Renderer::startPass();
-
         Events::onUpdate(m_DeltaTime);
-
         Renderer::endPass();
 
         {

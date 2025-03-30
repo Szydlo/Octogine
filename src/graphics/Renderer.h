@@ -3,7 +3,11 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Camera.h"
+
 #include "Texture2D.h"
+
+#include "FrameBuffer.h"
+#include "RenderBuffer.h"
 
 #include "../lighting/Enivroment.h"
 #include "../lighting/SkyBox.h"
@@ -35,9 +39,9 @@ namespace Octo
             static Camera* getMainCamera() { return m_MainCamera; }
         
             static SkyBox* getSkyBox() { return m_SkyBox; }
-
             static void endPass();
 
+            static void init();
             static void destroy();
         private:
             static void drawSkyBox(SkyBox* skybox);

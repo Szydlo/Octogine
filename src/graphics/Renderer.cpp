@@ -1,61 +1,17 @@
 #include "Renderer.h"
 
+#include "../core/Events.h"
+
 using Octo::Renderer;
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, const glm::mat4 &model)
 {
     m_DrawQueue.push_back({&vao, &shader, count, model});
-   /* if (!m_MainCamera) return;
-    
-    shader.bind();
-    //txt.bind();
-
-    shader.setMat4("projection", m_MainCamera->getProjectionMatrix());
-    shader.setMat4("view", m_MainCamera->getViewMatrix());
-    shader.setMat4("model", model);
-
-    shader.setVec3("viewPos", m_MainCamera->getPosition());
-
-    if (m_DirLight)
-    {
-        m_DirLight->setShader(shader);
-    }
-
-    vao.bind();
-
-    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
-
-    vao.unbind();
-    shader.unbind();*/
 }
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, const glm::mat4 &model)
 {
     m_DrawQueue.push_back({&vao, &shader, count, model});
-    /*if (!m_MainCamera) return;
-    
-    shader.bind();
-    //txt.bind();
-
-    shader.setMat4("projection", m_MainCamera->getProjectionMatrix());
-    shader.setMat4("view", m_MainCamera->getViewMatrix());
-    shader.setMat4("model", model);
-
-    //shader.setInt("txt", 0);
-
-    shader.setVec3("viewPos", m_MainCamera->getPosition());
-
-    if (m_DirLight)
-    {
-        m_DirLight->setShader(shader);
-    }
-
-    vao.bind();
-
-    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, 0);
-
-    vao.unbind();
-    shader.unbind();*/
 }
 
 void Renderer::drawSkyBox(SkyBox* skybox)
@@ -79,9 +35,16 @@ void Renderer::drawSkyBox(SkyBox* skybox)
     glDepthFunc(GL_LESS);
 }
 
+void Renderer::init()
+{
+
+}
+
+
 void Renderer::startPass()
 {
     m_DrawQueue.clear();
+    Events::onRenderStartPass();
 }
 
 void Renderer::drawElement(const DrawElement& el, const Shader* shader)
@@ -134,6 +97,8 @@ void Renderer::endPass()
     {
         m_Enivroment->drawBackground(m_MainCamera);
     }
+
+    Events::onRenderEndPass();
 }
 
 void Renderer::destroy()

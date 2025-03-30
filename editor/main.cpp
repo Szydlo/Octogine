@@ -3,6 +3,10 @@
 
 #include "inspector.h"
 
+#include "baseUI.h"
+#include "viewport.h"
+#include "assetBrowser.h"
+
 class Editor
 {
 public:
@@ -24,7 +28,9 @@ public:
     {
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setEnivroment(env);
-        Octo::Input::setCursorMode(Octo::CursorMode::disabled);
+        Octo::Input::setCursorMode(Octo::CursorMode::normal);
+
+        Viewport::init();
     }
 
     void click(int key, bool pressed)
@@ -46,11 +52,27 @@ public:
 
     void update(double delta)
     {
-        Inspector::draw(scene);
+        DockingSpace::begin();
+
+        DockingSpace::topBar(window);
+
+        ImGui::Begin("Hierarchy");
+        ImGui::End();
+
+        ImGui::Begin("Inspector");
+        ImGui::End();
+
+        AssetBrowser::draw();
+
+        Viewport::draw();
+
+        DockingSpace::end();
     }
 
     void mouseMove(double x, double y)
-    {}
+    {
+        if (!Viewport::isFocused) return;
+    }
 
     Octo::Window window;
     Octo::Camera camera;
