@@ -47,9 +47,12 @@ namespace Inspector
         }
     }
 
-    void draw(Octo::Scene& scene)
+    static void draw()
     {
-        ImGui::Begin("Scene Hierarchy");
+        ImGui::Begin("Inspector");
+        ImGui::End();
+
+        /*ImGui::Begin("Scene Hierarchy");
 
         if (ImGui::TreeNodeEx(("scene: %s", scene.getName().c_str()), ImGuiTreeNodeFlags_Leaf))
         {
@@ -197,6 +200,6 @@ namespace Inspector
             }
         }
 
-        ImGui::End();
+        ImGui::End();*/
     }
 }; 

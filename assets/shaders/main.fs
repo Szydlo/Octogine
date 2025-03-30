@@ -282,6 +282,7 @@ void main()
     float roughness = texture(material.roughnessTXT, TexCoords).r;
     float ao = texture(material.aoTXT, TexCoords).r;
 
+
     vec3 N = getNormalFromMap(FragPos);
     vec3 V = normalize(viewPos - FragPos);
     vec3 R = reflect(-V, N);
@@ -342,7 +343,6 @@ void main()
     /*vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
 
-	vec3 result = calculateDirLight(dirLight, norm, viewDir);
 
     for(int i = 0; i < currentPointLights; i++)
     {
@@ -355,6 +355,8 @@ void main()
     }*/
 
 
+    vec3 viewDir = normalize(viewPos - FragPos);
+	vec3 result = calculateDirLight(dirLight, N, viewDir);
 	FragColor = vec4(color, 1.0);
     //FragColor = vec4(texture(material.albedoTXT, TexCoords));
 }

@@ -20,7 +20,7 @@ public:
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
         env("../../assets/textures/hdrmap.hdr"),
-        sphere("../../assets/models/sphere.glb")
+        sphere("../../assets/models/sphere2.glb")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -35,6 +35,7 @@ public:
         Octo::Renderer::setMainCamera(camera);
         Octo::Renderer::setEnivroment(env);
         Octo::Input::setCursorMode(Octo::CursorMode::disabled);
+        Octo::LightingManager::setDirectionalLight(directionalLight);
     }
 
     void click(int key, bool pressed)
@@ -129,6 +130,7 @@ public:
     Octo::Model sphere;
 
     Octo::Enivroment env;
+    Octo::DirectionalLight directionalLight;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;

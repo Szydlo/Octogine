@@ -14,10 +14,16 @@ add_executable(
         baseUI.h
         viewport.h
         assetBrowser.h
+        log.h
+        hierarchy.h
 )
 
-target_link_libraries(Editor Octogine glm)
+target_link_libraries(Editor
+        Octogine
+        glm
+)
 target_include_directories(Editor
         PUBLIC
         "src"
+        "lib/"
 )

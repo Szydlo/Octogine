@@ -2,10 +2,11 @@
 #include "spdlog/spdlog.h"
 
 #include "inspector.h"
-
 #include "baseUI.h"
 #include "viewport.h"
 #include "assetBrowser.h"
+#include "log.h"
+#include "hierarchy.h"
 
 class Editor
 {
@@ -31,6 +32,7 @@ public:
         Octo::Input::setCursorMode(Octo::CursorMode::normal);
 
         Viewport::init();
+        AssetBrowser::init();
     }
 
     void click(int key, bool pressed)
@@ -56,17 +58,14 @@ public:
 
         DockingSpace::topBar(window);
 
-        ImGui::Begin("Hierarchy");
-        ImGui::End();
-
-        ImGui::Begin("Inspector");
-        ImGui::End();
-
+        Inspector::draw();
+        Hierarchy::draw();
+        Log::draw();
         AssetBrowser::draw();
-
         Viewport::draw();
-
         DockingSpace::end();
+
+        //ImGui::ShowDemoWindow();
     }
 
     void mouseMove(double x, double y)

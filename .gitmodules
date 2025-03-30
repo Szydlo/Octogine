@@ -20,3 +20,6 @@
 [submodule "lib/yaml-cpp"]
 	path = lib/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "editor/lib/ImGuizmo"]
+	path = editor/lib/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo.git
