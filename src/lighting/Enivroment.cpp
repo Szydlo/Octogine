@@ -5,22 +5,22 @@
 using Octo::Enivroment;
 
 Enivroment::Enivroment(const std::string& hdrPath)
-:   equirectShader("../../assets/shaders/cubemap.vs", "../../assets/shaders/cubemap.fs"),
-    bgShader("../../assets/shaders/background.vs", "../../assets/shaders/background.fs"),
-    irrShader("../../assets/shaders/cubemap.vs", "../../assets/shaders/irradiance.fs"),
-    preShader("../../assets/shaders/cubemap.vs", "../../assets/shaders/prefilter.fs"),
-    brdfShader("../../assets/shaders/brdf.vs", "../../assets/shaders/brdf.fs"),
-    envMap({512, 512}),
+:   equirectShader("../../../assets/shaders/cubemap.vs", "../../../assets/shaders/cubemap.fs"),
+    bgShader("../../../assets/shaders/background.vs", "../../../assets/shaders/background.fs"),
+    irrShader("../../../assets/shaders/cubemap.vs", "../../../assets/shaders/irradiance.fs"),
+    preShader("../../../assets/shaders/cubemap.vs", "../../../assets/shaders/prefilter.fs"),
+    brdfShader("../../../assets/shaders/brdf.vs", "../../../assets/shaders/brdf.fs"),
+    envMap({2048, 2048}),
     irradianceMap({32, 32}),
     prefilterMap({128, 128}),
-    brdtTXT(nullptr, {512, 512}),
+    brdtTXT(nullptr, {2048, 2048}),
     hdrMap(hdrPath),
     m_CubeBuffer(BufferType::Array),
     m_QuadBuffer(BufferType::Array)
 {
     frameBuff.bind();
     renderBuff.bind();
-    renderBuff.renderBufferStorage({512, 512});
+    renderBuff.renderBufferStorage({2048, 2048});
     renderBuff.attachFrameBuffer(frameBuff);
 
     createCube();
@@ -95,7 +95,7 @@ void Enivroment::initEquirectangularMap()
 
     hdrMap.bind();
 
-    glViewport(0, 0, 512, 512); // don't forget to configure the viewport to the capture dimensions.
+    glViewport(0, 0, 2048, 2048); // don't forget to configure the viewport to the capture dimensions.
 
     frameBuff.bind();
 
@@ -192,10 +192,10 @@ void Enivroment::initBrdtf()
 
     frameBuff.bind();
     renderBuff.bind();
-    renderBuff.renderBufferStorage({512, 512});
+    renderBuff.renderBufferStorage({2048, 2048});
     frameBuff.setTexture2D(brdtTXT);
 
-    glViewport(0, 0, 512, 512);
+    glViewport(0, 0, 2048, 2048);
     brdfShader.bind();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

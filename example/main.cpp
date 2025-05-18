@@ -19,8 +19,8 @@ public:
     Game()
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
-        env("../../assets/textures/hdrmap.hdr"),
-        sphere("../../assets/models/sphere2.glb")
+        env("../../../assets/textures/hdrmap4K.hdr"),
+        honda("../../../assets/models/asd/barrels.glb")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
@@ -80,24 +80,7 @@ public:
             ImGui::End();
         }
 
-        for (int y = 0; y < 5; y++)
-        for (int x = 0; x < 5; x++)
-        {
-            Octo::Material& material = sphere.getMeshes()[0].material;
-
-            material.albedo = glm::vec3(0.5f, 0.0, 0.0);
-
-            material.roughness = 1.0f / x;
-            material.metallic = 1.0f / y;
-
-            material.ao = 1.0;
-
-            glm::mat4 mat = glm::mat4(1.0);
-            mat = glm::translate(mat, glm::vec3(x * 2, y * 2, 0));
-
-            sphere.setTransform(mat);
-            sphere.draw();
-        }
+        honda.draw();
     }
 
     void mouseMove(double x, double y)
@@ -127,13 +110,14 @@ public:
     Octo::Window window;
     Octo::Camera camera;
     //Octo::SkyBox skybox;
-    Octo::Model sphere;
 
     Octo::Enivroment env;
     Octo::DirectionalLight directionalLight;
 
     float cameraSpeed = 5.0f;
     float mouseSensivity = 0.4f;
+
+    Octo::Model honda;
 
     std::optional<float> lastMouseX, lastMouseY;
 

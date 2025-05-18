@@ -4,7 +4,7 @@ using Octo::Shadow;
 
 Shadow::Shadow(const glm::vec2 resolution)
     : m_DepthTxt(nullptr, resolution, TextureColor::Depth),
-    m_DepthShader("../../../assets/shaders/depth.vs", "../../../assets/shaders/depth.fs"),
+    m_DepthShader("../../../../assets/shaders/depth.vs", "../../../../assets/shaders/depth.fs"),
     m_Resolution(resolution)
 {
     m_DepthBuffer.bind();

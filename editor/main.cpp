@@ -14,7 +14,7 @@ public:
     Editor()
         : window(1920, 1080, "Octodit - an octogine editor"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
-        env("../../assets/textures/hdrmap.hdr"),
+        env("../../../assets/textures/hdrmap.hdr"),
         scene("test scene")
     {
         Events::onStart.connect(&Editor::start, this);

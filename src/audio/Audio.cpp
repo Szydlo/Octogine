@@ -6,7 +6,7 @@ using Octo::Audio;
 
 void Audio::init()
 {
-   /* m_MaResult = ma_decoder_init_file("../../../assets/music/30s.wav", NULL, &m_MaDecoder);
+   /* m_MaResult = ma_decoder_init_file("../../../../assets/music/30s.wav", NULL, &m_MaDecoder);
 
     if (m_MaResult != MA_SUCCESS)
     {
@@ -47,7 +47,7 @@ void Audio::init()
         return;
     }
 
-    /*if (ma_sound_init_from_file(&m_Engine, "../../../assets/music/30s.wav", 0, NULL, NULL, &sound) != MA_SUCCESS)
+    /*if (ma_sound_init_from_file(&m_Engine, "../../../../assets/music/30s.wav", 0, NULL, NULL, &sound) != MA_SUCCESS)
     {
         spdlog::error("[AUDIO] CAN'T INIT AUDIO FILE!");
         return;

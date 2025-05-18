@@ -5,7 +5,7 @@ using Octo::SkyBox;
 SkyBox::SkyBox(const std::array<std::string, 6> &paths)
     : m_Cubemap(paths), 
     m_VBO(BufferType::Array), 
-    m_Shader("../../assets/shaders/skybox.vs", "../../assets/shaders/skybox.fs")
+    m_Shader("../../../assets/shaders/skybox.vs", "../../../assets/shaders/skybox.fs")
 {
   constexpr float skyboxVertices[] = {
         -1.0f,  1.0f, -1.0f,

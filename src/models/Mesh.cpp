@@ -3,11 +3,11 @@
 using Octo::Mesh;
 
 Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices)
-    : material("../../assets/textures/gold/gold_albedo.png",
-        "../../assets/textures/gold/gold_normal.png",
-        "../../assets/textures/gold/gold_mettalic.png",
-        "../../assets/textures/gold/gold_rough.png",
-        "../../assets/textures/brick_ao.png"
+: material("../../../assets/textures/gold/gold_albedo.png",
+    "../../../assets/textures/gold/gold_normal.png",
+    "../../../assets/textures/gold/gold_mettalic.png",
+    "../../../assets/textures/gold/roug.png",
+    "../../../assets/textures/gold/gold_mettalic.png"
         ), m_VBO(BufferType::Array),
     m_EBO(BufferType::Element)
 {
