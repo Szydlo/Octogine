@@ -6,6 +6,8 @@
 
 #include "glm/glm.hpp"
 #include "glm/geometric.hpp"
+#include <variant>
+
 
 using Octo::Model;
 
@@ -42,9 +44,61 @@ Model::Model(const std::string& path, bool loadSkeleton)
     spdlog::info("loaded model");
 
     auto& assets = asset.get();
+    std::filesystem::path shortPath(path);
+
+    textures.reserve(assets.textures.size());
+
+    for (auto& texture : assets.textures)
+    {
+        if (texture.imageIndex.has_value())
+        {
+            size_t txtIndex = texture.imageIndex.value();
+            auto image = assets.images[txtIndex].data;
+
+            
+            if (std::holds_alternative<fastgltf::sources::URI>(image))
+            {
+                auto url = std::get<fastgltf::sources::URI>(image);
+                
+                auto fullPath = shortPath.remove_filename().string() + std::string(url.uri.string());
+                
+                textures.emplace_back(fullPath);
+                //spdlog::info(fullPath);
+            }
+            else 
+            {
+                textures.emplace_back("../../../assets/models/heavy/asd/Textures/barrel.png");
+                spdlog::info("fast gltf image type not supported");
+            }
+        } 
+        else {
+            spdlog::info("fastgltf no value txt");
+        }
+    }
 
 
-    // @ TODO ADD MATERIAL SUPPORT
+    materials.reserve(assets.materials.size());
+    
+    for (auto& material : assets.materials)
+    {
+        auto& pbrData = material.pbrData;
+        auto txtIndex = material.pbrData.baseColorTexture.value().textureIndex;
+        auto& albedoTxt = textures[txtIndex];
+        
+        Material material(
+            albedoTxt,
+            albedoTxt,
+            albedoTxt,
+            albedoTxt,
+            albedoTxt
+        );
+
+        material.metallic = 1.0;
+        material.roughness = 1.0;
+
+        materials.emplace_back(material);
+    }
+
     for (auto& mesh : assets.meshes)
     {
         spdlog::info("Loading mesh: {}", mesh.name);
@@ -52,7 +106,9 @@ Model::Model(const std::string& path, bool loadSkeleton)
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
 
-        auto* vert = mesh.primitives[0].findAttribute("POSITION");
+        size_t materialID = 0;
+
+        //auto* vert = mesh.primitives[0].findAttribute("POSITION");
         //vertices.resize(assets.accessors[vert->accessorIndex].count); // @ TODO lil hack change it someday to something better
 
         for (auto& p : mesh.primitives)
@@ -60,7 +116,12 @@ Model::Model(const std::string& path, bool loadSkeleton)
             auto* positionIt = p.findAttribute("POSITION");
             auto& positionAccesor = assets.accessors[positionIt->accessorIndex];
 
+            vertices.clear();
+            indices.clear();
+
             vertices.resize(assets.accessors[positionIt->accessorIndex].count);
+
+            materialID = p.materialIndex.value();
 
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, positionAccesor,
                 [&](fastgltf::math::fvec3 pos, const std::size_t idx) {
@@ -92,8 +153,6 @@ Model::Model(const std::string& path, bool loadSkeleton)
                     vertices[idx].txtCoord = glm::vec2(uv.x(), 1.0 - uv.y());
                 }
             );
-
-            // @TODO THIS SHIT IS FUCKED UP
 
             auto* tangentIt = p.findAttribute("TANGENT");
             auto& tangentAccessor = assets.accessors[tangentIt->accessorIndex];
@@ -183,12 +242,12 @@ Model::Model(const std::string& path, bool loadSkeleton)
                         vertices[idx].boneIDs[3] = joints.z();
                     });
             }
+            
+            m_Meshes.emplace_back(vertices, indices, materials[materialID]);
         }
 
-        m_Meshes.emplace_back(vertices, indices);
     }
 
-    
     if (!loadSkeleton) return;
 
     for (auto& skin : assets.skins)

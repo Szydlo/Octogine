@@ -41,15 +41,15 @@ namespace Octo
     class Mesh
     {
         public:
-            Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices);
+            Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices, const Material& material);
 
             void draw(Shader& shader, const glm::mat4 &model);
 
             VertexArray& getVAO() { return m_VAO; }
             Buffer& getVBO() { return m_VBO; }
             Buffer& getEBO() { return m_EBO; }
-            Material material;
-        private:
+            private:
+            Material m_Material;
             VertexArray m_VAO;
             Buffer m_VBO;
             Buffer m_EBO;

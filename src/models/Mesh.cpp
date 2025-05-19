@@ -2,14 +2,16 @@
 
 using Octo::Mesh;
 
-Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices)
-: material("../../../assets/textures/gold/gold_albedo.png",
+Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> &indices, const Material& material)
+: /*material("../../../assets/textures/gold/gold_albedo.png",
     "../../../assets/textures/gold/gold_normal.png",
     "../../../assets/textures/gold/gold_mettalic.png",
     "../../../assets/textures/gold/roug.png",
     "../../../assets/textures/gold/gold_mettalic.png"
-        ), m_VBO(BufferType::Array),
-    m_EBO(BufferType::Element)
+        ),*/ 
+    m_VBO(BufferType::Array),
+    m_EBO(BufferType::Element),
+    m_Material(material)
 {
     m_VAO.bind();
 
@@ -37,6 +39,6 @@ Mesh::Mesh(const std::vector<Vertex> &vertices, const std::vector<unsigned int> 
 
 void Mesh::draw(Shader& shader, const glm::mat4 &model)
 {
-    material.setShader(&shader);
-    Renderer::basicDraw(m_VAO, shader, m_EBO.getCount(), model);
+    m_Material.setShader(&shader);
+    Renderer::basicDraw(m_VAO, shader, &m_Material, m_EBO.getCount(), model);
 }

@@ -28,6 +28,9 @@ namespace Octo
 
             void setColor(const glm::vec3 color) { m_Color = color; }
             void setTransform(const glm::mat4 &transform) { m_Transform = transform; }
+
+            std::vector<Texture2D> textures;
+            std::vector<Material> materials;
         private:
             Shader m_Shader;
             Skeleton m_Skeleton;

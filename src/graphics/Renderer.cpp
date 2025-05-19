@@ -6,13 +6,19 @@ using Octo::Renderer;
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, unsigned int count, const glm::mat4 &model)
 {
-    m_DrawQueue.push_back({&vao, &shader, count, model});
+    m_DrawQueue.push_back({&vao, &shader, count, model, nullptr});
+}
+
+void Renderer::basicDraw(VertexArray& vao, Shader& shader, Material* material, unsigned int count, const glm::mat4 &model)
+{
+    m_DrawQueue.push_back({&vao, &shader, count, model, material});
 }
 
 void Renderer::basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, const glm::mat4 &model)
 {
-    m_DrawQueue.push_back({&vao, &shader, count, model});
+    m_DrawQueue.push_back({&vao, &shader, count, model, nullptr});
 }
+
 
 void Renderer::drawSkyBox(SkyBox* skybox)
 {   
@@ -47,6 +53,31 @@ void Renderer::startPass()
     Events::onRenderStartPass();
 }
 
+void Renderer::drawElement(const DrawElement& el, Shader* shader, Material* material)
+{
+    if (!m_MainCamera) return;
+    
+    shader->bind();
+
+    if (material != nullptr) material->setShader(shader);
+
+    shader->setMat4("projection", m_MainCamera->getProjectionMatrix());
+    shader->setMat4("view", m_MainCamera->getViewMatrix());
+    shader->setMat4("model", el.transform);
+    shader->setVec3("viewPos", m_MainCamera->getPosition());
+
+    LightingManager::updateLights(el.shader);
+
+    if (m_Enivroment)
+        m_Enivroment->setShader(shader);
+
+    el.vao->bind();
+    glDrawElements(GL_TRIANGLES, el.count, GL_UNSIGNED_INT, 0);
+    el.vao->unbind();
+
+    shader->unbind();
+}
+
 void Renderer::drawElement(const DrawElement& el, const Shader* shader)
 {
     if (!m_MainCamera) return;
@@ -69,6 +100,7 @@ void Renderer::drawElement(const DrawElement& el, const Shader* shader)
 
     shader->unbind();
 }
+
 void Renderer::endPass()
 {
     if (Shadow* shadow = LightingManager::getShadow())
@@ -77,7 +109,7 @@ void Renderer::endPass()
 
         for (auto& el : m_DrawQueue)
         {
-            drawElement(el, &shadow->getDepthShader());
+            drawElement(el, &shadow->getDepthShader(), el.material);
         }  
 
         shadow->endPass();
@@ -87,7 +119,7 @@ void Renderer::endPass()
     {
         LightingManager::updateShadow(el.shader);
 
-        drawElement(el, el.shader);
+        drawElement(el, el.shader, el.material);
     }
 
     if (m_SkyBox)

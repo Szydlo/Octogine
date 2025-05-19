@@ -9,9 +9,11 @@
 #include "FrameBuffer.h"
 #include "RenderBuffer.h"
 
+
 #include "../lighting/Enivroment.h"
 #include "../lighting/SkyBox.h"
 #include "../lighting/LightingManager.h"
+#include "../lighting/Material.h"
 
 namespace Octo
 {
@@ -21,6 +23,7 @@ namespace Octo
         Shader* shader;
         unsigned int count;
         glm::mat4 transform;
+        Material* material = nullptr;
     };
 
     class Renderer
@@ -28,9 +31,11 @@ namespace Octo
         public:
             static void basicDraw(VertexArray& vao, Shader& shader, unsigned int count, const glm::mat4 &model = glm::mat4(1));
             static void basicDraw(VertexArray& vao, Shader& shader, Texture2D& txt, unsigned int count, const glm::mat4 &model = glm::mat4(1));
+            static void basicDraw(VertexArray& vao, Shader& shader, Material* material, unsigned int count, const glm::mat4 &model);
 
             static void startPass();
             static void drawElement(const DrawElement& el, const Shader* shader);
+            static void drawElement(const DrawElement& el, Shader* shader, Material* material);
 
             static void setMainCamera(Camera& camera) { m_MainCamera = &camera; }
             static void setSkyBox(SkyBox& skybox) { m_SkyBox = &skybox; }

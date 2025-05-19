@@ -13,6 +13,7 @@ Texture::Texture(const TextureType type)
 Texture::~Texture()
 {
     glDeleteTextures(1, &m_Identity);
+    spdlog::info("TEXTURE DECONSTRUCTOR CALLED");
 }
 
 void Texture::bind(const unsigned int slot)
