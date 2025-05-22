@@ -65,10 +65,45 @@ Model::Model(const std::string& path, bool loadSkeleton)
                 textures.emplace_back(fullPath);
                 //spdlog::info(fullPath);
             }
-            else 
+            else if(std::holds_alternative<fastgltf::sources::BufferView>(image))
+            {
+                //spdlog::info("fast gltf image type not supported: bufferview");
+                
+                auto bufferView = std::get<fastgltf::sources::BufferView>(image);
+                auto viewIndex = bufferView.bufferViewIndex;
+
+                const auto& view = assets.bufferViews[viewIndex];
+                const auto& buffer = assets.buffers[view.bufferIndex];
+             
+                std::vector<uint8_t> imageData(view.byteLength);
+
+                std::visit(fastgltf::visitor{
+                    [&](const fastgltf::sources::Vector& vec) 
+                    {
+          
+                    },
+                    [&](const fastgltf::sources::Array& array) 
+                    {
+                        std::memcpy(imageData.data(), array.bytes.data() + view.byteOffset, view.byteLength);
+                    },
+                    [&](const auto&) 
+                    {
+                        spdlog::error("Unsupported buffer data source type!");
+                    },
+                }, buffer.data);
+
+                textures.emplace_back(imageData.data(), imageData.size());
+                //textures.emplace_back("../../../assets/models/heavy/asd/Textures/barrel.png");
+            }
+            else if(std::holds_alternative<fastgltf::sources::Array>(image))
             {
                 textures.emplace_back("../../../assets/models/heavy/asd/Textures/barrel.png");
-                spdlog::info("fast gltf image type not supported");
+                spdlog::info("fast gltf image type not supported: array");
+            }
+            else if(std::holds_alternative<fastgltf::sources::Vector>(image))
+            {
+                textures.emplace_back("../../../assets/models/heavy/asd/Textures/barrel.png");
+                spdlog::info("fast gltf image type not supported: vector");
             }
         } 
         else {
@@ -79,24 +114,60 @@ Model::Model(const std::string& path, bool loadSkeleton)
 
     materials.reserve(assets.materials.size());
     
-    for (auto& material : assets.materials)
+    for (auto& gltfMaterial : assets.materials)
     {
-        auto& pbrData = material.pbrData;
-        auto txtIndex = material.pbrData.baseColorTexture.value().textureIndex;
-        auto& albedoTxt = textures[txtIndex];
-        
-        Material material(
-            albedoTxt,
-            albedoTxt,
-            albedoTxt,
-            albedoTxt,
-            albedoTxt
-        );
+        auto& pbrData = gltfMaterial.pbrData;
+        if (gltfMaterial.pbrData.baseColorTexture.has_value())
+        {
+            auto txtIndex = gltfMaterial.pbrData.baseColorTexture.value().textureIndex;
+            auto& albedoTxt = textures[txtIndex];
+            
+            Material material(
+                albedoTxt,
+                albedoTxt,
+                albedoTxt,
+                albedoTxt,
+                albedoTxt
+            );
+    
+            /*if (gltfMaterial.pbrData.metallicRoughnessTexture.has_value())
+            {
+                material.metallicTXT = textures[gltfMaterial.pbrData.metallicRoughnessTexture.value().textureIndex];
+                material.roughnessTXT = textures[gltfMaterial.pbrData.metallicRoughnessTexture.value().textureIndex];
+            }
 
-        material.metallic = 1.0;
-        material.roughness = 1.0;
+            if (gltfMaterial.normalTexture.has_value())
+            {
+                material.normalTXT = textures[gltfMaterial.normalTexture.value().textureIndex];
+            }
 
-        materials.emplace_back(material);
+            if (gltfMaterial.occlusionTexture.has_value())
+            {
+                material.aoTXT = textures[gltfMaterial.occlusionTexture.value().textureIndex];
+            }*/
+
+            material.metallic = gltfMaterial.pbrData.metallicFactor;
+            material.roughness = gltfMaterial.pbrData.roughnessFactor;
+    
+            materials.emplace_back(material);
+        }
+        else 
+        {
+            auto& albedoTxt = textures[0];
+            
+            Material material(
+                albedoTxt,
+                albedoTxt,
+                albedoTxt,
+                albedoTxt,
+                albedoTxt
+            );
+    
+            material.metallic = 1.0;
+            material.roughness = 1.0;
+    
+            materials.emplace_back(material);
+        }
     }
 
     for (auto& mesh : assets.meshes)
@@ -129,11 +200,11 @@ Model::Model(const std::string& path, bool loadSkeleton)
                         spdlog::error("Index {} out of bounds (size: {})", idx, vertices.size());
                         return;
                     }
+
                     vertices[idx].position = glm::vec3(pos.x(), pos.y(), pos.z());
                 }
             );
-
-
+           
             auto* normalIt = p.findAttribute("NORMAL");
             auto& normalAccessor = assets.accessors[normalIt->accessorIndex];
 
@@ -150,10 +221,11 @@ Model::Model(const std::string& path, bool loadSkeleton)
             fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec2>(assets, texCoordAccesor,
                 [&](fastgltf::math::fvec2 uv, const std::size_t idx)
                 {
-                    vertices[idx].txtCoord = glm::vec2(uv.x(), 1.0 - uv.y());
+                    vertices[idx].txtCoord = glm::vec2(uv.x(), uv.y());
                 }
             );
-
+ 
+  
             auto* tangentIt = p.findAttribute("TANGENT");
             auto& tangentAccessor = assets.accessors[tangentIt->accessorIndex];
 
@@ -172,12 +244,16 @@ Model::Model(const std::string& path, bool loadSkeleton)
                 fastgltf::iterateAccessorWithIndex<fastgltf::math::fvec3>(assets, tangentAccessor,
                     [&](fastgltf::math::fvec3 tang, const std::size_t idx)
                     {
-                        vertices[idx].tangent = glm::vec3(tang.x(), tang.y(), tang.z());
+                        if (idx < vertices.size()) // @TODO Tempopary soltuion
+                        {
+
+                            vertices[idx].tangent = glm::vec3(tang.x(), tang.y(), tang.z());
+                        }
                     }
                 );
             }
-
             
+          
             auto bitangentIt = p.findAttribute("BITANGENT");
             if (bitangentIt != p.attributes.end())  
             {

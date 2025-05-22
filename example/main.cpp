@@ -20,7 +20,7 @@ public:
         : window(1920, 1080, "Basic application"),
         camera(glm::vec2(1920, 1080), glm::vec3(0, 0, 3)),
         env("../../../assets/textures/hdrmap4K.hdr"),
-        honda("../../../assets/models/heavy/asd/water.glb")
+        honda("../../../assets/models/heavy/honda/source/hondas800.glb")
     {
         Events::onStart.connect(&Game::start, this);
         Events::onClick.connect(&Game::click, this);
